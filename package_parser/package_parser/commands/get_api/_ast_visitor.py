@@ -6,7 +6,8 @@ from numpydoc.docscrape import NumpyDocString
 
 from package_parser.utils import parent_qname
 from ._file_filters import _is_init_file
-from ._model import API, Function, Parameter, Class, ParameterAndResultDocstring, ParameterAssignment, Module
+from ._model import API, Function, Parameter, Class, ParameterAndResultDocstring, ParameterAssignment, Module, Import, \
+    FromImport
 
 
 class _AstVisitor:
@@ -16,16 +17,28 @@ class _AstVisitor:
         self.__module_and_class_stack: list[Union[Module, Class]] = []
 
     def enter_module(self, module_node: astroid.Module):
+        imports: list[Import] = []
+        from_imports: list[FromImport] = []
+
         for _, global_declaration_node_list in module_node.globals.items():
             global_declaration_node = global_declaration_node_list[0]
 
+            # import X as Y
+            if isinstance(global_declaration_node, astroid.Import):
+                for (name, alias) in global_declaration_node.names:
+                    imports.append(Import(name, alias))
+
+            # from X import a as b
             if isinstance(global_declaration_node, astroid.ImportFrom):
                 base_import_path = module_node.relative_to_absolute_name(
                     global_declaration_node.modname,
                     global_declaration_node.level
                 )
 
-                # Find re-exported declarations in __init__.py files.
+                for (name, alias) in global_declaration_node.names:
+                    from_imports.append(FromImport(base_import_path, name, alias))
+
+                # Find re-exported declarations in __init__.py files
                 if _is_init_file(module_node.file):
                     for declaration, _ in global_declaration_node.names:
                         reexported_name = f"{base_import_path}.{declaration}"
@@ -36,8 +49,8 @@ class _AstVisitor:
         # Remember module, so we can later add classes and global functions
         module = Module(
             module_node.qname(),
-            [],  # TODO: imports
-            [],  # TODO: from_imports
+            imports,
+            from_imports,
         )
         self.__module_and_class_stack.append(module)
 
