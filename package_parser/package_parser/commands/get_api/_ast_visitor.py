@@ -1,3 +1,4 @@
+import inspect
 from typing import Optional, Union
 
 import astroid
@@ -53,7 +54,7 @@ class _AstVisitor:
         else:
             decorator_names = []
 
-        numpydoc = NumpyDocString(class_node.doc or "")
+        numpydoc = NumpyDocString(inspect.cleandoc(class_node.doc or ""))
 
         # Remember class, so we can later add methods
         class_ = Class(
@@ -86,7 +87,7 @@ class _AstVisitor:
         else:
             decorator_names = []
 
-        numpydoc = NumpyDocString(function_node.doc or "")
+        numpydoc = NumpyDocString(inspect.cleandoc(function_node.doc or ""))
         is_public = self.is_public(function_node.name, qname)
 
         self.api.add_function(
@@ -112,13 +113,16 @@ class _AstVisitor:
 
     @staticmethod
     def __description(numpydoc: NumpyDocString) -> str:
+        has_summary = "Summary" in numpydoc and len(numpydoc["Summary"]) > 0
+        has_extended_summary = "Extended Summary" in numpydoc and len(numpydoc["Extended Summary"]) > 0
+
         result = ""
-        if "Summary" in numpydoc:
-            result += "\n".join(numpydoc["Summary"])
-        if "Summary" in numpydoc and "Extended Summary" in numpydoc:
+        if has_summary:
+            result += " ".join(numpydoc["Summary"])
+        if has_summary and has_extended_summary:
             result += "\n\n"
-        if "Extended Summary" in numpydoc:
-            result += "\n".join(numpydoc["Extended Summary"])
+        if has_extended_summary:
+            result += " ".join(numpydoc["Extended Summary"])
         return result
 
     @staticmethod
@@ -131,7 +135,7 @@ class _AstVisitor:
             docstring = node.parent.doc
         else:
             docstring = node.doc
-        function_numpydoc = NumpyDocString(docstring or "")
+        function_numpydoc = NumpyDocString(inspect.cleandoc(docstring or ""))
 
         # Arguments that can be specified positionally only ( f(1) works but not f(x=1) )
         result = [
