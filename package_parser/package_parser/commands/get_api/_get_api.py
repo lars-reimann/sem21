@@ -3,7 +3,7 @@ from pathlib import Path
 import astroid
 
 from package_parser.utils import ASTWalker
-from ._ast_visitor import _CallableVisitor
+from ._ast_visitor import _AstVisitor
 from ._file_filters import _is_test_file
 from ._model import API
 from ._package_metadata import distribution, distribution_version, package_files, package_root
@@ -16,7 +16,7 @@ def get_api(package_name: str) -> API:
     files = package_files(package_name)
 
     api = API(dist, package_name, dist_version)
-    callable_visitor = _CallableVisitor(api)
+    callable_visitor = _AstVisitor(api)
     walker = ASTWalker(callable_visitor)
 
     for file in files:

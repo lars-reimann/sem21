@@ -1,26 +1,20 @@
-from typing import Optional
+from typing import Optional, Union
 
 import astroid
 from numpydoc.docscrape import NumpyDocString
 
 from package_parser.utils import parent_qname
 from ._file_filters import _is_init_file
-from ._model import API, Function, Parameter, Class, ParameterAndResultDocstring, ParameterAssignment
+from ._model import API, Function, Parameter, Class, ParameterAndResultDocstring, ParameterAssignment, Module
 
 
-class _CallableVisitor:
+class _AstVisitor:
     def __init__(self, api: API) -> None:
         self.reexported: set[str] = set()
         self.api: API = api
+        self.__module_and_class_stack: list[Union[Module, Class]] = []
 
     def enter_module(self, module_node: astroid.Module):
-        """
-        Find re-exported declarations in __init__.py files.
-        """
-
-        if not _is_init_file(module_node.file):
-            return
-
         for _, global_declaration_node_list in module_node.globals.items():
             global_declaration_node = global_declaration_node_list[0]
 
@@ -30,40 +24,102 @@ class _CallableVisitor:
                     global_declaration_node.level
                 )
 
-                for declaration, _ in global_declaration_node.names:
-                    reexported_name = f"{base_import_path}.{declaration}"
+                # Find re-exported declarations in __init__.py files.
+                if _is_init_file(module_node.file):
+                    for declaration, _ in global_declaration_node.names:
+                        reexported_name = f"{base_import_path}.{declaration}"
 
-                    if reexported_name.startswith(module_node.name):
-                        self.reexported.add(reexported_name)
+                        if reexported_name.startswith(module_node.name):
+                            self.reexported.add(reexported_name)
 
-    def enter_classdef(self, node: astroid.ClassDef) -> None:
-        qname = node.qname()
+        # Remember module, so we can later add classes and global functions
+        module = Module(
+            module_node.qname(),
+            [],  # TODO: imports
+            [],  # TODO: from_imports
+        )
+        self.__module_and_class_stack.append(module)
 
-        if qname not in self.api.classes:
-            self.api.add_class(
-                Class(
-                    qname,
-                    self.is_public(node.name, qname),
-                    node.doc,
-                    node.as_string()
-                )
+    def leave_module(self, _: astroid.Module) -> None:
+        module = self.__module_and_class_stack.pop()
+        self.api.add_module(module)
+
+    def enter_classdef(self, class_node: astroid.ClassDef) -> None:
+        qname = class_node.qname()
+
+        decorators: Optional[astroid.Decorators] = class_node.decorators
+        if decorators is not None:
+            decorator_names = [decorator.as_string() for decorator in decorators.nodes]
+        else:
+            decorator_names = []
+
+        numpydoc = NumpyDocString(class_node.doc or "")
+
+        # Remember class, so we can later add methods
+        class_ = Class(
+            qname,
+            decorator_names,
+            class_node.basenames,
+            self.is_public(class_node.name, qname),
+            _AstVisitor.__description(numpydoc),
+            class_node.doc,
+            class_node.as_string()
+        )
+        self.__module_and_class_stack.append(class_)
+
+    def leave_classdef(self, _: astroid.ClassDef) -> None:
+        class_ = self.__module_and_class_stack.pop()
+        self.api.add_class(class_)
+
+        # Add qualified name of class to containing module
+        if len(self.__module_and_class_stack) > 0:
+            parent = self.__module_and_class_stack[-1]
+            if isinstance(parent, Module):
+                parent.add_class(class_.qname)
+
+    def enter_functiondef(self, function_node: astroid.FunctionDef) -> None:
+        qname = function_node.qname()
+
+        decorators: Optional[astroid.Decorators] = function_node.decorators
+        if decorators is not None:
+            decorator_names = [decorator.as_string() for decorator in decorators.nodes]
+        else:
+            decorator_names = []
+
+        numpydoc = NumpyDocString(function_node.doc or "")
+        is_public = self.is_public(function_node.name, qname)
+
+        self.api.add_function(
+            Function(
+                qname,
+                decorator_names,
+                self.__function_parameters(function_node, is_public),
+                [],  # TODO: results
+                is_public,
+                _AstVisitor.__description(numpydoc),
+                function_node.doc,
+                function_node.as_string()
             )
+        )
 
-    def enter_functiondef(self, node: astroid.FunctionDef) -> None:
-        qname = node.qname()
+        # Add qualified name of function to containing module or class
+        if len(self.__module_and_class_stack) > 0:
+            parent = self.__module_and_class_stack[-1]
+            if isinstance(parent, Module):
+                parent.add_function(function_node.name)
+            elif isinstance(parent, Class):
+                parent.add_method(function_node.name)
 
-        if qname not in self.api.functions:
-            is_public = self.is_public(node.name, qname)
-
-            self.api.add_function(
-                Function(
-                    qname,
-                    self.__function_parameters(node, is_public),
-                    is_public,
-                    node.doc,
-                    node.as_string()
-                )
-            )
+    @staticmethod
+    def __description(numpydoc: NumpyDocString) -> str:
+        result = ""
+        if "Summary" in numpydoc:
+            result += "\n".join(numpydoc["Summary"])
+        if "Summary" in numpydoc and "Extended Summary" in numpydoc:
+            result += "\n\n"
+        if "Extended Summary" in numpydoc:
+            result += "\n".join(numpydoc["Extended Summary"])
+        return result
 
     @staticmethod
     def __function_parameters(node: astroid.FunctionDef, function_is_public: bool) -> list[Parameter]:
@@ -84,7 +140,7 @@ class _CallableVisitor:
                 default_value=None,
                 is_public=function_is_public,
                 assigned_by=ParameterAssignment.POSITION_ONLY,
-                docstring=_CallableVisitor.__parameter_docstring(function_numpydoc, it.name)
+                docstring=_AstVisitor.__parameter_docstring(function_numpydoc, it.name)
             )
 
             for it in parameters.posonlyargs
@@ -94,13 +150,13 @@ class _CallableVisitor:
         result += [
             Parameter(
                 it.name,
-                _CallableVisitor.__parameter_default(
+                _AstVisitor.__parameter_default(
                     parameters.defaults,
                     index - len(parameters.args) + len(parameters.defaults)
                 ),
                 function_is_public,
                 ParameterAssignment.POSITION_OR_NAME,
-                _CallableVisitor.__parameter_docstring(function_numpydoc, it.name)
+                _AstVisitor.__parameter_docstring(function_numpydoc, it.name)
             )
 
             for index, it in enumerate(parameters.args)
@@ -110,13 +166,13 @@ class _CallableVisitor:
         result += [
             Parameter(
                 it.name,
-                _CallableVisitor.__parameter_default(
+                _AstVisitor.__parameter_default(
                     parameters.kw_defaults,
                     index - len(parameters.kwonlyargs) + len(parameters.kw_defaults)
                 ),
                 function_is_public,
                 ParameterAssignment.NAME_ONLY,
-                _CallableVisitor.__parameter_docstring(function_numpydoc, it.name)
+                _AstVisitor.__parameter_docstring(function_numpydoc, it.name)
             )
 
             for index, it in enumerate(parameters.kwonlyargs)
