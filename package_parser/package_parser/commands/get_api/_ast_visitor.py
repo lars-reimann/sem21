@@ -5,7 +5,7 @@ from numpydoc.docscrape import NumpyDocString
 
 from package_parser.utils import parent_qname
 from ._file_filters import _is_init_file
-from ._model import API, Function, Parameter, Class, ParameterDocstring, ParameterAssignment
+from ._model import API, Function, Parameter, Class, ParameterAndResultDocstring, ParameterAssignment
 
 
 class _CallableVisitor:
@@ -135,18 +135,18 @@ class _CallableVisitor:
             return None
 
     @staticmethod
-    def __parameter_docstring(function_numpydoc: NumpyDocString, parameter_name: str) -> ParameterDocstring:
+    def __parameter_docstring(function_numpydoc: NumpyDocString, parameter_name: str) -> ParameterAndResultDocstring:
         parameters_numpydoc = function_numpydoc["Parameters"]
         candidate_parameters_numpydoc = [it for it in parameters_numpydoc if it.name == parameter_name]
 
         if len(candidate_parameters_numpydoc) > 0:
             last_parameter_numpydoc = candidate_parameters_numpydoc[-1]
-            return ParameterDocstring(
+            return ParameterAndResultDocstring(
                 last_parameter_numpydoc.type,
                 "\n".join(last_parameter_numpydoc.desc)
             )
 
-        return ParameterDocstring("", "")
+        return ParameterAndResultDocstring("", "")
 
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
