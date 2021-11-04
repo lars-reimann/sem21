@@ -120,9 +120,9 @@ class _AstVisitor:
         if len(self.__module_and_class_stack) > 0:
             parent = self.__module_and_class_stack[-1]
             if isinstance(parent, Module):
-                parent.add_function(function_node.name)
+                parent.add_function(qname)
             elif isinstance(parent, Class):
-                parent.add_method(function_node.name)
+                parent.add_method(qname)
 
     @staticmethod
     def __description(numpydoc: NumpyDocString) -> str:
