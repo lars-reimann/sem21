@@ -8,14 +8,9 @@ from package_parser.utils import declaration_qname_to_name, parent_qname
 
 
 class API:
-
     @staticmethod
     def from_json(json: Any) -> API:
-        result = API(
-            json["distribution"],
-            json["package"],
-            json["version"]
-        )
+        result = API(json["distribution"], json["package"], json["version"])
 
         for module_json in json["modules"]:
             result.add_module(Module.from_json(module_json))
@@ -49,7 +44,10 @@ class API:
         return class_qname in self.classes and self.classes[class_qname].is_public
 
     def is_public_function(self, function_qname: str) -> bool:
-        return function_qname in self.functions and self.functions[function_qname].is_public
+        return (
+            function_qname in self.functions
+            and self.functions[function_qname].is_public
+        )
 
     def class_count(self) -> int:
         return len(self.classes)
@@ -108,18 +106,20 @@ class API:
             "functions": [
                 function.to_json()
                 for function in sorted(self.functions.values(), key=lambda it: it.qname)
-            ]
+            ],
         }
 
 
 class Module:
-
     @staticmethod
     def from_json(json: Any) -> Module:
         result = Module(
             json["name"],
             [Import.from_json(import_json) for import_json in json["imports"]],
-            [FromImport.from_json(from_import_json) for from_import_json in json["from_imports"]]
+            [
+                FromImport.from_json(from_import_json)
+                for from_import_json in json["from_imports"]
+            ],
         )
 
         for class_qname in json["classes"]:
@@ -130,7 +130,9 @@ class Module:
 
         return result
 
-    def __init__(self, name: str, imports: list[Import], from_imports: list[FromImport]):
+    def __init__(
+        self, name: str, imports: list[Import], from_imports: list[FromImport]
+    ):
         self.name: str = name
         self.imports: list[Import] = imports
         self.from_imports: list[FromImport] = from_imports
@@ -147,41 +149,31 @@ class Module:
         return {
             "name": self.name,
             "imports": [import_.to_json() for import_ in self.imports],
-            "from_imports": [from_import.to_json() for from_import in self.from_imports],
+            "from_imports": [
+                from_import.to_json() for from_import in self.from_imports
+            ],
             "classes": self.classes,
-            "functions": self.functions
+            "functions": self.functions,
         }
 
 
 class Import:
-
     @staticmethod
     def from_json(json: Any) -> Import:
-        return Import(
-            json["module"],
-            json["alias"]
-        )
+        return Import(json["module"], json["alias"])
 
     def __init__(self, module_name: str, alias: Optional[str]):
         self.module: str = module_name
         self.alias: Optional[str] = alias
 
     def to_json(self) -> Any:
-        return {
-            "module": self.module,
-            "alias": self.alias
-        }
+        return {"module": self.module, "alias": self.alias}
 
 
 class FromImport:
-
     @staticmethod
     def from_json(json: Any) -> FromImport:
-        return FromImport(
-            json["module"],
-            json["declaration"],
-            json["alias"]
-        )
+        return FromImport(json["module"], json["declaration"], json["alias"])
 
     def __init__(self, module_name: str, declaration_name: str, alias: Optional[str]):
         self.module_name: str = module_name
@@ -192,12 +184,11 @@ class FromImport:
         return {
             "module": self.module_name,
             "declaration": self.declaration_name,
-            "alias": self.alias
+            "alias": self.alias,
         }
 
 
 class Class:
-
     @staticmethod
     def from_json(json: Any) -> Class:
         result = Class(
@@ -207,7 +198,7 @@ class Class:
             json["is_public"],
             json["description"],
             json["docstring"],
-            json["source_code"]
+            json["source_code"],
         )
 
         for method_qname in json["methods"]:
@@ -223,7 +214,7 @@ class Class:
         is_public: bool,
         description: str,
         docstring: str,
-        source_code: str
+        source_code: str,
     ) -> None:
         self.qname: str = qname
         self.decorators: list[str] = decorators
@@ -251,23 +242,25 @@ class Class:
             "is_public": self.is_public,
             "description": self.description,
             "docstring": self.docstring,
-            "source_code": self.source_code
+            "source_code": self.source_code,
         }
 
 
 class Function:
-
     @staticmethod
     def from_json(json: Any) -> Function:
         return Function(
             json["qname"],
             json["decorators"],
-            [Parameter.from_json(parameter_json) for parameter_json in json["parameters"]],
+            [
+                Parameter.from_json(parameter_json)
+                for parameter_json in json["parameters"]
+            ],
             [Result.from_json(result_json) for result_json in json["results"]],
             json["is_public"],
             json["description"],
             json["docstring"],
-            json["source_code"]
+            json["source_code"],
         )
 
     def __init__(
@@ -279,7 +272,7 @@ class Function:
         is_public: bool,
         description: str,
         docstring: str,
-        source_code: str
+        source_code: str,
     ) -> None:
         self.qname: str = qname
         self.decorators: list[str] = decorators
@@ -299,23 +292,16 @@ class Function:
             "name": self.name,
             "qname": self.qname,
             "decorators": self.decorators,
-            "parameters": [
-                parameter.to_json()
-                for parameter in self.parameters
-            ],
-            "results": [
-                result.to_json()
-                for result in self.results
-            ],
+            "parameters": [parameter.to_json() for parameter in self.parameters],
+            "results": [result.to_json() for result in self.results],
             "is_public": self.is_public,
             "description": self.description,
             "docstring": self.docstring,
-            "source_code": self.source_code
+            "source_code": self.source_code,
         }
 
 
 class Parameter:
-
     @staticmethod
     def from_json(json: Any) -> Parameter:
         return Parameter(
@@ -323,7 +309,7 @@ class Parameter:
             json["default_value"],
             json["is_public"],
             ParameterAssignment[json["assigned_by"]],
-            ParameterAndResultDocstring.from_json(json["docstring"])
+            ParameterAndResultDocstring.from_json(json["docstring"]),
         )
 
     def __init__(
@@ -332,7 +318,7 @@ class Parameter:
         default_value: Optional[str],
         is_public: bool,
         assigned_by: ParameterAssignment,
-        docstring: ParameterAndResultDocstring
+        docstring: ParameterAndResultDocstring,
     ) -> None:
         self.name: str = name
         self.default_value: Optional[str] = default_value
@@ -346,47 +332,35 @@ class Parameter:
             "default_value": self.default_value,
             "is_public": self.is_public,
             "assigned_by": self.assigned_by.name,
-            "docstring": self.docstring.to_json()
+            "docstring": self.docstring.to_json(),
         }
 
 
 class ParameterAssignment(Enum):
-    POSITION_ONLY = auto(),
-    POSITION_OR_NAME = auto(),
-    NAME_ONLY = auto(),
+    POSITION_ONLY = (auto(),)
+    POSITION_OR_NAME = (auto(),)
+    NAME_ONLY = (auto(),)
 
 
 class Result:
-
     @staticmethod
     def from_json(json: Any) -> Result:
         return Result(
-            json["name"],
-            ParameterAndResultDocstring.from_json(json["docstring"])
+            json["name"], ParameterAndResultDocstring.from_json(json["docstring"])
         )
 
-    def __init__(
-        self,
-        name: str,
-        docstring: ParameterAndResultDocstring
-    ) -> None:
+    def __init__(self, name: str, docstring: ParameterAndResultDocstring) -> None:
         self.name: str = name
         self.docstring = docstring
 
     def to_json(self) -> Any:
-        return {
-            "name": self.name,
-            "docstring": self.docstring.to_json()
-        }
+        return {"name": self.name, "docstring": self.docstring.to_json()}
 
 
 class ParameterAndResultDocstring:
     @staticmethod
     def from_json(json: Any) -> ParameterAndResultDocstring:
-        return ParameterAndResultDocstring(
-            json["type"],
-            json["description"]
-        )
+        return ParameterAndResultDocstring(json["type"], json["description"])
 
     def __init__(
         self,
@@ -397,7 +371,4 @@ class ParameterAndResultDocstring:
         self.description: str = description
 
     def to_json(self) -> Any:
-        return {
-            "type": self.type,
-            "description": self.description
-        }
+        return {"type": self.type, "description": self.description}
