@@ -1,8 +1,8 @@
 from classes.parameter import Parameter
-from classes.property import Property
+from classes.dependency import Dependency
 
 
-class Restricts(Property):
+class Restricts(Dependency):
     """
     The domain Parameter restricts the value of the range Parameter.
     E.g. Range value cannot be larger than domain value.

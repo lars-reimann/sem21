@@ -1,10 +1,10 @@
 from classes.parameter import Parameter
-from classes.property import Property
+from classes.dependency import Dependency
 
 
-class InheritsValueFrom(Property):
+class InheritsValueFrom(Dependency):
     """
-    The domain Parameter inherits its value from an attribute of thethe range Parameter.
+    The domain Parameter inherits its value from an attribute of the range Parameter.
     E.g. if domain == None, attribute of range is used.
     """
     def __init__(self, domain: Parameter, range: Parameter, description: str = "No description available.") -> None:
