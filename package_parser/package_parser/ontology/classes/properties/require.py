@@ -1,9 +1,9 @@
 from package_parser.package_parser.ontology.classes.property import Property
 
 
-class InheritsValueFrom(Property):
+class Require(Property):
     """
-    The domain Parameter inherits its value from an attribute of thethe range Parameter.
-    E.g. if domain == None, attribute of range is used.
+    The domain Parameter requires that the range Parameter is initialized.
+    E.g. If domain = val, then range is used.
     """
     pass
