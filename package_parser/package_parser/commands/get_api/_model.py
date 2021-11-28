@@ -409,3 +409,111 @@ class ParameterAndResultDocstring:
 
     def to_json(self) -> Any:
         return {"type": self.type, "description": self.description}
+
+
+class Action:
+    @classmethod
+    def from_json(cls, json: Any):
+        return cls(
+            json['action']
+        )
+
+    def __init__(
+        self,
+        action: str
+    ) -> None:
+        self.action = action
+    
+    def to_json(self) -> Dict:
+        return {
+            "action": self.action
+        }
+
+class RuntimeAction(Action):
+    def __init__(self, action: str) -> None:
+        super().__init__(action)
+
+
+class StaticAction(Action):
+    def __init__(self, action: str) -> None:
+        super().__init__(action)
+
+
+class ParameterIsIgnored(StaticAction):
+    def __init__(self, action: str) -> None:
+        super().__init__(action)
+
+
+class ParameterIsIllegal(StaticAction):
+    def __init__(self, action: str) -> None:
+        super().__init__(action)
+
+
+class Condition:
+    @classmethod
+    def from_json(cls, json: Any):
+        return cls(
+            json['condition']
+        )
+
+    def __init__(
+        self,
+        condition: str
+    ) -> None:
+        self.condition = condition
+    
+    def to_json(self) -> Dict:
+        return {
+            "condition": self.condition
+        }
+
+
+class RuntimeCondition(Condition):
+    def __init__(self, condition: str) -> None:
+        super().__init__(condition)
+
+
+class StaticCondition(Condition):
+    def __init__(self, condition: str) -> None:
+        super().__init__(condition)
+
+
+class ParameterHasValue(StaticCondition):
+    def __init__(self, condition: str) -> None:
+        super().__init__(condition)
+
+
+class ParameterIsSet(StaticCondition):
+    def __init__(self, condition: str) -> None:
+        super().__init__(condition)
+
+
+class Dependency:
+    @classmethod
+    def from_json(cls, json: Any):
+        return cls(
+            Parameter.from_json(['hasDependentParameter']),
+            Parameter.from_json(['isDependingOn']),
+            Condition.from_json(['hasCondition']),
+            Action.from_json(['hasAction'])
+        )
+
+    def __init__(
+        self,
+        hasDependentParameter: Parameter,
+        isDependingOn: Parameter,
+        hasCondition: Condition,
+        hasAction: Action
+    ) -> None:
+        self.hasDependentParameter = hasDependentParameter
+        self.isDependingOn = isDependingOn
+        self.hasCondition = hasCondition
+        self.hasAction = hasAction
+
+    def to_json(self) -> Dict:
+        return {
+            "hasDependentParameter": self.hasDependentParameter.to_json(),
+            "isDependingOn": self.isDependingOn.to_json(),
+            "hasCondition": self.hasCondition.to_json(),
+            "hasAction": self.hasAction.to_json(),
+        }
