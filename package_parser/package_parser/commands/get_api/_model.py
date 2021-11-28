@@ -339,9 +339,9 @@ class Function:
 
 
 class Parameter:
-    @staticmethod
-    def from_json(json: Any) -> Parameter:
-        return Parameter(
+    @classmethod
+    def from_json(cls, json: Any):
+        return cls(
             json["name"],
             json["default_value"],
             json["is_public"],
@@ -395,9 +395,9 @@ class Result:
 
 
 class ParameterAndResultDocstring:
-    @staticmethod
-    def from_json(json: Any) -> ParameterAndResultDocstring:
-        return ParameterAndResultDocstring(json["type"], json["description"])
+    @classmethod
+    def from_json(cls, json: Any):
+        return cls(json["type"], json["description"])
 
     def __init__(
         self,
