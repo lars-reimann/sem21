@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 import re
 from enum import Enum, auto
-from typing import Any, Optional
+from typing import Any, Optional, Dict
 
 from package_parser.utils import declaration_qname_to_name, parent_qname
 
@@ -428,6 +428,7 @@ class Action:
         return {
             "action": self.action
         }
+
 
 class RuntimeAction(Action):
     def __init__(self, action: str) -> None:
