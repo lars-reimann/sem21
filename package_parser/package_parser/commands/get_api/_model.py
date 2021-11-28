@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 import re
 from enum import Enum, auto
-from typing import Any, Optional, Dict
+from typing import Any, Dict, Optional
 
 from package_parser.utils import declaration_qname_to_name, parent_qname
 
@@ -106,7 +106,9 @@ class API:
             ],
             "functions": [
                 function.to_json()
-                for function in sorted(self.functions.values(), key=lambda it: it.unique_qname)
+                for function in sorted(
+                    self.functions.values(), key=lambda it: it.unique_qname
+                )
             ],
         }
 
@@ -297,16 +299,16 @@ class Function:
         result = self.qname
 
         if self.is_getter():
-            result += '@getter'
+            result += "@getter"
         elif self.is_setter():
-            result += '@setter'
+            result += "@setter"
         elif self.is_deleter():
-            result += '@deleter'
+            result += "@deleter"
 
         return result
 
     def is_getter(self) -> bool:
-        return 'property' in self.decorators
+        return "property" in self.decorators
 
     def is_setter(self) -> bool:
         for decorator in self.decorators:
@@ -414,20 +416,13 @@ class ParameterAndResultDocstring:
 class Action:
     @classmethod
     def from_json(cls, json: Any):
-        return cls(
-            json['action']
-        )
+        return cls(json["action"])
 
-    def __init__(
-        self,
-        action: str
-    ) -> None:
+    def __init__(self, action: str) -> None:
         self.action = action
-    
+
     def to_json(self) -> Dict:
-        return {
-            "action": self.action
-        }
+        return {"action": self.action}
 
 
 class RuntimeAction(Action):
@@ -453,20 +448,13 @@ class ParameterIsIllegal(StaticAction):
 class Condition:
     @classmethod
     def from_json(cls, json: Any):
-        return cls(
-            json['condition']
-        )
+        return cls(json["condition"])
 
-    def __init__(
-        self,
-        condition: str
-    ) -> None:
+    def __init__(self, condition: str) -> None:
         self.condition = condition
-    
+
     def to_json(self) -> Dict:
-        return {
-            "condition": self.condition
-        }
+        return {"condition": self.condition}
 
 
 class RuntimeCondition(Condition):
@@ -493,10 +481,10 @@ class Dependency:
     @classmethod
     def from_json(cls, json: Any):
         return cls(
-            Parameter.from_json(['hasDependentParameter']),
-            Parameter.from_json(['isDependingOn']),
-            Condition.from_json(['hasCondition']),
-            Action.from_json(['hasAction'])
+            Parameter.from_json(["hasDependentParameter"]),
+            Parameter.from_json(["isDependingOn"]),
+            Condition.from_json(["hasCondition"]),
+            Action.from_json(["hasAction"]),
         )
 
     def __init__(
@@ -504,7 +492,7 @@ class Dependency:
         hasDependentParameter: Parameter,
         isDependingOn: Parameter,
         hasCondition: Condition,
-        hasAction: Action
+        hasAction: Action,
     ) -> None:
         self.hasDependentParameter = hasDependentParameter
         self.isDependingOn = isDependingOn
