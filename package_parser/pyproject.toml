@@ -16,7 +16,7 @@ importlib-metadata = "^4.8.2"
 numpydoc = "^1.1.0"
 spacy = "^3.2.0"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
 
