@@ -10,13 +10,15 @@ parse-package = "package_parser.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-astroid = "^2.8.4"
+astroid = "^2.9.0"
 scikit-learn = "^1.0"
-importlib-metadata = "^4.8.1"
+importlib-metadata = "^4.8.2"
 numpydoc = "^1.1.0"
-spacy = "^3.1.4"
+spacy = "^3.2.0"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
