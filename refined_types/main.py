@@ -44,9 +44,7 @@ def stats():
         ground_truth = json.load(fin)
 
     num_classes = len(ground_truth)
-    num_props = sum(
-        len(ground_truth[class_name]) for class_name in ground_truth
-    )
+    num_props = sum(len(ground_truth[class_name]) for class_name in ground_truth)
 
     print(f"Number of classes: {num_classes}")
     print(f"Number of properties with refined types: {num_props}")
