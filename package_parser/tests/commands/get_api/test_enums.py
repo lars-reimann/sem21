@@ -1,5 +1,6 @@
-import pytest
 from typing import Optional
+
+import pytest
 from package_parser.commands.get_api._model import Parameter
 
 
