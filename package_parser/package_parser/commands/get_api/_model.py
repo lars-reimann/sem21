@@ -351,6 +351,15 @@ class Parameter:
             ParameterAndResultDocstring.from_json(json["docstring"]),
         )
 
+    @classmethod
+    def extract_enum(cls, docstring_type: str) -> Optional[list[str]]:
+        enum_doc_match = re.search(r"{(.*?)}", docstring_type)
+        if enum_doc_match:
+            enum_doc = enum_doc_match.group(1)
+            enum = re.findall(r"['\"](.*?)['\"]", enum_doc)
+            return enum if enum else None
+        return None
+
     def __init__(
         self,
         name: str,
@@ -364,6 +373,7 @@ class Parameter:
         self.is_public: bool = is_public
         self.assigned_by: ParameterAssignment = assigned_by
         self.docstring = docstring
+        self.enum: Optional[list[str]] = Parameter.extract_enum(docstring.type)
 
     def to_json(self) -> Any:
         return {
@@ -372,6 +382,7 @@ class Parameter:
             "is_public": self.is_public,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_json(),
+            "enum": self.enum,
         }
 
 
