@@ -11,14 +11,19 @@ def preprocess_docstring(docstring: str) -> str:
     for i, word in enumerate(words):
         if word in equals_strings:
             words[i] = "equals"
-
-        # Order here is important! Cleaner way?
-        if "==" in word:
-            word = word.replace("==", " equals ")
-            words[i] = word
-        if "=" in word:
-            word = word.replace("=", " equals ")
-            words[i] = word
+        else:
+            # Order here is important! Cleaner way?
+            if "==" in word:
+                word = word.replace("==", " equals ")
+                words[i] = word
+            if "=" in word:
+                word = word.replace("=", " equals ")
+                words[i] = word
 
     docstring = ' '.join(words)
     return docstring  
+
+if __name__=='__main__':
+    docstring = 'parameter = one == two'
+    print(docstring)
+    print(preprocess_docstring(docstring))
