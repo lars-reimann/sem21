@@ -13,10 +13,10 @@ def preprocess_docstring(docstring: str) -> str:
             words[i] = "equals"
 
         # Order here is important! Cleaner way?
-        elif "==" in word:
+        if "==" in word:
             word = word.replace("==", " equals ")
             words[i] = word
-        elif "=" in word:
+        if "=" in word:
             word = word.replace("=", " equals ")
             words[i] = word
 
