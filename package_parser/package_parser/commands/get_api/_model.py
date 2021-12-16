@@ -356,7 +356,8 @@ class Parameter:
         enum_doc_match = re.search(r"{(.*?)}", docstring_type)
         if enum_doc_match:
             enum_doc = enum_doc_match.group(1)
-            enum = re.findall(r"['\"](.*?)['\"]", enum_doc)
+            enum = re.findall(r"\\?'(\w+?)\\?',?|\\?\"(\w+?)\\?\",?", enum_doc)
+            enum = [item for sublist in enum for item in sublist if item]
             return set(enum) if enum else None
         return None
 

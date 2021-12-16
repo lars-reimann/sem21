@@ -9,12 +9,20 @@ from package_parser.commands.get_api._model import Parameter
     [
         ('{"frobenius", "spectral"}, default="frobenius"', {"frobenius", "spectral"}),
         (
+            r"{\"frobenius\", \'spectral\'}, default=\"frobenius\"",
+            {"frobenius", "spectral"},
+        ),
+        (
             "{'strict', 'ignore', 'replace'}, default='strict'",
             {"strict", "ignore", "replace"},
         ),
         (
             "{'linear', 'poly',             'rbf', 'sigmoid', 'cosine', 'precomputed'}, default='linear'",
             {"linear", "poly", "rbf", "sigmoid", "cosine", "precomputed"},
+        ),
+        (
+            "{'text\", \"that', 'should', \"not', 'be', 'matched'}",
+            {"should", "be", "matched"},
         ),
         ("", None),
     ],
