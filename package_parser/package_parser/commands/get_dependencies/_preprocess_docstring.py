@@ -21,9 +21,4 @@ def preprocess_docstring(docstring: str) -> str:
                 words[i] = word
 
     docstring = ' '.join(words)
-    return docstring  
-
-if __name__=='__main__':
-    docstring = 'parameter = one == two'
-    print(docstring)
-    print(preprocess_docstring(docstring))
+    return docstring
