@@ -30,7 +30,7 @@ from package_parser.commands.get_api._model import ParameterEnum
         (r'{"text", "that"}', {"text", "that"}),
         (r"""{\"not', 'be', 'matched'}""", {", ", ", "}),
         ("""{"gini\\", \\"entropy"}""", {'gini", "entropy'}),
-        ("""{'best\\', \\'random'}""", {"best', 'random"})
+        ("""{'best\\', \\'random'}""", {"best', 'random"}),
     ],
 )
 def test_enum_from_docstring_type(docstring_type: str, expected: Optional[set[str]]):
