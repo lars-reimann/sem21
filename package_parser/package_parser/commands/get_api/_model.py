@@ -350,6 +350,10 @@ class ParameterEnum:
 
     @classmethod
     def _from_docstring_type(cls, docstring_type: str) -> set[str]:
+        def remove_backslash(e: str):
+            e = e.replace(r'\"', '"')
+            e = e.replace(r"\'", "'")
+            return e
         enum_match = re.search(r"{(.*?)}", docstring_type)
         values = set()
         quotes = "'\""
@@ -367,7 +371,7 @@ class ParameterEnum:
                         if curr_quote == char:
                             inside_value = False
                             curr_quote = None
-                            values.add(value)
+                            values.add(remove_backslash(value))
                             value = ""
                         else:
                             value += char
