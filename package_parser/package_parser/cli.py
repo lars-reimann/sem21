@@ -9,13 +9,6 @@ from .utils import ensure_file_exists
 __API_COMMAND = "api"
 
 
-def set_default(obj):
-    """Serialize objects that can not be serialized with the JSON Encoder"""
-    if isinstance(obj, set):
-        return list(obj)
-    raise TypeError
-
-
 def cli() -> None:
     args = __get_args()
 
@@ -28,7 +21,7 @@ def cli() -> None:
         )
         ensure_file_exists(out_file)
         with out_file.open("w") as f:
-            json.dump(public_api.to_json(), f, indent=2, default=set_default)
+            json.dump(public_api.to_json(), f, indent=2)
 
 
 def __get_args() -> argparse.Namespace:
