@@ -17,3 +17,9 @@ def test_preprocess_docstring_separates_equals_sign():
     docstring = 'parameter=one==two'
     processed_docstring = preprocess_docstring(docstring)
     assert processed_docstring == 'parameter equals one equals two'
+
+
+def test_preprocess_docstring_substitutes_not_equals_sign():
+        docstring = 'parameter!=one!=two'
+        processed_docstring = preprocess_docstring(docstring)
+        assert processed_docstring == 'parameter does not equal one does not equal two'
