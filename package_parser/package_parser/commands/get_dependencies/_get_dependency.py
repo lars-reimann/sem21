@@ -30,7 +30,7 @@ def get_dependencies(api: API) -> Dict:
     for id, pattern in dependency_matcher_patterns.items():
         matcher.add(id, [pattern])
     
-    all_dependencies = {}
+    all_dependencies: Dict[str] = {}
     endpoint_functions = api.functions
 
     for function_name, function in endpoint_functions.items():
