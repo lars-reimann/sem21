@@ -35,6 +35,29 @@ class DependencyExtractor:
 
         return Dependency(hasDependentParameter=dependent_param, isDependingOn=is_depending_on_param, hasCondition=condition, hasAction=action)
 
+    @staticmethod
+    def extract_pattern_parameter_ignored_condition(
+        dependent_param: Parameter,
+        func_parameters: List[Parameter],
+        match: Tuple,
+        param_docstring: Doc
+        ) -> Union[Dependency, None]:
+        is_depending_on_param_index = match[1][2]
+        is_depending_on_param_name = param_docstring[is_depending_on_param_index].text
+        is_depending_on_param = next(filter(lambda param: param.name == is_depending_on_param_name, func_parameters), None)
+        if is_depending_on_param is None:
+            # Likely not a correct dependency match
+            return None
+
+        condition_verb = param_docstring[match[1][1]]
+        condition_verb_subtree = list(condition_verb.subtree)
+        condition_text = " ".join([token.text for token in condition_verb_subtree])
+        condition = Condition(condition=condition_text)
+
+        action = Action(action='ignored')
+
+        return Dependency(hasDependentParameter=dependent_param, isDependingOn=is_depending_on_param, hasCondition=condition, hasAction=action)
+
 
 def extract_dependencies_from_docstring(
     parameter: Parameter,
