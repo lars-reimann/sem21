@@ -1,23 +1,20 @@
 dependency_matcher_patterns = {
-    "dependency_action_if_param_is_val": [
-        {"RIGHT_ID": "action", "RIGHT_ATTRS": {"POS": "VERB"}},
+    "pattern_parameter_used_condition": [
         {
-            "LEFT_ID": "action",
+            "RIGHT_ID": "used",
+            "RIGHT_ATTRS": {"ORTH": "used"}
+        },
+        {
+            "LEFT_ID": "used",
             "REL_OP": ">",
             "RIGHT_ID": "condition",
-            "RIGHT_ATTRS": {"DEP": "advcl"},
+            "RIGHT_ATTRS": {"DEP": "advcl"}
         },
         {
             "LEFT_ID": "condition",
             "REL_OP": ">",
-            "RIGHT_ID": "condition_param",
-            "RIGHT_ATTRS": {"DEP": "nsubj"},
-        },
-        {
-            "LEFT_ID": "condition",
-            "REL_OP": ">",
-            "RIGHT_ID": "condition_bool",
-            "RIGHT_ATTRS": {"DEP": {"IN": ["attr", "acomp", "dobj"]}},
-        },
+            "RIGHT_ID": "dependee_param",
+            "RIGHT_ATTRS": {"DEP": "nsubj"}
+        }
     ]
 }
