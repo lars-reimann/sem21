@@ -11,13 +11,13 @@ dependency_matcher_patterns = {
             "LEFT_ID": "condition",
             "REL_OP": ">",
             "RIGHT_ID": "condition_param",
-            "RIGHT_ATTRS": {"DEP": "nsubj"},
+            "RIGHT_ATTRS": {"DEP": {"IN":["nsubj", "nsubjpass"]}},
         },
         {
             "LEFT_ID": "condition",
             "REL_OP": ">",
             "RIGHT_ID": "condition_bool",
-            "RIGHT_ATTRS": {"DEP": {"IN": ["attr", "acomp", "dobj"]}},
+            "RIGHT_ATTRS": {"DEP": {"IN": ["attr", "acomp", "dobj", "prep"]}},
         },
     ]
 }
