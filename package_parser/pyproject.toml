@@ -12,14 +12,14 @@ parse-package = "package_parser.main:main"
 python = "^3.9"
 astroid = "^2.9.0"
 scikit-learn = "^1.0"
-importlib-metadata = "^4.8.2"
+importlib-metadata = "^4.10.0"
 numpydoc = "^1.1.0"
-spacy = "^3.2.0"
+spacy = "^3.2.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
-mypy = "^0.910"
+mypy = "^0.930"
 
 [tool.mypy]
 ignore_missing_imports = true # https://github.com/megalinter/megalinter/blob/main/TEMPLATES/.mypy.ini
