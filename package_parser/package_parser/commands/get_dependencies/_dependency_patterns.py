@@ -2,7 +2,7 @@ dependency_matcher_patterns = {
     "pattern_parameter_used_condition": [
         {
             "RIGHT_ID": "used",
-            "RIGHT_ATTRS": {"ORTH": "used"}
+            "RIGHT_ATTRS": {"ORTH": {"IN": ["used", "Used"]}}
         },
         {
             "LEFT_ID": "used",
@@ -20,7 +20,7 @@ dependency_matcher_patterns = {
     "pattern_parameter_ignored_condition": [
         {
             "RIGHT_ID": "ignored",
-            "RIGHT_ATTRS": {"ORTH": "ignored"}
+            "RIGHT_ATTRS": {"ORTH": {"IN": ["ignored", "Ignored"]}}
         },
         {
             "LEFT_ID": "ignored",
