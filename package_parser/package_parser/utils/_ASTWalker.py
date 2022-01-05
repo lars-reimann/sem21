@@ -1,10 +1,10 @@
-from typing import Any, Callable, Type, Optional
+from typing import Any, Callable, Optional, Type
 
 import astroid
 
 _EnterAndLeaveFunctions = tuple[
     Optional[Callable[[astroid.NodeNG], None]],
-    Optional[Callable[[astroid.NodeNG], None]]
+    Optional[Callable[[astroid.NodeNG], None]],
 ]
 
 
@@ -53,14 +53,10 @@ class ASTWalker:
             handler = self._handler
             class_name = klass.__name__.lower()
             enter_method = getattr(
-                handler,
-                f"enter_{class_name}",
-                getattr(handler, "enter_default", None)
+                handler, f"enter_{class_name}", getattr(handler, "enter_default", None)
             )
             leave_method = getattr(
-                handler,
-                f"leave_{class_name}",
-                getattr(handler, "leave_default", None)
+                handler, f"leave_{class_name}", getattr(handler, "leave_default", None)
             )
             self._cache[klass] = (enter_method, leave_method)
         else:
