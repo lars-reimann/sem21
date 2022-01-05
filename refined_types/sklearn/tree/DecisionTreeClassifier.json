@@ -1,88 +1,107 @@
 {
-    "sklearn.tree.DecisionTreeClassifier": {
-        "criterion": {
-            "docs": [
-                "criterion : {\"gini\", \"entropy\"}, default=\"gini\""
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "gini"
-                },
-                {
-                    "type": "str",
-                    "value": "entropy"
-                }
-            ]
+    "sklearn.tree.DecisionTreeClassifier":{
+        "criterion":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"gini"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"entropy"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'gini'', 'entropy'}, default='gini'",
+                "description":"The function to measure the quality of a split. Supported criteria are “gini” for the Gini impurity and “entropy” for the information gain."
+            }
         },
-        "splitter": {
-            "docs": [
-                "splitter : {\"best\", \"random\"}, default=\"best\""
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "best"
-                },
-                {
-                    "type": "str",
-                    "value": "random"
-                }
-            ]
+        "splitter":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"best"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"random"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'best', 'random'}, default='best'",
+                "description":"The strategy used to choose the split at each node. Supported strategies are “best” to choose the best split and “random” to choose the best random split."
+            }
         },
-        "max_features": {
-            "docs": [
-                "max_features : int, float or {\"auto\", \"sqrt\", \"log2\"}, default=None"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "auto"
-                },
-                {
-                    "type": "str",
-                    "value": "sqrt"
-                },
-                {
-                    "type": "str",
-                    "value": "log2"
-                },
-                {
-                    "type": "int"
-                },
-                {
-                    "type": "float"
-                }
-            ]
+        "max_features":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"int"
+                    },
+                    {
+                        "kind":"float"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"sqrt"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"log2"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"int, float or {'auto', 'sqrt', 'log2'}, default=None",
+                "description":"The number of features to consider when looking for the best split:\n\nIf int, then consider max_features features at each split.\n\nIf float, then max_features is a fraction and int(max_features * n_features) features are considered at each split.\n\nIf “auto”, then max_features=sqrt(n_features).\n\nIf “sqrt”, then max_features=sqrt(n_features).\n\nIf “log2”, then max_features=log2(n_features).\n\nIf None, then max_features=n_features.\n\nNote: the search for a split does not stop until at least one valid partition of the node samples is found, even if it requires to effectively inspect more than max_features features.\n\n"
+            }
         },
-        "class_weight": {
-            "docs": [
-                "class_weight : dict, list of dict or \"balanced\", default=None"
-            ],
-            "cases": [
-                {
-                    "type": "dict"
-                },
-                {
-                    "type": "str",
-                    "value": "balanced"
-                },
-                {
-                    "type": "list"
-                }
-            ]
+        "class_weight":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"dict"
+                    },
+                    {
+                        "kind":"list"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"balanced"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"dict, list of dict or 'balanced', default=None",
+                "description":"Weights associated with classes in the form {class_label: weight}. If None, all classes are supposed to have weight one. For multi-output problems, a list of dicts can be provided in the same order as the columns of y.\n\nNote that for multioutput (including multilabel) weights should be defined for each class of every column in its own dict. For example, for four-class multilabel classification weights should be [{0: 1, 1: 1}, {0: 1, 1: 5}, {0: 1, 1: 1}, {0: 1, 1: 1}] instead of [{1:1}, {2:5}, {3:1}, {4:1}].\n\nThe “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y))\n\nFor multi-output, the weights of each column of y will be multiplied.\n\nNote that these weights will be multiplied with sample_weight (passed through the fit method) if sample_weight is specified."
+            }
         },
-        "ccp_alpha": {
-            "docs": [
-                "ccp_alpha : non-negative float, default=0.0"
-            ],
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "minInclusive": true
-                }
-            ]
+        "ccp_alpha":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "kind":"BoundaryType",
+                        "name":"non-negative float"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"non-negative float, default=0.0",
+                "description":"Complexity parameter used for Minimal Cost-Complexity Pruning. The subtree with the largest cost complexity that is smaller than ccp_alpha will be chosen. By default, no pruning is performed."
+            }
         }
     }
 }
