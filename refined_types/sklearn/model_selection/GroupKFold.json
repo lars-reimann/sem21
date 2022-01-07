@@ -1,17 +1,20 @@
 {
-    "sklearn.model_selection.GroupKFold": {
-        "n_splits": {
-            "cases": [
-                {
-                    "type": "int",
-                    "min": 2,
-                    "minInclusive": true
-                }
-            ],
-            "docs": [
-                "n_splits : int, default=5",
-                "Must be at least 2"
-            ]
+    "sklearn.model_selection.GroupKFold":{
+        "n_splits":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"int",
+                        "min":2,
+                        "minInclusive":true
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"int, default=5",
+                "description":"Number of folds. Must be at least 2"
+            }
         }
     }
 }

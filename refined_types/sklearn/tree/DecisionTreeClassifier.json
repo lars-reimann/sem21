@@ -93,7 +93,7 @@
                 "kind":"BoundaryType",
                 "types":[
                     {
-                        "kind":"BoundaryType",
+                        "kind":"float",
                         "name":"non-negative float"
                     }
                 ]

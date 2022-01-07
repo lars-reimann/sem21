@@ -1,40 +1,46 @@
 {
-    "sklearn.model_selection.train_test_split": {
-        "test_size": {
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "max": 1,
-                    "minInclusive": true,
-                    "maxInclusive": true
-                },
-                {
-                    "type": "int"
-                }
-            ],
-            "docs": [
-                "test_size : float or int, default=None",
-                "If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the test split"
-            ]
+    "sklearn.model_selection.train_test_split":{
+        "test_size":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"float",
+                        "min":0,
+                        "max":1,
+                        "minInclusive":true,
+                        "maxInclusive":true
+                    },
+                    {
+                        "type":"int"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float or int, default=None",
+                "description":"If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the test split"
+            }
         },
-        "train_size": {
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "max": 1,
-                    "minInclusive": true,
-                    "maxInclusive": true
-                },
-                {
-                    "type": "int"
-                }
-            ],
-            "docs": [
-                "train_size : float or int, default=None",
-                "If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split"
-            ]
+        "train_size":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"float",
+                        "min":0,
+                        "max":1,
+                        "minInclusive":true,
+                        "maxInclusive":true
+                    },
+                    {
+                        "type":"int"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float or int, default=None",
+                "description":"If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split"
+            }
         }
     }
 }

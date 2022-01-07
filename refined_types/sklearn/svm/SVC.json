@@ -1,91 +1,113 @@
 {
-    "sklearn.svm.SVC": {
-        "C": {
-            "docs": [
-                "C : float, default=1.0",
-                "Must be strictly positive"
-            ],
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "minInclusive": false
-                }
-            ]
+    "sklearn.svm.SVC":{
+        "C":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "kind":"float",
+                        "min":0,
+                        "minInclusive":false
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float, default=1.0",
+                "description":"Must be strictly positive"
+            }
         },
-        "kernel": {
-            "docs": [
-                "kernel : {'linear', 'poly', 'rbf', 'sigmoid', 'precomputed'}, default='rbf'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "linear"
-                },
-                {
-                    "type": "str",
-                    "value": "poly"
-                },
-                {
-                    "type": "str",
-                    "value": "rbf"
-                },
-                {
-                    "type": "str",
-                    "value": "sigmoid"
-                },
-                {
-                    "type": "str",
-                    "value": "precomputed"
-                }
-            ]
+        "kernel":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"linear"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"poly"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"rbf"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"sigmoid"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"precomputed"
+                    },
+                    {
+                        "kind":"callable"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'linear', 'poly', 'rbf', 'sigmoid', 'precomputed'} or callable, default='rbf'",
+                "description":"Specifies the kernel type to be used in the algorithm. If none is given, ‘rbf’ will be used. If a callable is given it is used to pre-compute the kernel matrix from data matrices; that matrix should be an array of shape (n_samples, n_samples)."
+            }
         },
-        "gamma": {
-            "docs": [
-                "gamma : {'scale', 'auto'} or float, default='scale'"
-            ],
-            "cases": [
-                {
-                    "type": "float"
-                },
-                {
-                    "type": "str",
-                    "value": "scale"
-                },
-                {
-                    "type": "str",
-                    "value": "auto"
-                }
-            ]
+        "gamma":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"scale"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"float"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'scale', 'auto'} or float, default='scale'",
+                "description":"Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’.\n\nif gamma='scale' (default) is passed then it uses 1 / (n_features * X.var()) as value of gamma,\n\nif ‘auto’, uses 1 / n_features."
+            }
         },
-        "class_weight": {
-            "docs": [
-                "class_weight : dict or 'balanced', default=None"
-            ],
-            "cases": [
-                {
-                    "type": "dict"
-                },
-                {
-                    "type": "str",
-                    "value": "balanced"
-                }
-            ]
+        "class_weight":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"dict"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"balanced"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"dict or 'balanced', default=None",
+                "description":"Set the parameter C of class i to class_weight[i]*C for SVC. If not given, all classes are supposed to have weight one. The “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y))."
+            }
         },
-        "decision_function_shape": {
-            "docs": [
-                "decision_function_shape : {'ovo', 'ovr'}, default='ovr'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "ovo"
-                },
-                {
-                    "type": "str",
-                    "value": "ovr"
-                }
-            ]
+        "decision_function_shape":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"ovo"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"ovr"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'ovo', 'ovr'}, default='ovr'",
+                "description":"Whether to return a one-vs-rest (‘ovr’) decision function of shape (n_samples, n_classes) as all other classifiers, or the original one-vs-one (‘ovo’) decision function of libsvm which has shape (n_samples, n_classes * (n_classes - 1) / 2). However, one-vs-one (‘ovo’) is always used as multi-class strategy. The parameter is ignored for binary classification."
+            }
         }
     }
 }

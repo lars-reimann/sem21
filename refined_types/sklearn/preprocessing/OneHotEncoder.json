@@ -1,51 +1,63 @@
 {
-    "sklearn.preprocessing.OneHotEncoder": {
-        "categories": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "auto"
-                },
-                {
-                    "type": "list"
-                }
-            ],
-            "docs": [
-                "categories : 'auto' or a list of array-like, default='auto'"
-            ]
+    "sklearn.preprocessing.OneHotEncoder":{
+        "categories":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"list"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"auto' or a list of array-like, default='auto'",
+                "description":"Categories (unique values) per feature:\n\n‘auto’ : Determine categories automatically from the training data.\n\nlist : categories[i] holds the categories expected in the ith column. The passed categories should not mix strings and numeric values within a single feature, and should be sorted in case of numeric values.\n\nThe used categories can be found in the categories_ attribute."
+            }
         },
-        "drop": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "first"
-                },
-                {
-                    "type": "str",
-                    "value": "if_binary"
-                },
-                {
-                    "type": "array-like"
-                }
-            ],
-            "docs": [
-                "drop : {'first', 'if_binary'} or a array-like of shape (n_features,), default=None"
-            ]
+        "drop":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"first"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"if_binary"
+                    },
+                    {
+                        "kind":"array-like"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'first', 'if_binary'} or a array-like of shape (n_features,), default=None",
+                "description":"Specifies a methodology to use to drop one of the categories per feature. This is useful in situations where perfectly collinear features cause problems, such as when feeding the resulting data into a neural network or an unregularized regression.\n\nHowever, dropping one category breaks the symmetry of the original representation and can therefore induce a bias in downstream models, for instance for penalized linear classification or regression models.\n\nNone : retain all features (the default).\n\n‘first’ : drop the first category in each feature. If only one category is present, the feature will be dropped entirely.\n\n‘if_binary’ : drop the first category in each feature with two categories. Features with 1 or more than 2 categories are left intact.\n\narray : drop[i] is the category in feature X[:, i] that should be dropped."
+            }
         },
-        "handle_unknown": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "error"
-                },
-                {
-                    "type": "str",
-                    "value": "ignore"
-                }
-            ],
-            "docs": [
-                "handle_unknown : {'error', 'ignore'}, default='error'"
-            ]
+        "handle_unknown":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"error"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"ignore"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'error', 'ignore'}, default='error'",
+                "description":"Whether to raise an error or ignore if an unknown categorical feature is present during transform (default is to raise). When this parameter is set to ‘ignore’ and an unknown category is encountered during transform, the resulting one-hot encoded columns for this feature will be all zeros. In the inverse transform, an unknown category will be denoted as None."
+            }
         }
     }
 }
