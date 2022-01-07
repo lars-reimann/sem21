@@ -2,6 +2,7 @@ from typing import Dict, List, Tuple, Union
 
 import spacy
 from spacy.matcher import DependencyMatcher
+from spacy.tokens import Token
 from spacy.tokens.doc import Doc
 
 from ..get_api._model import API, Action, Condition, Dependency, Parameter
@@ -11,9 +12,56 @@ from ._preprocess_docstring import preprocess_docstring
 PIPELINE = "en_core_web_sm"
 
 
+def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None]=None):
+    if extracted is None:
+        extracted = []
+    token_lefts = list(curr_token.lefts)
+    for token in token_lefts:
+        if list(token.lefts):
+            extract_lefts_and_rights(token, extracted)
+        extracted.append(token.text)
+        if list(token.rights):
+            extract_lefts_and_rights(token, extracted)
+
+    extracted.append(curr_token.text)
+
+    token_rights = list(curr_token.rights)
+    for token in token_rights:
+        if list(token.lefts):
+            extract_lefts_and_rights(token, extracted)
+        extracted.append(token.text)
+        if list(token.rights):
+            extract_lefts_and_rights(token, extracted)
+
+    return extracted
+
+
+def extract_action(action_token: Token, condition_token: Token):
+    action_tokens = []
+    action_lefts = list(action_token.lefts)
+    action_rights = list(action_token.rights)
+
+    for token in action_lefts:
+        if token != condition_token:
+            action_tokens.extend(extract_lefts_and_rights(token))
+    action_tokens.append(action_token.text)
+    for token in action_rights:
+        if token != condition_token and token.text != '.':
+            action_tokens.extend(extract_lefts_and_rights(token))
+    
+    action_text = ' '.join(action_tokens)
+    return Action(action=action_text)
+
+
+def extract_condition(condition_token):
+    condition_token_subtree = list(condition_token.subtree)
+    condition_text = " ".join([token.text for token in condition_token_subtree])
+    return Condition(condition=condition_text)
+
+
 class DependencyExtractor:
     @staticmethod
-    def extract_pattern_parameter_used_condition(
+    def extract_pattern_parameter_sconj(
         dependent_param: Parameter,
         func_parameters: List[Parameter],
         match: Tuple,
@@ -30,79 +78,12 @@ class DependencyExtractor:
         if is_depending_on_param is None:
             # Likely not a correct dependency match
             return None
+        
+        condition_token = param_docstring[match[1][1]]
+        condition = extract_condition(condition_token)
 
-        condition_verb = param_docstring[match[1][1]]
-        condition_verb_subtree = list(condition_verb.subtree)
-        condition_text = " ".join([token.text for token in condition_verb_subtree])
-        condition = Condition(condition=condition_text)
-
-        action = Action(action="used")
-
-        return Dependency(
-            hasDependentParameter=dependent_param,
-            isDependingOn=is_depending_on_param,
-            hasCondition=condition,
-            hasAction=action,
-        )
-
-    @staticmethod
-    def extract_pattern_parameter_ignored_condition(
-        dependent_param: Parameter,
-        func_parameters: List[Parameter],
-        match: Tuple,
-        param_docstring: Doc,
-    ) -> Union[Dependency, None]:
-        is_depending_on_param_index = match[1][2]
-        is_depending_on_param_name = param_docstring[is_depending_on_param_index].text
-        is_depending_on_param = next(
-            filter(
-                lambda param: param.name == is_depending_on_param_name, func_parameters
-            ),
-            None,
-        )
-        if is_depending_on_param is None:
-            # Likely not a correct dependency match
-            return None
-
-        condition_verb = param_docstring[match[1][1]]
-        condition_verb_subtree = list(condition_verb.subtree)
-        condition_text = " ".join([token.text for token in condition_verb_subtree])
-        condition = Condition(condition=condition_text)
-
-        action = Action(action="ignored")
-
-        return Dependency(
-            hasDependentParameter=dependent_param,
-            isDependingOn=is_depending_on_param,
-            hasCondition=condition,
-            hasAction=action,
-        )
-
-    @staticmethod
-    def extract_pattern_parameter_applies_condition(
-        dependent_param: Parameter,
-        func_parameters: List[Parameter],
-        match: Tuple,
-        param_docstring: Doc,
-    ) -> Union[Dependency, None]:
-        is_depending_on_param_index = match[1][2]
-        is_depending_on_param_name = param_docstring[is_depending_on_param_index].text
-        is_depending_on_param = next(
-            filter(
-                lambda param: param.name == is_depending_on_param_name, func_parameters
-            ),
-            None,
-        )
-        if is_depending_on_param is None:
-            # Likely not a correct dependency match
-            return None
-
-        condition_verb = param_docstring[match[1][1]]
-        condition_verb_subtree = list(condition_verb.subtree)
-        condition_text = " ".join([token.text for token in condition_verb_subtree])
-        condition = Condition(condition=condition_text)
-
-        action = Action(action="applies")
+        action_token = param_docstring[match[1][0]]
+        action = extract_action(action_token, condition_token)
 
         return Dependency(
             hasDependentParameter=dependent_param,
