@@ -94,7 +94,8 @@
                 "types":[
                     {
                         "kind":"float",
-                        "name":"non-negative float"
+                        "min":0,
+                        "minInclusive":false
                     }
                 ]
             },

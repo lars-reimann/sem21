@@ -1,19 +1,23 @@
 {
-    "sklearn.metrics.cohen_kappa_score": {
-        "weights": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "linear"
-                },
-                {
-                    "type": "str",
-                    "value": "quadratic"
-                }
-            ],
-            "docs": [
-                "weights : {'linear', 'quadratic'}, default=None"
-            ]
+    "sklearn.metrics.cohen_kappa_score":{
+        "weights":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"linear"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"quadratic"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'linear', 'quadratic'}, default=None",
+                "description":"Weighting type to calculate the score. None means no weighted; “linear” means linear weighted; “quadratic” means quadratic weighted."
+            }
         }
     }
 }

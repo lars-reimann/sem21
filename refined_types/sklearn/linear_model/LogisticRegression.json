@@ -1,125 +1,151 @@
 {
-    "sklearn.linear_model.LogisticRegression": {
-        "penalty": {
-            "docs": [
-                "penalty : {'l1', 'l2', 'elasticnet', 'none'}, default='l2'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "vaue": "l1"
-                },
-                {
-                    "type": "str",
-                    "vaue": "l2"
-                },
-                {
-                    "type": "str",
-                    "vaue": "elasticnet"
-                },
-                {
-                    "type": "str",
-                    "vaue": "none"
-                }
-            ]
+    "sklearn.linear_model.LogisticRegression":{
+        "penalty":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"l1"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"l2"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"elasticnet"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"none"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'l1', 'l2', 'elasticnet', 'none'}, default='l2'",
+                "description":"Specify the norm of the penalty:\n\n'none': no penalty is added;\n\n'l2': add a L2 penalty term and it is the default choice;\n\n'l1': add a L1 penalty term;\n\n'elasticnet': both L1 and L2 penalty terms are added."
+            }
         },
-        "C": {
-            "docs": [
-                "C : float, default=1.0",
-                "Inverse of regularization strength; must be a positive float"
-            ],
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0
-                }
-            ]
+        "C":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"float",
+                        "min":0
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float, default=1.0",
+                "description":"Inverse of regularization strength; must be a positive float"
+            }
         },
-        "class_weight": {
-            "docs": [
-                "class_weight : dict or 'balanced', default=None"
-            ],
-            "cases": [
-                {
-                    "type": "dict"
-                },
-                {
-                    "type": "str",
-                    "value": "balanced"
-                }
-            ]
+        "class_weight":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"dict"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"balanced"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"dict or 'balanced', default=None",
+                "description":"Weights associated with classes in the form {class_label: weight}. If not given, all classes are supposed to have weight one.\n\nThe “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y)).\n\nNote that these weights will be multiplied with sample_weight (passed through the fit method) if sample_weight is specified."
+            }
         },
-        "solver": {
-            "docs": [
-                "solver : {'newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'}, default='lbfgs'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "newton-cg"
-                },
-                {
-                    "type": "str",
-                    "value": "lbfgs"
-                },
-                {
-                    "type": "str",
-                    "value": "liblinear"
-                },
-                {
-                    "type": "str",
-                    "value": "sag"
-                },
-                {
-                    "type": "str",
-                    "value": "saga"
-                }
-            ]
+        "solver":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"newton-cg"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"lbfgs"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"liblinear"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"sag"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"saga"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'}, default='lbfgs'",
+                "description":"Algorithm to use in the optimization problem. Default is ‘lbfgs’. To choose a solver, you might want to consider the following aspects:\n\nFor small datasets, ‘liblinear’ is a good choice, whereas ‘sag’ and ‘saga’ are faster for large ones;\n\nFor multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’ handle multinomial loss;\n\n‘liblinear’ is limited to one-versus-rest schemes.\n\n"
+            }
         },
-        "multi_class": {
-            "docs": [
-                "multi_class : {'auto', 'ovr', 'multinomial'}, default='auto'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "auto"
-                },
-                {
-                    "type": "str",
-                    "value": "ovr"
-                },
-                {
-                    "type": "str",
-                    "value": "multinomial"
-                }
-            ]
+        "multi_class":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"ovr"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"multinomial"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'auto', 'ovr', 'multinomial'}, default='auto'",
+                "description":"If the option chosen is ‘ovr’, then a binary problem is fit for each label. For ‘multinomial’ the loss minimised is the multinomial loss fit across the entire probability distribution, even when the data is binary. ‘multinomial’ is unavailable when solver=’liblinear’. ‘auto’ selects ‘ovr’ if the data is binary, or if solver=’liblinear’, and otherwise selects ‘multinomial’."
+            }
         },
-        "verbose": {
-            "docs": [
-                "For the liblinear and lbfgs solvers set verbose to any positive number for verbosity"
-            ],
-            "cases": [
-                {
-                    "type": "int",
-                    "min": 0
-                }
-            ]
+        "verbose":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"int",
+                        "min":0
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"int, default=0",
+                "description":"For the liblinear and lbfgs solvers set verbose to any positive number for verbosity"
+            }
         },
-        "l1_ratio": {
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "minInclusive": true,
-                    "max": 1,
-                    "maxInclusive": true
-                }
-            ],
-            "docs": [
-                "l1_ratio : float, default=0.5",
-                "The ElasticNet mixing parameter, with ``0 <= l1_ratio <= 1``"
-            ]
+        "l1_ratio":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"float",
+                        "min":0,
+                        "minInclusive":true,
+                        "max":1,
+                        "maxInclusive":true
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float, default=0.5",
+                "description":"The ElasticNet mixing parameter, with '0 <= l1_ratio <= 1'"
+            }
         }
     }
 }

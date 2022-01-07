@@ -1,136 +1,153 @@
 {
-    "sklearn.linear_model.SGDClassifier": {
-        "loss": {
-            "docs": [
-                "loss : str, default='hinge'",
-                "The possible options are 'hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron', or a regression loss: 'squared_error', 'huber', 'epsilon_insensitive', or 'squared_epsilon_insensitive'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "hinge"
-                },
-                {
-                    "type": "str",
-                    "value": "log"
-                },
-                {
-                    "type": "str",
-                    "value": "modified_huber"
-                },
-                {
-                    "type": "str",
-                    "value": "squared_hinge"
-                },
-                {
-                    "type": "str",
-                    "value": "perceptron"
-                },
-                {
-                    "type": "str",
-                    "value": "squared_error"
-                },
-                {
-                    "type": "str",
-                    "value": "huber"
-                },
-                {
-                    "type": "str",
-                    "value": "epsilon_insensitive"
-                },
-                {
-                    "type": "str",
-                    "value": "squared_epsilon_insensitive"
-                }
-            ]
+    "sklearn.linear_model.SGDClassifier":{
+        "loss":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"hinge"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"log"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"modified_huber"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"squared_hinge"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"perceptron"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"squared_error"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"huber"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"epsilon_insensitive"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"squared_epsilon_insensitive"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"str, default=’hinge’",
+                "description":"The loss function to be used. Defaults to ‘hinge’, which gives a linear SVM.\n\nThe possible options are ‘hinge’, ‘log’, ‘modified_huber’, ‘squared_hinge’, ‘perceptron’, or a regression loss: ‘squared_error’, ‘huber’, ‘epsilon_insensitive’, or ‘squared_epsilon_insensitive’.\n\nThe ‘log’ loss gives logistic regression, a probabilistic classifier. ‘modified_huber’ is another smooth loss that brings tolerance to outliers as well as probability estimates. ‘squared_hinge’ is like hinge but is quadratically penalized. ‘perceptron’ is the linear loss used by the perceptron algorithm. The other losses are designed for regression but can be useful in classification as well; see SGDRegressor for a description."
+            }
         },
-        "penalty": {
-            "docs": [
-                "penalty : {'l2', 'l1', 'elasticnet'}, default='l2'"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "l1"
-                },
-                {
-                    "type": "str",
-                    "value": "l2"
-                },
-                {
-                    "type": "str",
-                    "value": "elasticnet"
-                }
-            ]
+        "penalty":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"l2"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"l1"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"elasticnet"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'l2', 'l1', 'elasticnet'}, default='l2'",
+                "description":"The penalty (aka regularization term) to be used. Defaults to ‘l2’ which is the standard regularizer for linear SVM models. ‘l1’ and ‘elasticnet’ might bring sparsity to the model (feature selection) not achievable with ‘l2’."
+            }
         },
-        "l1_ratio": {
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "minInclusive": true,
-                    "max": 1,
-                    "maxInclusive": true
-                }
-            ],
-            "docs": [
-                "l1_ratio : float, default=0.5",
-                "The ElasticNet mixing parameter, with ``0 <= l1_ratio <= 1``"
-            ]
+        "l1_ratio":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"float",
+                        "min":0,
+                        "minInclusive":true,
+                        "max":1,
+                        "maxInclusive":true
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float, default=0.5",
+                "description":"The ElasticNet mixing parameter, with '0 <= l1_ratio <= 1'"
+            }
         },
-        "learning_rate": {
-            "docs": [
-                "learning_rate : str, default='optimal'",
-                "- 'constant': `eta = eta0`",
-                "- 'optimal': `eta = 1.0 / (alpha * (t + t0))` where t0 is chosen by a heuristic proposed by Leon Bottou",
-                "- 'invscaling': `eta = eta0 / pow(t, power_t)`",
-                "- 'adaptive': eta = eta0, as long as the training keeps decreasing"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "constant"
-                },
-                {
-                    "type": "str",
-                    "value": "optimal"
-                },
-                {
-                    "type": "str",
-                    "value": "invscaling"
-                },
-                {
-                    "type": "str",
-                    "value": "adaptive"
-                }
-            ]
+        "learning_rate":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"constant"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"optimal"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"invscaling"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"adaptive"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"str, default='optimal'",
+                "description":"The learning rate schedule:\n\n‘constant’: eta = eta0\n\n‘optimal’: eta = 1.0 / (alpha * (t + t0)) where t0 is chosen by a heuristic proposed by Leon Bottou.\n\n‘invscaling’: eta = eta0 / pow(t, power_t)\n\n‘adaptive’: eta = eta0, as long as the training keeps decreasing. Each time n_iter_no_change consecutive epochs fail to decrease the training loss by tol or fail to increase validation score by tol if early_stopping is True, the current learning rate is divided by 5."
+            }
         },
-        "validation_fraction": {
-            "docs": [
-                "validation_fraction : float, default=0.1",
-                "Must be between 0 and 1"
-            ],
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "max": 1
-                }
-            ]
+        "validation_fraction":{
+            "type":{
+                "kind":"BoundaryType",
+                "types":[
+                    {
+                        "type":"float",
+                        "min":0,
+                        "max":1
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"float, default=0.1",
+                "description":"Must be between 0 and 1"
+            }
         },
-        "class_weight": {
-            "docs": [
-                "class_weight : dict, {class_label: weight} or \"balanced\", default=None"
-            ],
-            "cases": [
-                {
-                    "type": "dict"
-                },
-                {
-                    "type": "str",
-                    "value": "balanced"
-                }
-            ]
+        "class_weight":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"dict"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"balanced"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"dict, {class_label: weight} or 'balanced', default=None",
+                "description":"Preset for the class_weight fit parameter.\n\nWeights associated with classes. If not given, all classes are supposed to have weight one.\n\nThe “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y))."
+            }
         }
     }
 }

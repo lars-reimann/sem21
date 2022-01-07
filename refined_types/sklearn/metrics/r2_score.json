@@ -1,26 +1,30 @@
 {
-    "sklearn.metrics.r2_score": {
-        "multioutput": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "raw_values"
-                },
-                {
-                    "type": "str",
-                    "value": "uniform_average"
-                },
-                {
-                    "type": "str",
-                    "value": "variance_weighted"
-                },
-                {
-                    "type": "array-like"
-                }
-            ],
-            "docs": [
-                "multioutput : {'raw_values', 'uniform_average', 'variance_weighted'}, array-like of shape (n_outputs,) or None, default='uniform_average'"
-            ]
+    "sklearn.metrics.r2_score":{
+        "multioutput":{
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"raw_values"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"uniform_average"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"variance_weighted"
+                    },
+                    {
+                        "kind":"array-like"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'raw_values', 'uniform_average', 'variance_weighted'}, array-like of shape (n_outputs,) or None, default='uniform_average'",
+                "description":"Defines aggregating of multiple output scores. Array-like value defines weights used to average scores. Default is “uniform_average”.\n\n‘raw_values’ :\nReturns a full set of scores in case of multioutput input.\n\n‘uniform_average’ :\nScores of all outputs are averaged with uniform weight.\n\n‘variance_weighted’ :\nScores of all outputs are averaged, weighted by the variances of each individual output."
+            }
         }
     }
 }

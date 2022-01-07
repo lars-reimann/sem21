@@ -1,23 +1,27 @@
 {
-    "sklearn.metrics.confusion_matrix": {
-        "normalize": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "true"
-                },
-                {
-                    "type": "str",
-                    "value": "pred"
-                },
-                {
-                    "type": "str",
-                    "value": "all"
-                }
-            ],
-            "docs": [
-                "normalize : {'true', 'pred', 'all'}, default=None"
-            ]
+    "sklearn.metrics.confusion_matrix":{
+        "normalize":{
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"true"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"pred"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"all"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'true', 'pred', 'all'}, default=None",
+                "description":"Normalizes confusion matrix over the true (rows), predicted (columns) conditions or all the population. If None, confusion matrix will not be normalized."
+            }
         }
     }
 }

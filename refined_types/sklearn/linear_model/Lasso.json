@@ -1,36 +1,23 @@
 {
-    "sklearn.linear_model.Lasso": {
-        "precompute": {
-            "docs": [
-                "precompute : 'auto', bool or array-like of shape (n_features, n_features)"
-            ],
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "auto"
-                },
-                {
-                    "type": "bool"
-                },
-                {
-                    "type": "array-like"
-                }
-            ]
-        },
+    "sklearn.linear_model.Lasso":{
         "selection": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "cyclic"
-                },
-                {
-                    "type": "str",
-                    "value": "random"
-                }
-            ],
-            "docs": [
-                "selection : {'cyclic', 'random'}, default='cyclic'"
-            ]
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"cyclic"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"random"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'cyclic', 'random'}, default='cyclic'",
+                "description":"If set to ‘random’, a random coefficient is updated every iteration rather than looping over features sequentially by default. This (setting to ‘random’) often leads to significantly faster convergence especially when tol is higher than 1e-4."
+            }
         }
     }
 }
