@@ -15,23 +15,16 @@ PIPELINE = "en_core_web_sm"
 def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None]=None):
     if extracted is None:
         extracted = []
+
     token_lefts = list(curr_token.lefts)
     for token in token_lefts:
-        if list(token.lefts):
-            extract_lefts_and_rights(token, extracted)
-        extracted.append(token.text)
-        if list(token.rights):
-            extract_lefts_and_rights(token, extracted)
+        extract_lefts_and_rights(token, extracted)
 
     extracted.append(curr_token.text)
 
     token_rights = list(curr_token.rights)
     for token in token_rights:
-        if list(token.lefts):
-            extract_lefts_and_rights(token, extracted)
-        extracted.append(token.text)
-        if list(token.rights):
-            extract_lefts_and_rights(token, extracted)
+        extract_lefts_and_rights(token, extracted)
 
     return extracted
 
@@ -46,7 +39,7 @@ def extract_action(action_token: Token, condition_token: Token):
             action_tokens.extend(extract_lefts_and_rights(token))
     action_tokens.append(action_token.text)
     for token in action_rights:
-        if token != condition_token and token.text != '.':
+        if token != condition_token:
             action_tokens.extend(extract_lefts_and_rights(token))
     
     action_text = ' '.join(action_tokens)
