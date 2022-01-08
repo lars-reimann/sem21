@@ -140,14 +140,18 @@ def get_dependencies(api: API) -> Dict:
             docstring = parameter.docstring.description
             docstring_preprocessed = preprocess_docstring(docstring)
             doc = nlp(docstring_preprocessed)
-            dependency_matches = matcher(doc)
-            param_dependencies = extract_dependencies_from_docstring(
-                parameter,
-                parameters,
-                doc,
-                dependency_matches,
-                spacy_id_to_pattern_id_mapping,
-            )
+            param_dependencies = []
+            for sentence in doc.sents:
+                sentence_dependency_matches = matcher(sentence)
+                sentence_dependencies = extract_dependencies_from_docstring(
+                    parameter,
+                    parameters,
+                    sentence,
+                    sentence_dependency_matches,
+                    spacy_id_to_pattern_id_mapping,
+                )
+                if sentence_dependencies:
+                    param_dependencies.extend(sentence_dependencies)
             if param_dependencies:
                 all_dependencies[function_name][parameter.name] = param_dependencies
 
