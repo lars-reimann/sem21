@@ -618,6 +618,18 @@ def visitAst(ast):
         #handle return
         visitAst(ast.value)
 
+    if isinstance(ast, Astroid.Await):
+        #handle value
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.IfExp):
+        #handle body
+        visitAst(ast.body)
+        # handle orelse
+        visitAst(ast.orelse)
+        # handle test
+        visitAst(ast.test)
+
     if isinstance(ast, Astroid.Keyword):
         #handle keyword
         #visitAst(ast.arg) TODO is this necessary? since we can only set the parameters...?
