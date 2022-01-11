@@ -13,7 +13,8 @@
                         "name":"uniform_average"
                     },
                     {
-                        "kind":"array-like"
+                        "kind": "NamedType",
+                        "name":"array-like"
                     }
                 ]
             },

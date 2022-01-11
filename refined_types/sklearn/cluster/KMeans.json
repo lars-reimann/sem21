@@ -1,32 +1,53 @@
 {
     "sklearn.cluster.KMeans": {
         "init": {
-            "type": [
-                "callable",
-                "array-like",
-                "enum"
-            ],
-            "enum": [
-                "k-means++",
-                "random"
-            ],
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"k-means++"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"random"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "callable"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "array-like"
+                    }
+                ]
+            },
             "docstring": {
-                "type": "{'k-means++', 'random'}, callable or array-like of shape             (n_clusters, n_features), default='k-means++'",
+                "type": "{'k-means++', 'random'}, callable or array-like of shape (n_clusters, n_features), default='k-means++'",
                 "description": "Method for initialization:\n\n'k-means++' : selects initial cluster centers for k-mean\nclustering in a smart way to speed up convergence. See section\nNotes in k_init for more details.\n\n'random': choose `n_clusters` observations (rows) at random from data\nfor the initial centroids.\n\nIf an array is passed, it should be of shape (n_clusters, n_features)\nand gives the initial centers.\n\nIf a callable is passed, it should take arguments X, n_clusters and a\nrandom state and return an initialization."
             }
         },
         "algorithm": {
-            "type": [
-                "enum"
-            ],
-            "enum": [
-                "full",
-                "elkan",
-                "auto"
-            ],
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"full"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"elkan"
+                    }
+                ]
+            },
             "docstring": {
-                "type": "{\"auto\", \"full\", \"elkan\"}, default=\"auto\"",
-                "description": "K-means algorithm to use. The classical EM-style algorithm is \"full\".\nThe \"elkan\" variation is more efficient on data with well-defined\nclusters, by using the triangle inequality. However it's more memory\nintensive due to the allocation of an extra array of shape\n(n_samples, n_clusters).\n\nFor now \"auto\" (kept for backward compatibility) chooses \"elkan\" but it\nmight change in the future for a better heuristic.\n\n.. versionchanged:: 0.18\n    Added Elkan algorithm"
+                "type": "{'auto', 'full', 'elkan'}, default='auto'",
+                "description": "K-means algorithm to use. The classical EM-style algorithm is \"full\". The \"elkan\" variation is more efficient on data with well-defined clusters, by using the triangle inequality. However it’s more memory intensive due to the allocation of an extra array of shape (n_samples, n_clusters).\n\nFor now \"auto\" (kept for backward compatibility) chooses \"elkan\" but it might change in the future for a better heuristic.\n\n"
             }
         }
     }

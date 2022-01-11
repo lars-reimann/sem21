@@ -30,12 +30,11 @@
         "C":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"float",
-                        "min":0
-                    }
-                ]
+                "baseType":"float",
+                "min":0,
+                "minInclusive": false,
+                "max": null,
+                "maxInclusive": false
             },
             "docstring":{
                 "type":"float, default=1.0",
@@ -47,7 +46,8 @@
                 "kind":"UnionType",
                 "types":[
                     {
-                        "kind":"dict"
+                        "kind": "NamedType",
+                        "name":"dict"
                     },
                     {
                         "kind":"EnumType",
@@ -117,12 +117,11 @@
         "verbose":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"int",
-                        "min":0
-                    }
-                ]
+                "baseType":"int",
+                "min":0,
+                "minInclusive": false,
+                "max": null,
+                "maxInclusive": false
             },
             "docstring":{
                 "type":"int, default=0",
@@ -132,15 +131,11 @@
         "l1_ratio":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"float",
-                        "min":0,
-                        "minInclusive":true,
-                        "max":1,
-                        "maxInclusive":true
-                    }
-                ]
+                "baseType":"float",
+                "min":0,
+                "minInclusive":true,
+                "max":1,
+                "maxInclusive":true
             },
             "docstring":{
                 "type":"float, default=0.5",

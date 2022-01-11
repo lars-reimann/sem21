@@ -2,16 +2,18 @@
     "sklearn.model_selection.train_test_split":{
         "test_size":{
             "type":{
-                "kind":"BoundaryType",
+                "kind":"UnionType",
                 "types":[
                     {
-                        "type":"float",
+                        "kind":"BoundaryType",
+                        "baseType":"float",
                         "min":0,
                         "max":1,
                         "minInclusive":true,
                         "maxInclusive":true
                     },
                     {
+                        "kind": "NamedType",
                         "type":"int"
                     }
                 ]
@@ -26,13 +28,15 @@
                 "kind":"BoundaryType",
                 "types":[
                     {
-                        "type":"float",
+                        "kind":"BoundaryType",
+                        "baseType":"float",
                         "min":0,
                         "max":1,
                         "minInclusive":true,
                         "maxInclusive":true
                     },
                     {
+                        "kind": "NamedType",
                         "type":"int"
                     }
                 ]

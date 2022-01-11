@@ -73,15 +73,11 @@
         "l1_ratio":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"float",
-                        "min":0,
-                        "minInclusive":true,
-                        "max":1,
-                        "maxInclusive":true
-                    }
-                ]
+                "baseType":"float",
+                "min":0,
+                "minInclusive":true,
+                "max":1,
+                "maxInclusive":true
             },
             "docstring":{
                 "type":"float, default=0.5",
@@ -118,13 +114,11 @@
         "validation_fraction":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"float",
-                        "min":0,
-                        "max":1
-                    }
-                ]
+                "baseType":"float",
+                "min":0,
+                "minInclusive": false,
+                "max":1,
+                "maxInclusive": false
             },
             "docstring":{
                 "type":"float, default=0.1",
@@ -136,7 +130,8 @@
                 "kind":"UnionType",
                 "types":[
                     {
-                        "kind":"dict"
+                        "kind": "NamedType",
+                        "name":"dict"
                     },
                     {
                         "kind":"EnumType",

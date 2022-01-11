@@ -1,19 +1,23 @@
 {
     "sklearn.ensemble.AdaBoostClassifier": {
         "algorithm": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "SAMME"
-                },
-                {
-                    "type": "str",
-                    "value": "SAMME.R"
-                }
-            ],
-            "docs": [
-                "algorithm : {'SAMME', 'SAMME.R'}, default='SAMME.R'"
-            ]
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"SAMME"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"SAMME.R"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'SAMME', 'SAMME.R'}, default='SAMME.R'",
+                "description":"If ‘SAMME.R’ then use the SAMME.R real boosting algorithm. base_estimator must support calculation of class probabilities. If ‘SAMME’ then use the SAMME discrete boosting algorithm. The SAMME.R algorithm typically converges faster than SAMME, achieving a lower test error with fewer boosting iterations."
+            }
         }
     }
 }

@@ -1,11 +1,19 @@
 {
     "sklearn.decomposition.TruncatedSVD": {
         "algorithm": {
-            "type": ["enum"],
-            "enum": [
-                "arpack",
-                "randomized"
-            ],
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"arpack"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"randomized"
+                    }
+                ]
+            },
             "docstring": {
                 "type": "{'arpack', 'randomized'}, default='randomized'",
                 "description": "SVD solver to use. Either \"arpack\" for the ARPACK wrapper in SciPy\n(scipy.sparse.linalg.svds), or \"randomized\" for the randomized\nalgorithm due to Halko (2009)."

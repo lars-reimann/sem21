@@ -13,7 +13,8 @@
                         "name":"distance"
                     },
                     {
-                        "kind":"callable"
+                        "kind": "NamedType",
+                        "name":"callable"
                     }
                 ]
             },

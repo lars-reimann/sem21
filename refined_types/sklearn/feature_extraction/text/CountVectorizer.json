@@ -74,7 +74,8 @@
                         "name":"english"
                     },
                     {
-                        "kind":"list"
+                        "kind": "NamedType",
+                        "name":"list"
                     }
                 ]
             },
@@ -108,17 +109,19 @@
         },
         "max_df":{
             "type":{
-                "kind":"BoundaryType",
+                "kind":"UnionType",
                 "types":[
                     {
-                        "type":"float",
+                        "kind": "BoundaryType",
+                        "baseType":"float",
                         "min":0,
                         "minInclusive":true,
                         "max":1,
                         "maxInclusive":true
                     },
                     {
-                        "type":"int"
+                        "kind": "NamedType",
+                        "name":"int"
                     }
                 ]
             },
@@ -129,16 +132,18 @@
         },
         "min_df":{
             "type":{
-                "kind":"BoundaryType",
+                "kind":"UnionType",
                 "types":[
                     {
-                        "type":"float",
+                        "kind": "BoundaryType",
+                        "baseType":"float",
                         "min":0,
                         "minInclusive":true,
                         "max":1,
                         "maxInclusive":true
                     },
                     {
+                        "kind": "NamedType",
                         "type":"int"
                     }
                 ]

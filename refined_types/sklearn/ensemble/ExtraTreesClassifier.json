@@ -1,83 +1,104 @@
 {
     "sklearn.ensemble.ExtraTreesClassifier": {
         "criterion": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "gini"
-                },
-                {
-                    "type": "str",
-                    "value": "entropy"
-                }
-            ],
-            "docs": [
-                "criterion : {\"gini\", \"entropy\"}, default=\"gini\""
-            ]
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"gini"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"entropy"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{“gini”, “entropy”}, default=”gini”",
+                "description":"The function to measure the quality of a split. Supported criteria are “gini” for the Gini impurity and “entropy” for the information gain.\n\n"
+            }
         },
         "max_features": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "auto"
-                },
-                {
-                    "type": "str",
-                    "value": "sqrt"
-                },
-                {
-                    "type": "str",
-                    "value": "log2"
-                },
-                {
-                    "type": "float"
-                },
-                {
-                    "type": "int"
-                }
-            ],
-            "docs": [
-                "max_features : {\"auto\", \"sqrt\", \"log2\"}, int or float, default=\"auto\""
-            ]
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"sqrt"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name": "log2"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "float"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "int"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{“auto”, “sqrt”, “log2”}, int or float, default=”auto”",
+                "description":"The number of features to consider when looking for the best split:\n\nIf int, then consider max_features features at each split.\n\nIf float, then max_features is a fraction and round(max_features * n_features) features are considered at each split.\n\nIf “auto”, then max_features=sqrt(n_features).\n\nIf “sqrt”, then max_features=sqrt(n_features).\n\nIf “log2”, then max_features=log2(n_features).\n\nIf None, then max_features=n_features.\n\nNote: the search for a split does not stop until at least one valid partition of the node samples is found, even if it requires to effectively inspect more than max_features features.\n\n"
+            }
         },
         "class_weight": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "balanced"
-                },
-                {
-                    "type": "str",
-                    "value": "balanced_subsample"
-                },
-                {
-                    "type": "dict"
-                },
-                {
-                    "type": "list"
-                }
-            ],
-            "docs": [
-                "class_weight : {\"balanced\", \"balanced_subsample\"}, dict or list of dicts, default=None"
-            ]
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"balanced"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"balanced_subsample"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "dict"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "list"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{“balanced”, “balanced_subsample”}, dict or list of dicts, default=None",
+                "description":"Weights associated with classes in the form {class_label: weight}. If not given, all classes are supposed to have weight one. For multi-output problems, a list of dicts can be provided in the same order as the columns of y.\n\nNote that for multioutput (including multilabel) weights should be defined for each class of every column in its own dict. For example, for four-class multilabel classification weights should be [{0: 1, 1: 1}, {0: 1, 1: 5}, {0: 1, 1: 1}, {0: 1, 1: 1}] instead of [{1:1}, {2:5}, {3:1}, {4:1}].\n\nThe “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in the input data as n_samples / (n_classes * np.bincount(y))\n\nThe “balanced_subsample” mode is the same as “balanced” except that weights are computed based on the bootstrap sample for every tree grown.\n\nFor multi-output, the weights of each column of y will be multiplied.\n\nNote that these weights will be multiplied with sample_weight (passed through the fit method) if sample_weight is specified."
+            }
         },
         "max_samples": {
-            "cases": [
-                {
-                    "type": "int"
-                },
-                {
-                    "type": "float",
-                    "min": 0,
-                    "minInclusive": false,
-                    "max": 1,
-                    "maxInclusive": true
-                }
-            ],
-            "docs": [
-                "max_samples : int or float, default=None",
-                "If float, then draw `max_samples * X.shape[0]` samples. Thus, `max_samples` should be in the interval `(0.0, 1.0]`."
-            ]
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"NamedType",
+                        "name":"int"
+                    },
+                    {
+                        "kind":"BoundaryType",
+                        "baseType": "float",
+                        "min": 0,
+                        "minInclusive": false,
+                        "max": 1,
+                        "maxInclusive": true
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"int or float, default=None",
+                "description":"If float, then draw `max_samples * X.shape[0]` samples. Thus, `max_samples` should be in the interval `(0.0, 1.0]`."
+            }
         }
     }
 }

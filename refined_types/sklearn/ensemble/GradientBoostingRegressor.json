@@ -1,104 +1,122 @@
 {
     "sklearn.ensemble.GradientBoostingRegressor": {
         "loss": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "squared_error"
-                },
-                {
-                    "type": "str",
-                    "value": "absolute_error"
-                },
-                {
-                    "type": "str",
-                    "value": "huber"
-                },
-                {
-                    "type": "str",
-                    "value": "quantile"
-                }
-            ],
-            "docs": [
-                "loss : {'squared_error', 'absolute_error', 'huber', 'quantile'}, default='squared_error'"
-            ]
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"squared_error"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"absolute_error"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"huber"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"quantile"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'squared_error', 'absolute_error', 'huber', 'quantile'}, default='squared_error'",
+                "description":"Loss function to be optimized. ‘squared_error’ refers to the squared error for regression. ‘absolute_error’ refers to the absolute error of regression and is a robust loss function. ‘huber’ is a combination of the two. ‘quantile’ allows quantile regression (use alpha to specify the quantile)."
+            }
         },
         "criterion": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "friedman_mse"
-                },
-                {
-                    "type": "str",
-                    "value": "squared_error"
-                },
-                {
-                    "type": "str",
-                    "value": "mse"
-                },
-                {
-                    "type": "str",
-                    "value": "mae"
-                }
-            ],
-            "docs": [
-                "criterion : {'friedman_mse', 'squared_error', 'mse', 'mae'}, default='friedman_mse'"
-            ]
+            "type":{
+                "kind":"EnumType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"friedman_mse"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"squared_error"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"mse"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"mae"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{'friedman_mse', 'squared_error', 'mse', 'mae'}, default='friedman_mse'",
+                "description":"The function to measure the quality of a split. Supported criteria are “friedman_mse” for the mean squared error with improvement score by Friedman, “squared_error” for mean squared error, and “mae” for the mean absolute error. The default value of “friedman_mse” is generally the best as it can provide a better approximation in some cases."
+            }
         },
         "init": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "zero"
-                },
-                {
-                    "type": "estimator"
-                }
-            ],
-            "docs": [
-                "init : estimator or 'zero', default=None"
-            ]
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"zero"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "estimator"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"estimator or 'zero', default=None",
+                "description":"An estimator object that is used to compute the initial predictions. init has to provide fit and predict. If ‘zero’, the initial raw predictions are set to zero. By default a DummyEstimator is used, predicting either the average target value (for loss=’squared_error’), or a quantile for the other losses."
+            }
         },
         "max_features": {
-            "cases": [
-                {
-                    "type": "str",
-                    "value": "auto"
-                },
-                {
-                    "type": "str",
-                    "value": "sqrt"
-                },
-                {
-                    "type": "str",
-                    "value": "log2"
-                },
-                {
-                    "type": "int"
-                },
-                {
-                    "type": "float"
-                }
-            ],
-            "docs": [
-                "max_features : {'auto', 'sqrt', 'log2'}, int or float"
-            ]
+            "type":{
+                "kind":"UnionType",
+                "types":[
+                    {
+                        "kind":"EnumType",
+                        "name":"auto"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name":"sqrt"
+                    },
+                    {
+                        "kind":"EnumType",
+                        "name": "log2"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "float"
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "int"
+                    }
+                ]
+            },
+            "docstring":{
+                "type":"{“auto”, “sqrt”, “log2”}, int or float, default=”auto”",
+                "description":"The number of features to consider when looking for the best split:\n\nIf int, then consider max_features features at each split.\n\nIf float, then max_features is a fraction and int(max_features * n_features) features are considered at each split.\n\nIf “auto”, then max_features=n_features.\n\nIf “sqrt”, then max_features=sqrt(n_features).\n\nIf “log2”, then max_features=log2(n_features).\n\nIf None, then max_features=n_features.\n\nChoosing max_features < n_features leads to a reduction of variance and an increase in bias.\n\nNote: the search for a split does not stop until at least one valid partition of the node samples is found, even if it requires to effectively inspect more than max_features features."
+            }
         },
         "validation_fraction": {
-            "cases": [
-                {
-                    "type": "float",
-                    "min": 0,
-                    "minInclusive": false,
-                    "max": 1,
-                    "maxInclusive": false
-                }
-            ],
-            "docs": [
-                "validation_fraction : float, default=0.1",
-                "Must be between 0 and 1"
-            ]
+            "type":{
+                "kind": "BoundaryType",
+                "baseType": "float",
+                "min": 0,
+                "minInclusive": false,
+                "max": 1,
+                "maxInclusive": false
+            },
+            "docstring":{
+                "type":"float, default=0.1",
+                "description":"Must be between 0 and 1"
+            }
         }
     }
 }
