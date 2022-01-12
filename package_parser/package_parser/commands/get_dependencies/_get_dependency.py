@@ -5,7 +5,7 @@ from spacy.matcher import DependencyMatcher
 from spacy.tokens import Token
 from spacy.tokens.doc import Doc
 
-from ..get_api._model import API, Action, Condition, Dependency, Parameter
+from ..get_api._model import API, Action, Condition, Dependency, Parameter, ParameterIsIgnored
 from ._dependency_patterns import dependency_matcher_patterns
 from ._preprocess_docstring import preprocess_docstring
 
@@ -43,7 +43,13 @@ def extract_action(action_token: Token, condition_token: Token):
             action_tokens.extend(extract_lefts_and_rights(token))
     
     action_text = ' '.join(action_tokens)
-    return Action(action=action_text)
+
+    ignored_phrases = ["ignored", "not used"]
+    if any(phrase in action_text.lower() for phrase in ignored_phrases):
+        action = ParameterIsIgnored(action=action_text)
+    else:
+        action = Action(action=action_text)
+    return action
 
 
 def extract_condition(condition_token):
