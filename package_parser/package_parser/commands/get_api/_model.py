@@ -6,10 +6,12 @@ from dataclasses import asdict
 from enum import Enum, auto
 from typing import Any, Dict, Optional, Union
 
-from package_parser.commands.get_api._refined_types import (BoundaryType,
-                                                            EnumType,
-                                                            NamedType,
-                                                            UnionType)
+from package_parser.commands.get_api._refined_types import (
+    BoundaryType,
+    EnumType,
+    NamedType,
+    UnionType,
+)
 from package_parser.utils import declaration_qname_to_name, parent_qname
 
 
