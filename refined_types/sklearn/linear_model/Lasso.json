@@ -1,22 +1,16 @@
 {
-    "sklearn.linear_model.Lasso":{
+    "sklearn.linear_model.Lasso": {
         "selection": {
-            "type":{
-                "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"cyclic"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"random"
-                    }
+            "refined_type": {
+                "kind": "EnumType",
+                "types": [
+                    "cyclic",
+                    "random"
                 ]
             },
-            "docstring":{
-                "type":"{'cyclic', 'random'}, default='cyclic'",
-                "description":"If set to ‘random’, a random coefficient is updated every iteration rather than looping over features sequentially by default. This (setting to ‘random’) often leads to significantly faster convergence especially when tol is higher than 1e-4."
+            "docstring": {
+                "type": "{'cyclic', 'random'}, default='cyclic'",
+                "description": "If set to 'random', a random coefficient is updated every iteration\nrather than looping over features sequentially by default. This\n(setting to 'random') often leads to significantly faster convergence\nespecially when tol is higher than 1e-4."
             }
         }
     }

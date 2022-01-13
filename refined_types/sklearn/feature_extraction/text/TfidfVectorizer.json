@@ -1,21 +1,12 @@
 {
     "sklearn.feature_extraction.text.TfidfVectorizer": {
         "input": {
-            "type":{
-                "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"filename"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"file"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"content"
-                    }
+            "refined_type": {
+                "kind": "EnumType",
+                "values": [
+                    "file",
+                    "filename",
+                    "content"
                 ]
             },
             "docstring": {
@@ -24,21 +15,12 @@
             }
         },
         "decode_error": {
-            "type":{
-                "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"strict"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"ignore"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"replace"
-                    }
+            "refined_type": {
+                "kind": "EnumType",
+                "values": [
+                    "ignore",
+                    "replace",
+                    "strict"
                 ]
             },
             "docstring": {
@@ -47,17 +29,11 @@
             }
         },
         "strip_accents": {
-            "type":{
-                "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"ascii"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"unicode"
-                    }
+            "refined_type": {
+                "kind": "EnumType",
+                "values": [
+                    "ascii",
+                    "unicode"
                 ]
             },
             "docstring": {
@@ -66,24 +42,20 @@
             }
         },
         "analyzer": {
-            "type": {
-                "kind":"UnionType",
-                "types":[
+            "refined_type": {
+                "kind": "UnionType",
+                "types": [
                     {
-                        "kind":"EnumType",
-                        "name":"word"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"char"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"char_wb"
+                        "kind": "EnumType",
+                        "values": [
+                            "char_wb",
+                            "char",
+                            "word"
+                        ]
                     },
                     {
                         "kind": "NamedType",
-                        "name":"callable"
+                        "name": "callable"
                     }
                 ]
             },
@@ -93,16 +65,18 @@
             }
         },
         "stop_words": {
-            "type": {
-                "kind":"UnionType",
-                "types":[
+            "refined_type": {
+                "kind": "UnionType",
+                "types": [
                     {
-                        "kind":"EnumType",
-                        "name":"english"
+                        "kind": "EnumType",
+                        "values": [
+                            "english"
+                        ]
                     },
                     {
                         "kind": "NamedType",
-                        "name":"list"
+                        "name": "list"
                     }
                 ]
             },
@@ -111,64 +85,58 @@
                 "description": "If a string, it is passed to _check_stop_list and the appropriate stop\nlist is returned. 'english' is currently the only supported string\nvalue.\nThere are several known issues with 'english' and you should\nconsider an alternative (see :ref:`stop_words`).\n\nIf a list, that list is assumed to contain stop words, all of which\nwill be removed from the resulting tokens.\nOnly applies if ``analyzer == 'word'``.\n\nIf None, no stop words will be used. max_df can be set to a value\nin the range [0.7, 1.0) to automatically detect and filter stop\nwords based on intra corpus document frequency of terms."
             }
         },
-        "max_df":{
-            "type":{
-                "kind":"UnionType",
-                "types":[
+        "max_df": {
+            "refined_type": {
+                "kind": "UnionType",
+                "types": [
                     {
                         "kind": "BoundaryType",
-                        "baseType":"float",
-                        "min":0,
-                        "minInclusive":true,
-                        "max":1,
-                        "maxInclusive":true
+                        "baseType": "float",
+                        "min": 0,
+                        "minInclusive": true,
+                        "max": 1,
+                        "maxInclusive": true
                     },
                     {
                         "kind": "NamedType",
-                        "name":"int"
+                        "name": "int"
                     }
                 ]
             },
-            "docstring":{
-                "type":"float or int, default=1",
-                "description":"When building the vocabulary ignore terms that have a document\nfrequency strictly higher than the given threshold (corpus-specific\nstop words).\nIf float, the parameter represents a proportion of documents, integer\nabsolute counts.\nThis parameter is ignored if vocabulary is not None."
+            "docstring": {
+                "type": "float or int, default=1.0",
+                "description": "When building the vocabulary ignore terms that have a document\nfrequency strictly higher than the given threshold (corpus-specific\nstop words).\nIf float in range [0.0, 1.0], the parameter represents a proportion of\ndocuments, integer absolute counts.\nThis parameter is ignored if vocabulary is not None."
             }
         },
-        "min_df":{
-            "type":{
-                "kind":"BoundaryType",
-                "types":[
+        "min_df": {
+            "refined_type": {
+                "kind": "UnionType",
+                "types": [
                     {
                         "kind": "BoundaryType",
-                        "baseType":"float",
-                        "min":0,
-                        "minInclusive":true,
-                        "max":1,
-                        "maxInclusive":true
+                        "baseType": "float",
+                        "min": 0,
+                        "minInclusive": true,
+                        "max": 1,
+                        "maxInclusive": true
                     },
                     {
                         "kind": "NamedType",
-                        "type":"int"
+                        "type": "int"
                     }
                 ]
             },
-            "docstring":{
-                "type":"float or int, default=1",
-                "description":"When building the vocabulary ignore terms that have a document\nfrequency strictly lower than the given threshold. This value is also\ncalled cut-off in the literature.\nIf float, the parameter represents a proportion of documents, integer\nabsolute counts.\nThis parameter is ignored if vocabulary is not None."
+            "docstring": {
+                "type": "float or int, default=1",
+                "description": "When building the vocabulary ignore terms that have a document\nfrequency strictly lower than the given threshold. This value is also\ncalled cut-off in the literature.\nIf float in range of [0.0, 1.0], the parameter represents a proportion\nof documents, integer absolute counts.\nThis parameter is ignored if vocabulary is not None."
             }
         },
         "norm": {
-            "type": {
-                "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"l1"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"l2"
-                    }
+            "refined_type": {
+                "kind": "EnumType",
+                "values": [
+                    "l1",
+                    "l2"
                 ]
             },
             "docstring": {
