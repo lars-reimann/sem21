@@ -3,13 +3,11 @@
         "n_splits":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"int",
-                        "min":2,
-                        "minInclusive":true
-                    }
-                ]
+                "baseType":"int",
+                "min":2,
+                "minInclusive":true,
+                "max":null,
+                "maxInclusive": false
             },
             "docstring":{
                 "type":"int, default=5",

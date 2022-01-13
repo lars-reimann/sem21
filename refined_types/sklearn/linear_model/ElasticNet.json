@@ -3,15 +3,11 @@
         "l1_ratio":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type": "float",
-                        "min": 0,
-                        "minInclusive": true,
-                        "max": 1,
-                        "maxInclusive": true
-                    }
-                ]
+                "baseType": "float",
+                "min": 0,
+                "minInclusive": true,
+                "max": 1,
+                "maxInclusive": true
             },
             "docstring":{
                 "type":"float, default=0.5",

@@ -40,11 +40,11 @@
                         "name":"warn"
                     },
                     {
-                        "kind":"int",
+                        "kind": "NamedType",
                         "name":"0"
                     },
                     {
-                        "kind":"int",
+                        "kind": "NamedType",
                         "name":"1"
                     }
                 ]

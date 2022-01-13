@@ -3,13 +3,11 @@
         "C":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "kind":"float",
-                        "min":0,
-                        "minInclusive":false
-                    }
-                ]
+                "baseType": "float",
+                "min": 0,
+                "minInclusive": false,
+                "max": null,
+                "maxInclusive": false
             },
             "docstring":{
                 "type":"float, default=1.0",
@@ -41,7 +39,8 @@
                         "name":"precomputed"
                     },
                     {
-                        "kind":"callable"
+                        "kind": "NamedType",
+                        "name":"callable"
                     }
                 ]
             },
@@ -63,7 +62,8 @@
                         "name":"auto"
                     },
                     {
-                        "kind":"float"
+                        "kind": "NamedType",
+                        "name":"float"
                     }
                 ]
             },
@@ -77,7 +77,8 @@
                 "kind":"UnionType",
                 "types":[
                     {
-                        "kind":"dict"
+                        "kind": "NamedType",
+                        "name":"dict"
                     },
                     {
                         "kind":"EnumType",

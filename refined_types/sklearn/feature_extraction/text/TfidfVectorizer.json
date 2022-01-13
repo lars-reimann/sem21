@@ -82,7 +82,8 @@
                         "name":"char_wb"
                     },
                     {
-                        "kind":"callable"
+                        "kind": "NamedType",
+                        "name":"callable"
                     }
                 ]
             },
@@ -100,7 +101,8 @@
                         "name":"english"
                     },
                     {
-                        "kind":"list"
+                        "kind": "NamedType",
+                        "name":"list"
                     }
                 ]
             },
@@ -111,17 +113,19 @@
         },
         "max_df":{
             "type":{
-                "kind":"BoundaryType",
+                "kind":"UnionType",
                 "types":[
                     {
-                        "type":"float",
+                        "kind": "BoundaryType",
+                        "baseType":"float",
                         "min":0,
                         "minInclusive":true,
                         "max":1,
                         "maxInclusive":true
                     },
                     {
-                        "type":"int"
+                        "kind": "NamedType",
+                        "name":"int"
                     }
                 ]
             },
@@ -135,13 +139,15 @@
                 "kind":"BoundaryType",
                 "types":[
                     {
-                        "type":"float",
+                        "kind": "BoundaryType",
+                        "baseType":"float",
                         "min":0,
                         "minInclusive":true,
                         "max":1,
                         "maxInclusive":true
                     },
                     {
+                        "kind": "NamedType",
                         "type":"int"
                     }
                 ]

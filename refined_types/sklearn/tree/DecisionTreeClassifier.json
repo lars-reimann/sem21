@@ -43,10 +43,12 @@
                 "kind":"UnionType",
                 "types":[
                     {
-                        "kind":"int"
+                        "kind": "NamedType",
+                        "name":"int"
                     },
                     {
-                        "kind":"float"
+                        "kind": "NamedType",
+                        "name":"float"
                     },
                     {
                         "kind":"EnumType",
@@ -72,10 +74,12 @@
                 "kind":"UnionType",
                 "types":[
                     {
-                        "kind":"dict"
+                        "kind": "NamedType",
+                        "name":"dict"
                     },
                     {
-                        "kind":"list"
+                        "kind": "NamedType",
+                        "name":"list"
                     },
                     {
                         "kind":"EnumType",
@@ -91,13 +95,11 @@
         "ccp_alpha":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "kind":"float",
-                        "min":0,
-                        "minInclusive":false
-                    }
-                ]
+                "baseType": "float",
+                "min": 0,
+                "minInclusive": true,
+                "max": null,
+                "maxInclusive": false
             },
             "docstring":{
                 "type":"non-negative float, default=0.0",

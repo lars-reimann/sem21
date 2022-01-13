@@ -3,15 +3,11 @@
         "quantile_range":{
             "type":{
                 "kind":"BoundaryType",
-                "types":[
-                    {
-                        "type":"tuple",
-                        "min":0,
-                        "max":100,
-                        "minInclusive":false,
-                        "maxInclusive":false
-                    }
-                ]
+                "baseType":"tuple",
+                "min":0,
+                "max":100,
+                "minInclusive":false,
+                "maxInclusive":false
             },
             "docstring":{
                 "type":"tuple (q_min, q_max), 0.0 < q_min < q_max < 100.0, default=(25.0, 75.0)",

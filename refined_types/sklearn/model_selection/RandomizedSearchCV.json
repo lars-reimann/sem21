@@ -9,7 +9,8 @@
                         "name":"raise"
                     },
                     {
-                        "kind":"numeric"
+                        "kind":"NamedType",
+                        "name":"numeric"
                     }
                 ]
             },
