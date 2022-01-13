@@ -1,16 +1,15 @@
 {
     "sklearn.tree.DecisionTreeClassifier":{
         "criterion":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"gini"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"entropy"
+                        "values": [
+                            "gini",
+                            "entropy"
+                        ]
                     }
                 ]
             },
@@ -20,18 +19,12 @@
             }
         },
         "splitter":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"best"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"random"
-                    }
-                ]
+                "values": [
+                            "best",
+                            "random"
+                        ]
             },
             "docstring":{
                 "type":"{'best', 'random'}, default='best'",
@@ -39,7 +32,7 @@
             }
         },
         "max_features":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
@@ -52,15 +45,11 @@
                     },
                     {
                         "kind":"EnumType",
-                        "name":"auto"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"sqrt"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"log2"
+                        "values": [
+                            "auto",
+                            "sqrt",
+                            "log2"
+                        ]
                     }
                 ]
             },
@@ -70,7 +59,7 @@
             }
         },
         "class_weight":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
@@ -83,7 +72,9 @@
                     },
                     {
                         "kind":"EnumType",
-                        "name":"balanced"
+                        "values": [
+                            "balanced"
+                        ]
                     }
                 ]
             },
@@ -93,7 +84,7 @@
             }
         },
         "ccp_alpha":{
-            "type":{
+            "refined_type":{
                 "kind":"BoundaryType",
                 "baseType": "float",
                 "min": 0,

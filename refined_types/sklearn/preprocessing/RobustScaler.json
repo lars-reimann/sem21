@@ -1,7 +1,7 @@
 {
     "sklearn.preprocessing.RobustScaler":{
         "quantile_range":{
-            "type":{
+            "refined_type":{
                 "kind":"BoundaryType",
                 "baseType":"tuple",
                 "min":0,

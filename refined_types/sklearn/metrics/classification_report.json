@@ -1,12 +1,14 @@
 {
     "sklearn.metrics.classification_report":{
         "zero_division":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"warn"
+                        "values": [
+                            "warn"
+                        ]
                     },
                     {
                         "kind": "NamedType",

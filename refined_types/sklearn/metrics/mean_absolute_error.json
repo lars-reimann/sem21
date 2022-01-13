@@ -1,16 +1,15 @@
 {
     "sklearn.metrics.mean_absolute_error":{
         "multioutput":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"raw_values"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"uniform_average"
+                        "values":[
+                            "raw_values",
+                            "uniform_average"
+                            ]
                     },
                     {
                         "kind": "NamedType",

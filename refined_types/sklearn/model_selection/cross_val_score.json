@@ -1,12 +1,14 @@
 {
     "sklearn.model_selection.cross_val_score":{
         "error_score":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"raise"
+                        "values": [
+                            "raise"
+                        ]
                     },
                     {
                         "kind": "NamedType",

@@ -1,7 +1,7 @@
 {
     "sklearn.svm.SVC":{
         "C":{
-            "type":{
+            "refined_type":{
                 "kind":"BoundaryType",
                 "baseType": "float",
                 "min": 0,
@@ -11,32 +11,22 @@
             },
             "docstring":{
                 "type":"float, default=1.0",
-                "description":"Must be strictly positive"
+                "description":"Regularization parameter. The strength of the regularization is inversely proportional to C. Must be strictly positive. The penalty is a squared l2 penalty.\n\n"
             }
         },
         "kernel":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"linear"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"poly"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"rbf"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"sigmoid"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"precomputed"
+                        "values": [
+                            "linear",
+                            "poly",
+                            "rbf",
+                            "sigmoid",
+                            "precomputed"
+                        ]
                     },
                     {
                         "kind": "NamedType",
@@ -50,16 +40,15 @@
             }
         },
         "gamma":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"scale"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"auto"
+                        "values": [
+                            "scale",
+                            "auto"
+                        ]
                     },
                     {
                         "kind": "NamedType",
@@ -73,7 +62,7 @@
             }
         },
         "class_weight":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
@@ -82,7 +71,9 @@
                     },
                     {
                         "kind":"EnumType",
-                        "name":"balanced"
+                        "values": [
+                            "balanced"
+                        ]
                     }
                 ]
             },
@@ -92,18 +83,12 @@
             }
         },
         "decision_function_shape":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"ovo"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"ovr"
-                    }
-                ]
+                "values": [
+                            "ovo",
+                            "ovr"
+                        ]
             },
             "docstring":{
                 "type":"{'ovo', 'ovr'}, default='ovr'",

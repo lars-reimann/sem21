@@ -1,7 +1,7 @@
 {
     "sklearn.model_selection.train_test_split":{
         "test_size":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
@@ -20,12 +20,12 @@
             },
             "docstring":{
                 "type":"float or int, default=None",
-                "description":"If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the test split"
+                "description":"If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the test split. If int, represents the absolute number of test samples. If None, the value is set to the complement of the train size. If train_size is also None, it will be set to 0.25."
             }
         },
         "train_size":{
-            "type":{
-                "kind":"BoundaryType",
+            "refined_type":{
+                "kind":"UnionType",
                 "types":[
                     {
                         "kind":"BoundaryType",
@@ -43,7 +43,7 @@
             },
             "docstring":{
                 "type":"float or int, default=None",
-                "description":"If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split"
+                "description":"If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split. If int, represents the absolute number of train samples. If None, the value is automatically set to the complement of the test size."
             }
         }
     }

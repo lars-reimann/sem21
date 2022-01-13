@@ -1,7 +1,7 @@
 {
     "sklearn.model_selection.GroupKFold":{
         "n_splits":{
-            "type":{
+            "refined_type":{
                 "kind":"BoundaryType",
                 "baseType":"int",
                 "min":2,

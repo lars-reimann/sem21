@@ -1,20 +1,16 @@
 {
     "sklearn.metrics.r2_score":{
         "multioutput":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"raw_values"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"uniform_average"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"variance_weighted"
+                        "values": [
+                            "raw_values",
+                            "uniform_average",
+                            "variance_weighted"
+                        ]
                     },
                     {
                         "kind": "NamedType",

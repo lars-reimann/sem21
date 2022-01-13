@@ -1,18 +1,12 @@
 {
     "sklearn.metrics.cohen_kappa_score":{
         "weights":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"linear"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"quadratic"
-                    }
-                ]
+                "values": [
+                            "linear",
+                            "quadratic"
+                        ]
             },
             "docstring":{
                 "type":"{'linear', 'quadratic'}, default=None",

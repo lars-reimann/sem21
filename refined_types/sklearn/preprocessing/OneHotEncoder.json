@@ -1,12 +1,14 @@
 {
     "sklearn.preprocessing.OneHotEncoder":{
         "categories":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"auto"
+                        "values": [
+                            "auto"
+                        ]
                     },
                     {
                         "kind": "NamedType",
@@ -20,16 +22,15 @@
             }
         },
         "drop":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"first"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"if_binary"
+                        "values": [
+                            "first",
+                            "if_binary"
+                        ]
                     },
                     {
                         "kind": "NamedType",
@@ -43,18 +44,12 @@
             }
         },
         "handle_unknown":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"error"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"ignore"
-                    }
-                ]
+                "values": [
+                            "error",
+                            "ignore"
+                        ]
             },
             "docstring":{
                 "type":"{'error', 'ignore'}, default='error'",

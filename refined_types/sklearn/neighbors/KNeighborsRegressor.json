@@ -1,16 +1,15 @@
 {
     "sklearn.neighbors.KNeighborsRegressor":{
         "weights":{
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"uniform"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"distance"
+                        "values": [
+                            "uniform",
+                            "distance"
+                        ]
                     },
                     {
                         "kind": "NamedType",
@@ -24,26 +23,14 @@
             }
         },
         "algorithm":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"auto"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"ball_tree"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"kd_tree"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"brute"
-                    }
-                ]
+                "values": [
+                            "auto",
+                            "ball_tree",
+                            "kd_tree",
+                            "brute"
+                        ]
             },
             "docstring":{
                 "type":"{'auto', 'ball_tree', 'kd_tree', 'brute'}, default='auto'",

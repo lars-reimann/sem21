@@ -1,22 +1,13 @@
 {
     "sklearn.metrics.confusion_matrix":{
         "normalize":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"true"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"pred"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"all"
-                    }
-                ]
+                "values": [
+                            "true",
+                            "pred",
+                            "all"
+                        ]
             },
             "docstring":{
                 "type":"{'true', 'pred', 'all'}, default=None",

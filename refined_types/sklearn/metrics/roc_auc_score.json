@@ -1,25 +1,13 @@
 {
     "sklearn.metrics.roc_auc_score":{
         "average":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"micro"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"macro"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"samples"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"weighted"
-                    }
+                "values": [
+                            "micro",
+                            "macro",
+                            "samples",
+                            "weighted"
                 ]
             },
             "docstring":{
@@ -28,7 +16,7 @@
             }
         },
         "max_fpr":{
-            "type":{
+            "refined_type":{
                 "kind":"BoundaryType",
                 "baseType":"float",
                 "min":0.0,
@@ -42,21 +30,12 @@
             }
         },
         "multi_class":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"raise"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"ovr"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"ovo"
-                    }
+                "values": [
+                            "raise",
+                            "ovr",
+                            "ovo"
                 ]
             },
             "docstring":{

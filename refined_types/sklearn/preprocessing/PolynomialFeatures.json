@@ -1,18 +1,12 @@
 {
     "sklearn.preprocessing.PolynomialFeatures":{
         "order":{
-            "type":{
+            "refined_type":{
                 "kind":"EnumType",
-                "types":[
-                    {
-                        "kind":"EnumType",
-                        "name":"C"
-                    },
-                    {
-                        "kind":"EnumType",
-                        "name":"F"
-                    }
-                ]
+                "values": [
+                            "C",
+                            "F"
+                        ]
             },
             "docstring":{
                 "type":"{'C', 'F'}, default='C'",

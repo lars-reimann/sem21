@@ -1,12 +1,14 @@
 {
     "sklearn.model_selection.GridSearchCV": {
         "error_score": {
-            "type":{
+            "refined_type":{
                 "kind":"UnionType",
                 "types":[
                     {
                         "kind":"EnumType",
-                        "name":"raise"
+                        "values": [
+                            "raise"
+                        ]
                     },
                     {
                         "kind": "NamedType",
