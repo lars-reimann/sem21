@@ -3,10 +3,7 @@
         "order": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "C",
-                    "F"
-                ]
+                "values": ["C", "F"]
             },
             "docstring": {
                 "type": "{'C', 'F'}, default='C'",

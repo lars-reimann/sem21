@@ -45,10 +45,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "scale",
-                            "auto"
-                        ]
+                        "values": ["scale", "auto"]
                     },
                     {
                         "kind": "NamedType",
@@ -71,9 +68,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "balanced"
-                        ]
+                        "values": ["balanced"]
                     }
                 ]
             },
@@ -85,10 +80,7 @@
         "decision_function_shape": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "ovo",
-                    "ovr"
-                ]
+                "values": ["ovo", "ovr"]
             },
             "docstring": {
                 "type": "{'ovo', 'ovr'}, default='ovr'",

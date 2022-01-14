@@ -23,11 +23,7 @@
         "penalty": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "elasticnet",
-                    "l1",
-                    "l2"
-                ]
+                "values": ["elasticnet", "l1", "l2"]
             },
             "docstring": {
                 "type": "{'l2', 'l1', 'elasticnet'}, default='l2'",
@@ -51,12 +47,7 @@
         "learning_rate": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "constant",
-                    "optimal",
-                    "invscaling",
-                    "adaptive"
-                ]
+                "values": ["constant", "optimal", "invscaling", "adaptive"]
             },
             "docstring": {
                 "type": "str, default='optimal'",
@@ -87,9 +78,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "balanced"
-                        ]
+                        "values": ["balanced"]
                     }
                 ]
             },

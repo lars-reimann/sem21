@@ -3,10 +3,7 @@
         "algorithm": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "SAMME",
-                    "SAMME.R"
-                ]
+                "values": ["SAMME", "SAMME.R"]
             },
             "docstring": {
                 "type": "{'SAMME', 'SAMME.R'}, default='SAMME.R'",

@@ -17,10 +17,7 @@
         "selection": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "cyclic",
-                    "random"
-                ]
+                "values": ["cyclic", "random"]
             },
             "docstring": {
                 "type": "{'cyclic', 'random'}, default='cyclic'",

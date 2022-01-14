@@ -3,10 +3,7 @@
         "criterion": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "gini",
-                    "entropy"
-                ]
+                "values": ["gini", "entropy"]
             },
             "docstring": {
                 "type": "{\"gini\", \"entropy\"}, default=\"gini\"",
@@ -16,10 +13,7 @@
         "splitter": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "best",
-                    "random"
-                ]
+                "values": ["best", "random"]
             },
             "docstring": {
                 "type": "{\"best\", \"random\"}, default=\"best\"",
@@ -40,11 +34,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "auto",
-                            "sqrt",
-                            "log2"
-                        ]
+                        "values": ["auto", "sqrt", "log2"]
                     }
                 ]
             },
@@ -67,9 +57,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "balanced"
-                        ]
+                        "values": ["balanced"]
                     }
                 ]
             },

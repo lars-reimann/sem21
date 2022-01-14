@@ -6,9 +6,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "auto"
-                        ]
+                        "values": ["auto"]
                     },
                     {
                         "kind": "NamedType",
@@ -27,10 +25,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "first",
-                            "if_binary"
-                        ]
+                        "values": ["first", "if_binary"]
                     },
                     {
                         "kind": "NamedType",
@@ -46,10 +41,7 @@
         "handle_unknown": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "error",
-                    "ignore"
-                ]
+                "values": ["error", "ignore"]
             },
             "docstring": {
                 "type": "{'error', 'ignore'}, default='error'",

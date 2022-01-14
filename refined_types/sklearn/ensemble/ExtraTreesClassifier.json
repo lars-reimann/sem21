@@ -3,10 +3,7 @@
         "criterion": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "gini",
-                    "entropy"
-                ]
+                "values": ["gini", "entropy"]
             },
             "docstring": {
                 "type": "{\"gini\", \"entropy\"}, default=\"gini\"",
@@ -19,11 +16,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "sqrt",
-                            "auto",
-                            "log2"
-                        ]
+                        "values": ["sqrt", "auto", "log2"]
                     },
                     {
                         "kind": "NamedType",
@@ -46,10 +39,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "balanced",
-                            "balanced_subsample"
-                        ]
+                        "values": ["balanced", "balanced_subsample"]
                     },
                     {
                         "kind": "NamedType",

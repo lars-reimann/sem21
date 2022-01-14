@@ -3,11 +3,7 @@
         "input": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "file",
-                    "filename",
-                    "content"
-                ]
+                "values": ["file", "filename", "content"]
             },
             "docstring": {
                 "type": "{'filename', 'file', 'content'}, default='content'",
@@ -17,11 +13,7 @@
         "decode_error": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "ignore",
-                    "replace",
-                    "strict"
-                ]
+                "values": ["ignore", "replace", "strict"]
             },
             "docstring": {
                 "type": "{'strict', 'ignore', 'replace'}, default='strict'",
@@ -31,10 +23,7 @@
         "strip_accents": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "ascii",
-                    "unicode"
-                ]
+                "values": ["ascii", "unicode"]
             },
             "docstring": {
                 "type": "{'ascii', 'unicode'}, default=None",
@@ -47,11 +36,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "char_wb",
-                            "char",
-                            "word"
-                        ]
+                        "values": ["char_wb", "char", "word"]
                     },
                     {
                         "kind": "NamedType",
@@ -70,9 +55,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "english"
-                        ]
+                        "values": ["english"]
                     },
                     {
                         "kind": "NamedType",
@@ -134,10 +117,7 @@
         "norm": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "l1",
-                    "l2"
-                ]
+                "values": ["l1", "l2"]
             },
             "docstring": {
                 "type": "{'l1', 'l2'}, default='l2'",

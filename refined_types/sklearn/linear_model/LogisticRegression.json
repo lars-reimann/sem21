@@ -3,12 +3,7 @@
         "penalty": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "none",
-                    "elasticnet",
-                    "l1",
-                    "l2"
-                ]
+                "values": ["none", "elasticnet", "l1", "l2"]
             },
             "docstring": {
                 "type": "{'l1', 'l2', 'elasticnet', 'none'}, default='l2'",
@@ -39,9 +34,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "balanced"
-                        ]
+                        "values": ["balanced"]
                     }
                 ]
             },
@@ -53,13 +46,7 @@
         "solver": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "lbfgs",
-                    "newton-cg",
-                    "liblinear",
-                    "sag",
-                    "saga"
-                ]
+                "values": ["lbfgs", "newton-cg", "liblinear", "sag", "saga"]
             },
             "docstring": {
                 "type": "{'newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga'},             default='lbfgs'",
@@ -69,11 +56,7 @@
         "multi_class": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "multinomial",
-                    "ovr",
-                    "auto"
-                ]
+                "values": ["multinomial", "ovr", "auto"]
             },
             "docstring": {
                 "type": "{'auto', 'ovr', 'multinomial'}, default='auto'",

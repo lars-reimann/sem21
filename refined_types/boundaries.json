@@ -41,9 +41,7 @@
                 },
                 {
                     "kind": "EnumType",
-                    "values": [
-                        "auto"
-                    ]
+                    "values": ["auto"]
                 }
             ]
         },

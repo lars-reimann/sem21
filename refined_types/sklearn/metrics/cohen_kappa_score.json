@@ -3,10 +3,7 @@
         "weights": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "linear",
-                    "quadratic"
-                ]
+                "values": ["linear", "quadratic"]
             },
             "docstring": {
                 "type": "{'linear', 'quadratic'}, default=None",

@@ -6,10 +6,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "uniform",
-                            "distance"
-                        ]
+                        "values": ["uniform", "distance"]
                     },
                     {
                         "kind": "NamedType",
@@ -25,12 +22,7 @@
         "algorithm": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "auto",
-                    "ball_tree",
-                    "kd_tree",
-                    "brute"
-                ]
+                "values": ["auto", "ball_tree", "kd_tree", "brute"]
             },
             "docstring": {
                 "type": "{'auto', 'ball_tree', 'kd_tree', 'brute'}, default='auto'",

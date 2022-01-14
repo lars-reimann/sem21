@@ -3,11 +3,7 @@
         "normalize": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "true",
-                    "pred",
-                    "all"
-                ]
+                "values": ["true", "pred", "all"]
             },
             "docstring": {
                 "type": "{'true', 'pred', 'all'}, default=None",

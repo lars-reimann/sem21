@@ -14,10 +14,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "k-means++",
-                            "random"
-                        ]
+                        "values": ["k-means++", "random"]
                     }
                 ]
             },
@@ -29,11 +26,7 @@
         "algorithm": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "full",
-                    "elkan",
-                    "auto"
-                ]
+                "values": ["full", "elkan", "auto"]
             },
             "docstring": {
                 "type": "{'auto', 'full', 'elkan'}, default='auto'",

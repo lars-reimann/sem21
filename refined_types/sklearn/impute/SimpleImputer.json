@@ -3,12 +3,7 @@
         "strategy": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "mean",
-                    "median",
-                    "most_frequent",
-                    "constant"
-                ]
+                "values": ["mean", "median", "most_frequent", "constant"]
             },
             "docstring": {
                 "type": "str, default='mean'",

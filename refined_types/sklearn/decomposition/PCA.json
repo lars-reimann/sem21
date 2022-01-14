@@ -14,9 +14,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "mle"
-                        ]
+                        "values": ["mle"]
                     }
                 ]
             },
@@ -28,12 +26,7 @@
         "svd_solver": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "full",
-                    "arpack",
-                    "randomized",
-                    "auto"
-                ]
+                "values": ["full", "arpack", "randomized", "auto"]
             },
             "docstring": {
                 "type": "{'auto', 'full', 'arpack', 'randomized'}, default='auto'",
@@ -68,9 +61,7 @@
                     },
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "auto"
-                        ]
+                        "values": ["auto"]
                     }
                 ]
             },

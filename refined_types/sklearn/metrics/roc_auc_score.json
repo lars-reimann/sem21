@@ -3,12 +3,7 @@
         "average": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "micro",
-                    "macro",
-                    "samples",
-                    "weighted"
-                ]
+                "values": ["micro", "macro", "samples", "weighted"]
             },
             "docstring": {
                 "type": "{'micro', 'macro', 'samples', 'weighted'} or None,             default='macro'",
@@ -32,11 +27,7 @@
         "multi_class": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "raise",
-                    "ovr",
-                    "ovo"
-                ]
+                "values": ["raise", "ovr", "ovo"]
             },
             "docstring": {
                 "type": "{'raise', 'ovr', 'ovo'}, default='raise'",

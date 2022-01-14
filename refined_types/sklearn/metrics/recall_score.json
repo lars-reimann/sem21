@@ -3,13 +3,7 @@
         "average": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "micro",
-                    "macro",
-                    "samples",
-                    "weighted",
-                    "binary"
-                ]
+                "values": ["micro", "macro", "samples", "weighted", "binary"]
             },
             "docstring": {
                 "type": "{'micro', 'macro', 'samples', 'weighted', 'binary'} or None,             default='binary'",
@@ -22,9 +16,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "warn"
-                        ]
+                        "values": ["warn"]
                     },
                     {
                         "kind": "NamedType",

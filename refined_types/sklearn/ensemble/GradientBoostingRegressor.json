@@ -18,12 +18,7 @@
         "criterion": {
             "refined_type": {
                 "kind": "EnumType",
-                "values": [
-                    "squared_error",
-                    "mse",
-                    "friedman_mse",
-                    "mae"
-                ]
+                "values": ["squared_error", "mse", "friedman_mse", "mae"]
             },
             "docstring": {
                 "type": "{'friedman_mse', 'squared_error', 'mse', 'mae'},             default='friedman_mse'",
@@ -36,11 +31,7 @@
                 "types": [
                     {
                         "kind": "EnumType",
-                        "values": [
-                            "sqrt",
-                            "auto",
-                            "log2"
-                        ]
+                        "values": ["sqrt", "auto", "log2"]
                     },
                     {
                         "kind": "NamedType",
