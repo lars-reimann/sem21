@@ -67,8 +67,8 @@
             }
         },
         "multi_class": {
-            "type": {
-                "refined_type": "EnumType",
+            "refined_type": {
+                "kind": "EnumType",
                 "values": [
                     "multinomial",
                     "ovr",

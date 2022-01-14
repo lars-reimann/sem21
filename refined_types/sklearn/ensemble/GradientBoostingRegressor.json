@@ -44,11 +44,11 @@
                     },
                     {
                         "kind": "NamedType",
-                        "type": "float"
+                        "name": "float"
                     },
                     {
                         "kind": "NamedType",
-                        "type": "int"
+                        "name": "int"
                     }
                 ]
             },

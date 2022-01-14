@@ -78,7 +78,7 @@
             }
         },
         "class_weight": {
-            "type": {
+            "refined_type": {
                 "kind": "UnionType",
                 "types": [
                     {

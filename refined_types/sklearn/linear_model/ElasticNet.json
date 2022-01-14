@@ -17,7 +17,7 @@
         "selection": {
             "refined_type": {
                 "kind": "EnumType",
-                "types": [
+                "values": [
                     "cyclic",
                     "random"
                 ]

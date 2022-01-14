@@ -122,7 +122,7 @@
                     },
                     {
                         "kind": "NamedType",
-                        "type": "int"
+                        "name": "int"
                     }
                 ]
             },

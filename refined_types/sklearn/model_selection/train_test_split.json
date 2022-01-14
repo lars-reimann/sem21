@@ -14,7 +14,7 @@
                     },
                     {
                         "kind": "NamedType",
-                        "type": "int"
+                        "name": "int"
                     }
                 ]
             },
@@ -37,7 +37,7 @@
                     },
                     {
                         "kind": "NamedType",
-                        "type": "int"
+                        "name": "int"
                     }
                 ]
             },
