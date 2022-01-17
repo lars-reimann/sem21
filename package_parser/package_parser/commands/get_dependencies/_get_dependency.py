@@ -14,7 +14,7 @@ from ..get_api._model import (
     ParameterHasValue,
     ParameterIsIgnored,
     ParameterIsIllegal,
-    ParameterIsOptional,
+    ParameterIsNone,
 )
 from ._dependency_patterns import dependency_matcher_patterns
 from ._preprocess_docstring import preprocess_docstring
@@ -74,17 +74,18 @@ def extract_condition(condition_token: Token) -> Condition:
     condition_token_subtree = list(condition_token.subtree)
     condition_text = " ".join([token.text for token in condition_token_subtree])
 
-    is_optional_phrases = [
+    is_none_phrases = [
         "is none",
+        "is also none"
         "is not set",
         "is not specified",
         "is not none",
         "if none",
         "if not none",
     ]
-    has_value_phrases = ["equals", "is true", "is false", "is set to"]
-    if any(phrase in condition_text.lower() for phrase in is_optional_phrases):
-        return ParameterIsOptional(condition=condition_text)
+    has_value_phrases = ["equals", "is true", "is false", "is set to", "is greater than", "is less than"]
+    if any(phrase in condition_text.lower() for phrase in is_none_phrases):
+        return ParameterIsNone(condition=condition_text)
     elif any(phrase in condition_text.lower() for phrase in has_value_phrases):
         return ParameterHasValue(condition=condition_text)
     else:
