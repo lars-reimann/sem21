@@ -1,5 +1,5 @@
 dependency_matcher_patterns = {
-    "pattern_parameter_sconj": [
+    "pattern_parameter_subordinating_conjunction": [
         {"RIGHT_ID": "action_head", "RIGHT_ATTRS": {"POS": "VERB"}},
         {
             "LEFT_ID": "action_head",

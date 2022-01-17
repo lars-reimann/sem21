@@ -93,7 +93,7 @@ def extract_condition(condition_token: Token) -> Condition:
 
 class DependencyExtractor:
     @staticmethod
-    def extract_pattern_parameter_sconj(
+    def extract_pattern_parameter_subordinating_conjunction(
         dependent_param: Parameter,
         func_parameters: List[Parameter],
         match: Tuple,
