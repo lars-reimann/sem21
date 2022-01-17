@@ -29,7 +29,7 @@ def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None]=Non
     return extracted
 
 
-def extract_action(action_token: Token, condition_token: Token):
+def extract_action(action_token: Token, condition_token: Token) -> Action:
     action_tokens = []
     action_lefts = list(action_token.lefts)
     action_rights = list(action_token.rights)
@@ -47,27 +47,25 @@ def extract_action(action_token: Token, condition_token: Token):
     ignored_phrases = ["ignored", "not used", "no impact", "only supported", "only applies"]
     illegal_phrases = ["raise", "exception", "must be", "must not be"]
     if any(phrase in action_text.lower() for phrase in ignored_phrases):
-        action = ParameterIsIgnored(action=action_text)
+        return ParameterIsIgnored(action=action_text)
     elif any(phrase in action_text.lower() for phrase in illegal_phrases):
-        action = ParameterIsIllegal(action=action_text)
+        return ParameterIsIllegal(action=action_text)
     else:
-        action = Action(action=action_text)
-    return action
+        return Action(action=action_text)
 
 
-def extract_condition(condition_token: Token):
+def extract_condition(condition_token: Token) -> Condition:
     condition_token_subtree = list(condition_token.subtree)
     condition_text = " ".join([token.text for token in condition_token_subtree])
 
     is_optional_phrases = ["is none", "is not set", "is not specified", "is not none", "if none", "if not none"]
     has_value_phrases = ["equals", "is true", "is false", "is set to"]
     if any(phrase in condition_text.lower() for phrase in is_optional_phrases):
-        condition = ParameterIsOptional(condition=condition_text)
+        return ParameterIsOptional(condition=condition_text)
     elif any(phrase in condition_text.lower() for phrase in has_value_phrases):
-        condition = ParameterHasValue(condition=condition_text)
+        return ParameterHasValue(condition=condition_text)
     else:
-        condition = Condition(condition=condition_text)
-    return condition
+        return Condition(condition=condition_text)
 
 
 class DependencyExtractor:
