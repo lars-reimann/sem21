@@ -1,14 +1,14 @@
 dependency_matcher_patterns = {
     "pattern_parameter_sconj": [
-        {"RIGHT_ID": "applies", "RIGHT_ATTRS": {"POS": "VERB"}},
+        {"RIGHT_ID": "action_head", "RIGHT_ATTRS": {"POS": "VERB"}},
         {
-            "LEFT_ID": "applies",
+            "LEFT_ID": "action_head",
             "REL_OP": ">",
-            "RIGHT_ID": "condition",
+            "RIGHT_ID": "condition_head",
             "RIGHT_ATTRS": {"DEP": "advcl"},
         },
         {
-            "LEFT_ID": "condition",
+            "LEFT_ID": "condition_head",
             "REL_OP": ">",
             "RIGHT_ID": "dependee_param",
             "RIGHT_ATTRS": {"DEP": {"IN": ["nsubj", "nsubjpass"]}},
