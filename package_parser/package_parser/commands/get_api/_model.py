@@ -1,4 +1,5 @@
 from __future__ import annotations
+from dataclasses import dataclass
 
 import inspect
 import re
@@ -465,7 +466,7 @@ class ParameterAndResultDocstring:
     def to_json(self) -> Any:
         return {"type": self.type, "description": self.description}
 
-
+@dataclass
 class Action:
     @classmethod
     def from_json(cls, json: Any):
@@ -497,7 +498,7 @@ class ParameterIsIllegal(StaticAction):
     def __init__(self, action: str) -> None:
         super().__init__(action)
 
-
+@dataclass
 class Condition:
     @classmethod
     def from_json(cls, json: Any):
@@ -525,7 +526,7 @@ class ParameterHasValue(StaticCondition):
         super().__init__(condition)
 
 
-class ParameterIsSet(StaticCondition):
+class ParameterIsOptional(StaticCondition):
     def __init__(self, condition: str) -> None:
         super().__init__(condition)
 
