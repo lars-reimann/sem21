@@ -5,14 +5,24 @@ from spacy.matcher import DependencyMatcher
 from spacy.tokens import Token
 from spacy.tokens.doc import Doc
 
-from ..get_api._model import API, Action, Condition, Dependency, Parameter, ParameterIsIgnored, ParameterIsIllegal, ParameterIsOptional, ParameterHasValue
+from ..get_api._model import (
+    API,
+    Action,
+    Condition,
+    Dependency,
+    Parameter,
+    ParameterHasValue,
+    ParameterIsIgnored,
+    ParameterIsIllegal,
+    ParameterIsOptional,
+)
 from ._dependency_patterns import dependency_matcher_patterns
 from ._preprocess_docstring import preprocess_docstring
 
 PIPELINE = "en_core_web_sm"
 
 
-def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None]=None):
+def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None] = None):
     if extracted is None:
         extracted = []
 
@@ -41,10 +51,16 @@ def extract_action(action_token: Token, condition_token: Token) -> Action:
     for token in action_rights:
         if token != condition_token:
             action_tokens.extend(extract_lefts_and_rights(token))
-    
-    action_text = ' '.join(action_tokens)
 
-    ignored_phrases = ["ignored", "not used", "no impact", "only supported", "only applies"]
+    action_text = " ".join(action_tokens)
+
+    ignored_phrases = [
+        "ignored",
+        "not used",
+        "no impact",
+        "only supported",
+        "only applies",
+    ]
     illegal_phrases = ["raise", "exception", "must be", "must not be"]
     if any(phrase in action_text.lower() for phrase in ignored_phrases):
         return ParameterIsIgnored(action=action_text)
@@ -58,7 +74,14 @@ def extract_condition(condition_token: Token) -> Condition:
     condition_token_subtree = list(condition_token.subtree)
     condition_text = " ".join([token.text for token in condition_token_subtree])
 
-    is_optional_phrases = ["is none", "is not set", "is not specified", "is not none", "if none", "if not none"]
+    is_optional_phrases = [
+        "is none",
+        "is not set",
+        "is not specified",
+        "is not none",
+        "if none",
+        "if not none",
+    ]
     has_value_phrases = ["equals", "is true", "is false", "is set to"]
     if any(phrase in condition_text.lower() for phrase in is_optional_phrases):
         return ParameterIsOptional(condition=condition_text)
@@ -87,7 +110,7 @@ class DependencyExtractor:
         if is_depending_on_param is None:
             # Likely not a correct dependency match
             return None
-        
+
         condition_token = param_docstring[match[1][1]]
         condition = extract_condition(condition_token)
 

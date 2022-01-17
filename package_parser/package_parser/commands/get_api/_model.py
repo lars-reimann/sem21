@@ -1,9 +1,8 @@
 from __future__ import annotations
-from dataclasses import dataclass
 
 import inspect
 import re
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from enum import Enum, auto
 from typing import Any, Dict, Optional, Union
 
@@ -445,6 +444,7 @@ class ParameterAndResultDocstring:
     def to_json(self) -> Any:
         return {"type": self.type, "description": self.description}
 
+
 @dataclass
 class Action:
     @classmethod
@@ -476,6 +476,7 @@ class ParameterIsIgnored(StaticAction):
 class ParameterIsIllegal(StaticAction):
     def __init__(self, action: str) -> None:
         super().__init__(action)
+
 
 @dataclass
 class Condition:
