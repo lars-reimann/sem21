@@ -5,7 +5,7 @@ from spacy.matcher import DependencyMatcher
 from spacy.tokens import Token
 from spacy.tokens.doc import Doc
 
-from ..get_api._model import API, Action, Condition, Dependency, Parameter, ParameterIsIgnored
+from ..get_api._model import API, Action, Condition, Dependency, Parameter, ParameterIsIgnored, ParameterIsIllegal, ParameterIsOptional, ParameterHasValue
 from ._dependency_patterns import dependency_matcher_patterns
 from ._preprocess_docstring import preprocess_docstring
 
@@ -44,18 +44,30 @@ def extract_action(action_token: Token, condition_token: Token):
     
     action_text = ' '.join(action_tokens)
 
-    ignored_phrases = ["ignored", "not used"]
+    ignored_phrases = ["ignored", "not used", "no impact", "only supported", "only applies"]
+    illegal_phrases = ["raise", "exception", "must be", "must not be"]
     if any(phrase in action_text.lower() for phrase in ignored_phrases):
         action = ParameterIsIgnored(action=action_text)
+    elif any(phrase in action_text.lower() for phrase in illegal_phrases):
+        action = ParameterIsIllegal(action=action_text)
     else:
         action = Action(action=action_text)
     return action
 
 
-def extract_condition(condition_token):
+def extract_condition(condition_token: Token):
     condition_token_subtree = list(condition_token.subtree)
     condition_text = " ".join([token.text for token in condition_token_subtree])
-    return Condition(condition=condition_text)
+
+    is_optional_phrases = ["is none", "is not set", "is not specified", "is not none", "if none", "if not none"]
+    has_value_phrases = ["equals", "is true", "is false", "is set to"]
+    if any(phrase in condition_text.lower() for phrase in is_optional_phrases):
+        condition = ParameterIsOptional(condition=condition_text)
+    elif any(phrase in condition_text.lower() for phrase in has_value_phrases):
+        condition = ParameterHasValue(condition=condition_text)
+    else:
+        condition = Condition(condition=condition_text)
+    return condition
 
 
 class DependencyExtractor:
