@@ -503,6 +503,7 @@ class ParameterHasValue(StaticCondition):
     def __init__(self, condition: str) -> None:
         super().__init__(condition)
 
+
 class ParameterIsNone(StaticCondition):
     def __init__(self, condition: str) -> None:
         super().__init__(condition)

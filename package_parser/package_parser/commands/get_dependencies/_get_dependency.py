@@ -76,14 +76,20 @@ def extract_condition(condition_token: Token) -> Condition:
 
     is_none_phrases = [
         "is none",
-        "is also none"
-        "is not set",
+        "is also none" "is not set",
         "is not specified",
         "is not none",
         "if none",
         "if not none",
     ]
-    has_value_phrases = ["equals", "is true", "is false", "is set to", "is greater than", "is less than"]
+    has_value_phrases = [
+        "equals",
+        "is true",
+        "is false",
+        "is set to",
+        "is greater than",
+        "is less than",
+    ]
     if any(phrase in condition_text.lower() for phrase in is_none_phrases):
         return ParameterIsNone(condition=condition_text)
     elif any(phrase in condition_text.lower() for phrase in has_value_phrases):
