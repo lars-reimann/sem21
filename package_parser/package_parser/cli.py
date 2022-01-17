@@ -2,12 +2,20 @@ import argparse
 import json
 from argparse import _SubParsersAction
 from pathlib import Path
+from typing import Any
 
 from .commands.get_api import get_api
 from .commands.get_dependencies import get_dependencies
 from .utils import ensure_file_exists
 
 __API_COMMAND = "api"
+
+
+class CustomEncoder(json.JSONEncoder):
+    def default(self, o: Any) -> Any:
+        if isinstance(o, set):
+            return list(o)
+        return super().default(o)
 
 
 def cli() -> None:
@@ -23,7 +31,7 @@ def cli() -> None:
         )
         ensure_file_exists(out_file)
         with out_file.open("w") as f:
-            json.dump(public_api.to_json(), f, indent=2)
+            json.dump(public_api.to_json(), f, indent=2, cls=CustomEncoder)
 
 
 def __get_args() -> argparse.Namespace:
