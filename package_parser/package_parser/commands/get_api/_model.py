@@ -447,12 +447,11 @@ class ParameterAndResultDocstring:
 
 @dataclass
 class Action:
+    action: str
+
     @classmethod
     def from_json(cls, json: Any):
         return cls(json["action"])
-
-    def __init__(self, action: str) -> None:
-        self.action = action
 
     def to_json(self) -> Dict:
         return {"action": self.action}
@@ -480,12 +479,11 @@ class ParameterIsIllegal(StaticAction):
 
 @dataclass
 class Condition:
+    condition: str
+
     @classmethod
     def from_json(cls, json: Any):
         return cls(json["condition"])
-
-    def __init__(self, condition: str) -> None:
-        self.condition = condition
 
     def to_json(self) -> Dict:
         return {"condition": self.condition}
@@ -505,8 +503,7 @@ class ParameterHasValue(StaticCondition):
     def __init__(self, condition: str) -> None:
         super().__init__(condition)
 
-
-class ParameterIsOptional(StaticCondition):
+class ParameterIsNone(StaticCondition):
     def __init__(self, condition: str) -> None:
         super().__init__(condition)
 
