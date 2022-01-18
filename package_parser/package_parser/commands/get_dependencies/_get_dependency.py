@@ -7,8 +7,8 @@ from spacy.tokens.doc import Doc
 
 from ..get_api._model import (
     API,
-    APIDependencies,
     Action,
+    APIDependencies,
     Condition,
     Dependency,
     Parameter,
@@ -131,6 +131,7 @@ class DependencyExtractor:
             hasCondition=condition,
             hasAction=action,
         )
+
 
 def extract_dependencies_from_docstring(
     parameter: Parameter,

@@ -541,8 +541,8 @@ class APIDependencies:
     def to_json(self) -> Dict:
         return {
             function_name: {
-                parameter_name: [
-                    dependency.to_json() for dependency in dependencies
-                 ] for parameter_name, dependencies in parameter_name.items()
-            } for function_name, parameter_name in self.dependencies.items()
+                parameter_name: [dependency.to_json() for dependency in dependencies]
+                for parameter_name, dependencies in parameter_name.items()
+            }
+            for function_name, parameter_name in self.dependencies.items()
         }
