@@ -156,7 +156,7 @@ def extract_dependencies_from_docstring(
     return dependencies
 
 
-def get_dependencies(api: API) -> Dict:
+def get_dependencies(api: API) -> APIDependencies:
     """
     Loop through all functions in the API
     Parse and preprocess each doc string from every function
