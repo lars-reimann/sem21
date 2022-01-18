@@ -7,6 +7,7 @@ from spacy.tokens.doc import Doc
 
 from ..get_api._model import (
     API,
+    APIDependencies,
     Action,
     Condition,
     Dependency,
@@ -131,7 +132,6 @@ class DependencyExtractor:
             hasAction=action,
         )
 
-
 def extract_dependencies_from_docstring(
     parameter: Parameter,
     func_parameters: List[Parameter],
@@ -194,4 +194,4 @@ def get_dependencies(api: API) -> Dict:
             if param_dependencies:
                 all_dependencies[function_name][parameter.name] = param_dependencies
 
-    return all_dependencies
+    return APIDependencies(dependencies=all_dependencies)
