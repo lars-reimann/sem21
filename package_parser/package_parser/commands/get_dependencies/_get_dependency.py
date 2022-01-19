@@ -54,7 +54,7 @@ def extract_action(action_token: Token, condition_token: Token) -> Action:
             action_tokens.extend(extract_lefts_and_rights(token))
 
     # Remove trailing punctiation
-    if any(p == action_tokens[-1] for p in [',', '.']):
+    if any(p == action_tokens[-1] for p in [",", "."]):
         del action_tokens[-1]
     action_text = " ".join(action_tokens)
 

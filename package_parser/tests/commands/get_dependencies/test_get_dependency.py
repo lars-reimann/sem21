@@ -62,7 +62,9 @@ def test_extract_action():
 
 
 def test_extract_condition():
-    condition_is_none = nlp("If func is None , then func will be the identity function.")
+    condition_is_none = nlp(
+        "If func is None , then func will be the identity function."
+    )
     condition_is_none_root_token = condition_is_none[2]
 
     is_none_condition = extract_condition(condition_is_none_root_token)
