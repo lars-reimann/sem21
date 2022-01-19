@@ -552,7 +552,7 @@ def visitAst(ast):
         print(ast)
         enclosing = inferFunction(ast)
 
-        if isinstance(ast.func, Astroid.FunctionDef):
+        if isinstance(ast.func, Astroid.FunctionDef) or isinstance(ast.func, Astroid.AsyncFunctionDef):
             if ast.func.name == "print":
                 print(f'\033[96mFunction "{enclosing}" has output side effect: prints to console "{concatArgs(ast.args)}"\033[0m')
             elif ast.func.name == "input":
@@ -642,15 +642,10 @@ def visitAst(ast):
             visitAst(ast[i])
     
     if isinstance(ast, Astroid.Compare):
-        #handle module
-        
-        for i in range(len(ast)):
-            visitAst(ast[i])
-    
-     if isinstance(ast, list):
-        #handle module
-        for i in range(len(ast)):
-            visitAst(ast[i])
+        #handle compare
+        visitAst(ast.left)
+        for i in range(len(ast.ops)):
+            visitAst(ast.ops[i])
     
     if isinstance(ast, Astroid.BaseContainer):
         #handle module
@@ -668,9 +663,9 @@ def visitAst(ast):
         for i in range(len(ast)):
             visitAst(ast[i])
             visitAst(ast.target)
-               print(ast.target)
+            print(ast.target)
             visitAst(ast.value)
-               print(ast.value)
+            print(ast.value)
 
     if isinstance(ast, Astroid.Assert):
         # handle module
@@ -702,8 +697,8 @@ def visitAst(ast):
 
     if isinstance(ast, Astroid.AsyncFunctionDef):
         # handle module
-        for i in range(len(ast)):
-            visitAst(ast.[i])
+        for i in range(len(ast.args)):
+            visitAst(ast.args[i])
         for i in range(len(ast.body)):
             visitAst(ast.body[i])
 
@@ -711,7 +706,7 @@ def visitAst(ast):
     if isinstance(ast, Astroid.AsyncWith):
         # handle module
         for i in range(len(ast)):
-            visitAst(ast.[i])
+            visitAst(ast[i])
         for i in range(len(ast.body)):
             visitAst(ast.body[i])
 
@@ -738,10 +733,10 @@ def visitAst(ast):
         for i in range(len(ast)):
             visitAst(ast[i])
         for i in range(len(ast.targets)):
-                visitAst(ast.targets[i])
-                print(ast.targets[i])
+            visitAst(ast.targets[i])
+            print(ast.targets[i])
             visitAst(ast.value)
-                 print(ast.value)
+            print(ast.value)
 
     if isinstance(ast, Astroid.Break):
         # handle module
