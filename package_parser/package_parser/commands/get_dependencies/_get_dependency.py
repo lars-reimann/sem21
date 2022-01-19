@@ -24,6 +24,9 @@ PIPELINE = "en_core_web_sm"
 
 
 def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None] = None):
+    """
+    Given a spaCy token, extract recursively all tokens in its dependency subtree in inorder traversal.
+    """
     if extracted is None:
         extracted = []
 
@@ -41,6 +44,10 @@ def extract_lefts_and_rights(curr_token: Token, extracted: Union[List, None] = N
 
 
 def extract_action(action_token: Token, condition_token: Token) -> Action:
+    """
+    Create action object given head token of action phrase in docstring.
+    Condition token used to avoid traversing into the condition phrase dependency subtree of the docstring.
+    """
     action_tokens = []
     action_lefts = list(action_token.lefts)
     action_rights = list(action_token.rights)
@@ -75,6 +82,9 @@ def extract_action(action_token: Token, condition_token: Token) -> Action:
 
 
 def extract_condition(condition_token: Token) -> Condition:
+    """
+    Create condition object given head token of condition phrase in docstring.
+    """
     condition_token_subtree = list(condition_token.subtree)
     condition_text = " ".join([token.text for token in condition_token_subtree])
 
@@ -103,6 +113,9 @@ def extract_condition(condition_token: Token) -> Condition:
 
 
 class DependencyExtractor:
+    """
+    Functions to extract each type of pattern in _dependency_patterns
+    """
     @staticmethod
     def extract_pattern_parameter_subordinating_conjunction(
         dependent_param: Parameter,
@@ -144,7 +157,8 @@ def extract_dependencies_from_docstring(
     spacy_id_to_pattern_id_mapping: Dict,
 ) -> List[Dependency]:
     """
-    Extract readable dependencies in a Docstring from pattern matches
+    Extract readable dependencies in a Docstring from pattern matches.
+    Function fetched from class DependencyExtractor, when 'extract_' + pattern name match function name in the class.
     """
     dependencies = list()
     for match in matches:
