@@ -92,29 +92,30 @@ def test_extract_condition():
     condition = extract_condition(condition_uncategorised_root_token)
     assert condition == Condition(condition="If metric is a string")
 
+
 def test_extract_dependencies_from_docstring_pattern_subordinating_conjunction():
     param_docstring_nlp = nlp("ignored when probability is False")
-    dependent_param  = Parameter(
+    dependent_param = Parameter(
         name="random_state",
         default_value=None,
         is_public=True,
         assigned_by="NAME_ONLY",
         docstring=ParameterAndResultDocstring(
-            type_="param possible types",
-            description=param_docstring_nlp.text
-        )
+            type_="param possible types", description=param_docstring_nlp.text
+        ),
     )
-    dependee_param  = Parameter(
+    dependee_param = Parameter(
         name="probability",
         default_value=None,
         is_public=True,
         assigned_by="NAME_ONLY",
         docstring=ParameterAndResultDocstring(
-            type_="param possible types",
-            description="param probability docstring"
-        )
+            type_="param possible types", description="param probability docstring"
+        ),
     )
-    pattern_parameter_subordinating_conjunction = nlp("ignored when probability is False")
+    pattern_parameter_subordinating_conjunction = nlp(
+        "ignored when probability is False"
+    )
     func_params = [dependent_param, dependee_param]
     match = (314159265, [0, 3, 2])
 
@@ -122,14 +123,16 @@ def test_extract_dependencies_from_docstring_pattern_subordinating_conjunction()
         hasDependentParameter=dependent_param,
         isDependingOn=dependee_param,
         hasCondition=ParameterHasValue("when probability is False"),
-        hasAction=ParameterIsIgnored("ignored")
+        hasAction=ParameterIsIgnored("ignored"),
     )
 
-    extracted_dependency = DependencyExtractor.extract_pattern_parameter_subordinating_conjunction(
-        dependent_param=dependent_param,
-        func_parameters=func_params,
-        match=match,
-        param_docstring=param_docstring_nlp
+    extracted_dependency = (
+        DependencyExtractor.extract_pattern_parameter_subordinating_conjunction(
+            dependent_param=dependent_param,
+            func_parameters=func_params,
+            match=match,
+            param_docstring=param_docstring_nlp,
+        )
     )
 
     assert expected_dependency == extracted_dependency
