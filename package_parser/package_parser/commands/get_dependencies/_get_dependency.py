@@ -116,6 +116,7 @@ class DependencyExtractor:
     """
     Functions to extract each type of pattern in _dependency_patterns
     """
+
     @staticmethod
     def extract_pattern_parameter_subordinating_conjunction(
         dependent_param: Parameter,
