@@ -68,12 +68,13 @@ class BoundaryType:
     max_inclusive: bool
 
     @classmethod
-    def _is_inclusive(cls, bracket: str) -> Optional[bool]:
+    def _is_inclusive(cls, bracket: str) -> bool:
         if bracket == "(" or bracket == ")":
             return False
         elif bracket == "[" or bracket == "]":
             return True
-        return None
+        else:
+            raise Exception(f"{bracket} is not one of []()")
 
     @classmethod
     def from_string(cls, string: str) -> Optional[BoundaryType]:

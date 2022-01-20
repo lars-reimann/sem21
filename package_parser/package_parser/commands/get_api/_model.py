@@ -350,9 +350,9 @@ class Function:
 class RefinedType:
     @classmethod
     def from_docstring(cls, docstring: ParameterAndResultDocstring) -> RefinedType:
-        docstring = " ".join([docstring.type, docstring.description])
-        enum = EnumType.from_string(docstring)
-        boundary = BoundaryType.from_string(docstring)
+        docstring_str = " ".join([docstring.type, docstring.description])
+        enum = EnumType.from_string(docstring_str)
+        boundary = BoundaryType.from_string(docstring_str)
 
         if enum is not None and boundary is not None:
             union = UnionType()
