@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import ClassVar, Optional, Union
 
 
 @dataclass
@@ -58,9 +58,12 @@ class EnumType:
 
 @dataclass
 class BoundaryType:
+
+    INFINITY: ClassVar = "Infinity"
+
     base_type: str
     min: Union[float, int]
-    max: Union[float, int]
+    max: Union[float, int, str]
     min_inclusive: bool
     max_inclusive: bool
 
@@ -74,8 +77,11 @@ class BoundaryType:
 
     @classmethod
     def from_string(cls, string: str) -> Optional[BoundaryType]:
-        pattern = r"(?P<base_type>float|int)? (?:in|of)(?: the)? (?:range|interval) `?(?P<min_bracket>\[|\()(?P<min>\d+.?\d*), (?P<max>\d+.?\d*|infinity)(?P<max_bracket>\]|\))`?"
-        match = re.search(pattern, string)
+        pattern = r"""(?P<base_type>float|int)?[ ]  # optional base type of either float or int
+                    (in|of)[ ](the[ ])?(range|interval)[ ](of[ ])?  # 'in' or 'of', optional 'the', 'range' or 'interval', optional 'of'
+                    `?(?P<min_bracket>\[|\()(?P<min>\d+.?\d*),[ ]  # left side of the range
+                    (?P<max>\d+.?\d*|infinity)(?P<max_bracket>\]|\))`?"""  # right side of the range
+        match = re.search(pattern, string, re.VERBOSE)
 
         if match is not None:
             base_type = match.group("base_type")
@@ -88,17 +94,35 @@ class BoundaryType:
             if max_value != "infinity":
                 max_value = base_type(max_value)
             else:
-                max_value = float("inf")
+                max_value = BoundaryType.INFINITY
             min_bracket = match.group("min_bracket")
             max_bracket = match.group("max_bracket")
             min_inclusive = BoundaryType._is_inclusive(min_bracket)
             max_inclusive = BoundaryType._is_inclusive(max_bracket)
 
             return BoundaryType(
-                base_type, min_value, max_value, min_inclusive, max_inclusive
+                base_type.__name__, min_value, max_value, min_inclusive, max_inclusive
             )
 
         return None
+
+    def __eq__(self, __o: object) -> bool:
+        if isinstance(__o, BoundaryType):
+            eq = (
+                self.base_type == __o.base_type
+                and self.min == __o.min
+                and self.min_inclusive == __o.min_inclusive
+                and self.max == __o.max
+            )
+            if eq:
+                if self.max == BoundaryType.INFINITY:
+                    return True
+                else:
+                    return self.max_inclusive == __o.max_inclusive
+            else:
+                return False
+        else:
+            return False
 
 
 @dataclass
