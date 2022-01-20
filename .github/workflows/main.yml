@@ -42,7 +42,7 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Smoke test
-        run: poetry shell && parse-package api -p sklearn -o out
+        run: poetry run parse-package api -p sklearn -o out
 
       # Requires installation of pytest and pytest-cov
       - name: Test with pytest
