@@ -118,7 +118,7 @@ class DependencyExtractor:
     """
 
     @staticmethod
-    def extract_pattern_parameter_subordinating_conjunction(
+    def extract_pattern_parameter_adverbial_clause(
         dependent_param: Parameter,
         func_parameters: List[Parameter],
         match: Tuple,
