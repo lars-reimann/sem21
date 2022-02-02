@@ -438,14 +438,13 @@ class KMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         }
 ''')
 
-
 module = parse('''
 class A:
     def __init__(self):
         self.a = 1
         input("Schreib was :)")
         print('alles erfolgreich initialisiert')
-    
+
     def func(self, arg):
         self.a = 5
         if arg < random_state:
@@ -458,7 +457,7 @@ class A:
         x = random_state
         f(self)
         return self.a
-        
+
 aObj = A()
 
 def f(pA):
@@ -468,70 +467,72 @@ def f(pA):
 f(aObj)
 ''')
 
+
 def visitAst(ast):
     if isinstance(ast, Astroid.Module):
-        #handle module
+        # handle module
         for i in range(len(ast.body)):
             visitAst(ast.body[i])
 
-    if isinstance(ast, Astroid.FunctionDef):
-        #handle function
-        print(ast)
+    if isinstance(ast, Astroid.FunctionDef) or isinstance(ast, Astroid.AsyncFunctionDef):
+        # handle function
         for i in range(len(ast.body)):
             visitAst(ast.body[i])
-            print(ast.body[i])
     if isinstance(ast, Astroid.ClassDef):
-        #handle class
+        # handle class
+        for i in range(len(ast.instance_attrs)):
+            visitAst(ast.instance_attrs.get(i))
+        for i in range(len(ast.keywords)):
+            visitAst(ast.keywords[i])
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals.get(i))
+        for i in range(len(ast.bases)):
+            visitAst(ast.bases[i])
         for i in range(len(ast.body)):
             visitAst(ast.body[i])
 
     if isinstance(ast, Astroid.Expr):
-        #handle expression
+        # handle expression
         visitAst(ast.value)
     if isinstance(ast, Astroid.If):
-        #handle condition
+        # handle condition
         visitAst(ast.test)
-        print(ast.test)
-        #handle body
+        # handle body
         for i in range(len(ast.body)):
             if ast.body[i] is not None:
                 visitAst(ast.body[i])
-                print(ast.body[i])
-        #handle else, which might be an if again
+        # handle else, which might be an if again
         for i in range(len(ast.orelse)):
             if ast.orelse[i] is not None:
                 visitAst(ast.orelse[i])
-                print(ast.orelse[i])
 
     if isinstance(ast, Astroid.Compare):
-        #handle operand
+        # handle operand
         visitAst(ast.left)
         # handle ops
         for i in range(len(ast.ops)):
             visitAst(ast.ops[i])
-            print(ast.ops[i])
 
     if isinstance(ast, tuple) and isinstance(ast[0], str) and isinstance(ast[1], Astroid.NodeNG):
-        #handle operand
+        # handle operand
         visitAst(ast[1])
 
     if isinstance(ast, Astroid.BoolOp):
-        #handle operands
+        # handle operands
         for i in range(len(ast.values)):
             if ast.values[i] is not None:
                 visitAst(ast.values[i])
-                print(ast.values[i])
 
     if isinstance(ast, Astroid.BinOp):
-        #handle operands
+        # handle operands
         visitAst(ast.left)
         visitAst(ast.right)
     if isinstance(ast, Astroid.UnaryOp):
-        #handle operand
+        # handle operand
         visitAst(ast.operand)
 
     if isinstance(ast, Astroid.Raise):
-        #handle raise
+        # handle raise
         # if isinstance(ast.exc.args[0], Astroid.JoinedStr):
         #     string = ""
         #     for i in range(len(ast.exc.args[0].values)):
@@ -548,11 +549,10 @@ def visitAst(ast):
         visitAst(ast.value)
 
     if isinstance(ast, Astroid.Call):
-        #handle expression
-        print(ast)
+        # handle expression
         enclosing = inferFunction(ast)
 
-        if isinstance(ast.func, Astroid.FunctionDef):
+        if isinstance(ast.func, Astroid.FunctionDef) or isinstance(ast.func, Astroid.AsyncFunctionDef):
             if ast.func.name == "print":
                 print(f'\033[96mFunction "{enclosing}" has output side effect: prints to console "{concatArgs(ast.args)}"\033[0m')
             elif ast.func.name == "input":
@@ -560,8 +560,7 @@ def visitAst(ast):
                 for i in range(len(ast.args)):
                     argsJoined += " " + ast.args[i].value
                 argsJoined = argsJoined.strip()
-                print(
-                    f'\033[96mFunction "{enclosing}" has input and output side effect: reads from console and prints "{argsJoined}" to console\033[0m')
+                print(f'\033[96mFunction "{enclosing}" has input and output side effect: reads from console and prints "{argsJoined}" to console\033[0m')
             elif ast.func.name == "open":
                 if ast.args[1].value == "r":
                     print(f'\033[96mUnpure function "{enclosing}" due to read from file "{ast.args[0].value}"\033[0m')
@@ -578,7 +577,10 @@ def visitAst(ast):
             if ast.func.name == 'print':
                 print(f'\033[96mFunction "{enclosing}" has output side effect: prints to console "{concatArgs(ast.args)}"\033[0m')
             else:
-                print(f'\033[93mFunction "{enclosing}" references other function "{ast.func.name}", inheriting all its defects\033[0m')
+                if ast.func != enclosing: #TODO: Check for mutual recursion in set
+                    print(f'\033[93mFunction "{enclosing}" references other function "{ast.func.name}", inheriting all its defects\033[0m')
+
+                    #TODO: also check if function in parameter place or inner function can be a problem (they are not necessary executed)!!
 
         for i in range(len(ast.args)):
             visitAst(ast.args[i])
@@ -586,72 +588,323 @@ def visitAst(ast):
             visitAst(ast.keywords[i])
 
     if isinstance(ast, Astroid.Assign):
-        #handle expression
+        # handle expression
+        visitAst(ast.value)
+
         for i in range(len(ast.targets)):
             visitAst(ast.targets[i])
-            print(ast.targets[i])
-        visitAst(ast.value)
-        print(ast.value)
 
     if isinstance(ast, Astroid.AugAssign):
-        #handle expression
+        # handle expression
         visitAst(ast.target)
-        print(ast.target)
         visitAst(ast.value)
-        print(ast.value)
 
     if isinstance(ast, Astroid.AssignAttr):
-        #handle attribute assignment
+        # handle attribute assignment
         print(f'\033[92mState side effect in function "{inferFunction(ast)}": assignment to attribute "{ast.attrname}" of instance {ast.expr.name}\033[0m')
         visitAst(ast.expr)
 
     if isinstance(ast, Astroid.Attribute):
-        #handle attribute read
+        # handle attribute read
         if isinstance(ast.expr, Astroid.Name):
             name = ast.expr.name
         elif isinstance(ast.expr, Astroid.Call):
             name = ast.expr.func
-
+        else:
+            name = "NONAME"
         print(f'\033[92mUnpure function "{inferFunction(ast)}" due to state read: reading from attribute "{ast.attrname}" of instance {name}\033[0m')
 
     if isinstance(ast, Astroid.Return):
-        #handle return
+        # handle return
         visitAst(ast.value)
-
-    if isinstance(ast, Astroid.Await):
-        #handle value
-        visitAst(ast.value)
-
-    if isinstance(ast, Astroid.IfExp):
-        #handle body
-        visitAst(ast.body)
-        # handle orelse
-        visitAst(ast.orelse)
-        # handle test
-        visitAst(ast.test)
 
     if isinstance(ast, Astroid.Keyword):
-        #handle keyword
-        #visitAst(ast.arg) TODO is this necessary? since we can only set the parameters...?
+        # handle keyword
+        # visitAst(ast.arg) TODO is this necessary? since we can only set the parameters...?
         visitAst(ast.value)
-        print(ast)
 
-    if isinstance(ast, Astroid.For):
-        #handle for
+    if isinstance(ast, Astroid.For) or isinstance(ast, Astroid.AsyncFor):
+        # handle for
         visitAst(ast.iter)
+        visitAst(ast.target)
+        visitAst(ast.type_annotation)
         for i in range(len(ast.body)):
             visitAst(ast.body[i])
         for i in range(len(ast.orelse)):
             visitAst(ast.orelse[i])
 
     if isinstance(ast, tuple) and isinstance(ast[0], str) and isinstance(ast[1], list):
-        #handle list
+        # handle list
         visitAst(ast[1])
 
     if isinstance(ast, list):
-        #handle module
+        # handle module
         for i in range(len(ast)):
             visitAst(ast[i])
+
+    #Here begins Bitas part
+
+    if isinstance(ast, Astroid.Compare):
+        # handle compare
+        visitAst(ast.left)
+        for i in range(len(ast.ops)):
+            visitAst(ast.ops[i])
+
+    if isinstance(ast, Astroid.BaseContainer):
+        # handle module
+
+        for i in range(len(ast.elts)):
+            visitAst(ast.elts[i])
+
+    if isinstance(ast, Astroid.Arguments):
+        # handle Arguments
+        for i in range(len(ast.args)):
+            visitAst(ast.args[i])
+        for i in range(len(ast.defaults)):
+            visitAst(ast.defaults[i])
+        for i in range(len(ast.kwonlyargs)):
+            visitAst(ast.kwonlyargs[i])
+        for i in range(len(ast.posonlyargs)):
+            visitAst(ast.posonlyargs[i])
+        for i in range(len(ast.kw_defaults)):
+            visitAst(ast.kw_defaults[i])
+        for i in range(len(ast.annotations)):
+            visitAst(ast.annotations[i])
+        for i in range(len(ast.posonlyargs_annotations)):
+            visitAst(ast.posonlyargs_annotations[i])
+        for i in range(len(ast.kwonlyargs_annotations)):
+            visitAst(ast.kwonlyargs_annotations[i])
+        for i in range(len(ast.type_comment_args)):
+            visitAst(ast.type_comment_args[i])
+
+    if isinstance(ast, Astroid.AnnAssign):
+        # handle module
+        visitAst(ast.target)
+        visitAst(ast.annotation)
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.Assert):
+        # handle module
+        visitAst(ast.test)
+        visitAst(ast.fail)
+
+    if isinstance(ast, Astroid.AssignName):
+        # handle module
+        visitAst(ast.name)
+
+    if isinstance(ast, Astroid.Await):
+        # handle module
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.Comprehension):
+        # handle module
+        visitAst(ast.target)
+        visitAst(ast.iter)
+        for i in range(len(ast.ifs)):
+            visitAst(ast.ifs[i])
+
+    if isinstance(ast, Astroid.Const):
+        # handle module
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.Decorators):
+        # handle module
+        for i in range(len(ast.nodes)):
+            visitAst(ast.nodes[i])
+
+    if isinstance(ast, Astroid.DelAttr):
+        # handle module
+        visitAst(ast.expr)
+
+    if isinstance(ast, Astroid.Delete):   #<<<<------- state side effect?
+        # handle module
+        for i in range(len(ast.targets)):
+            visitAst(ast.targets[i])
+
+    if isinstance(ast, Astroid.Dict):
+        # handle module
+        for i in range(len(ast.items)):
+            visitAst(ast.items[i])
+
+    if isinstance(ast, Astroid.DictComp):
+        # handle module
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals[i])
+
+    if isinstance(ast, Astroid.EvaluatedObject):
+        # handle module
+        visitAst(ast.original)
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.ExceptHandler):
+        # handle module
+        visitAst(ast.type)
+        visitAst(ast.name)
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+
+    if isinstance(ast, Astroid.FormattedValue):
+        # handle module
+        visitAst(ast.format_spec)
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.GeneratorExp):
+        # handle module
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals[i])
+
+    if isinstance(ast, Astroid.IfExp):
+        # handle module
+        visitAst(ast.test)
+        visitAst(ast.body)
+        visitAst(ast.orelse)
+
+    if isinstance(ast, Astroid.JoinedStr):
+        # handle module
+        for i in range(len(ast.values)):
+            visitAst(ast.values[i])
+
+    if isinstance(ast, Astroid.Lambda):
+        # handle module
+        visitAst(ast.args)
+
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals.get(i))
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+
+    if isinstance(ast, Astroid.ListComp):
+        # handle module
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals.get(i))
+
+    if isinstance(ast, Astroid.LocalsDictNodeNG):
+        # handle module
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals.get(i))
+
+    if isinstance(ast, Astroid.Match):
+        # handle module
+        visitAst(ast.subject)
+
+        for i in range(len(ast.cases)):
+            visitAst(ast.cases[i])
+
+    if isinstance(ast, Astroid.MatchAs):
+        # handle module
+        visitAst(ast.pattern)
+        visitAst(ast.name)
+
+    if isinstance(ast, Astroid.MatchCase):
+        # handle module
+        visitAst(ast.pattern)
+        visitAst(ast.guard)
+
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+
+    if isinstance(ast, Astroid.MatchClass):
+        # handle module
+        visitAst(ast.cls)
+        for i in range(len(ast.kwd_patterns)):
+            visitAst(ast.kwd_patterns[i])
+        for i in range(len(ast.patterns)):
+            visitAst(ast.patterns[i])
+
+    if isinstance(ast, Astroid.MatchMapping):
+        # handle module
+        visitAst(ast.rest)
+        for i in range(len(ast.keys)):
+            visitAst(ast.keys[i])
+        for i in range(len(ast.patterns)):
+            visitAst(ast.patterns[i])
+
+    if isinstance(ast, Astroid.MatchOr):
+        # handle module
+        for i in range(len(ast.patterns)):
+            visitAst(ast.patterns[i])
+
+    if isinstance(ast, Astroid.MatchSequence):
+        # handle module
+        for i in range(len(ast.patterns)):
+            visitAst(ast.patterns[i])
+
+    if isinstance(ast, Astroid.MatchStar):
+        # handle module
+        visitAst(ast.name)
+
+    if isinstance(ast, Astroid.MatchValue):
+        # handle module
+        visitAst(ast.name)
+
+    if isinstance(ast, Astroid.NamedExpr):
+        # handle module
+        visitAst(ast.target)
+        visitAst(ast.value)
+
+    if isinstance(ast, Astroid.Set):
+        # handle module
+        for i in range(len(ast.elts)):
+            visitAst(ast.elts[i])
+
+    if isinstance(ast, Astroid.SetComp):
+        # handle module
+        for i in range(len(ast.locals)):
+            visitAst(ast.locals[i])
+
+    if isinstance(ast, Astroid.Slice):
+        # handle module
+        visitAst(ast.lower)
+        visitAst(ast.upper)
+        visitAst(ast.step)
+
+    if isinstance(ast, Astroid.Starred):
+        # handle module
+        visitAst(ast.value)
+        visitAst(ast.ctx)
+
+    if isinstance(ast, Astroid.Subscript):
+        # handle module
+        visitAst(ast.value)
+        visitAst(ast.slice)
+        visitAst(ast.ctx)
+
+    if isinstance(ast, Astroid.TryExcept):
+        # handle module
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+        for i in range(len(ast.orelse)):
+            visitAst(ast.orelse[i])
+        for i in range(len(ast.handlers)):
+            visitAst(ast.handlers[i])
+
+    if isinstance(ast, Astroid.TryFinally):
+        # handle module
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+        for i in range(len(ast.finalbody)):
+            visitAst(ast.finalbody[i])
+
+    if isinstance(ast, Astroid.While):
+        # handle module
+        visitAst(ast.test)
+
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+        for i in range(len(ast.orelse)):
+            visitAst(ast.orelse[i])
+
+    if isinstance(ast, Astroid.With) or isinstance(ast, Astroid.AsyncWith):
+        # handle module
+        visitAst(ast.type_annotation)
+        for i in range(len(ast.items)):
+            visitAst(ast.items[i])
+        for i in range(len(ast.body)):
+            visitAst(ast.body[i])
+
+    if isinstance(ast, Astroid.Yield):
+        # handle module
+        visitAst(ast.value)
 
     #######################
     ##### Randomness ######
@@ -661,6 +914,7 @@ def visitAst(ast):
         # handle attribute read
         print(f'\033[94mUnpure function "{inferFunction(ast)}" due to randomness read: reading from variable "{ast.name}"\033[0m')
 
+
 def inferFunction(ast):
     if ast is None:
         return None
@@ -669,6 +923,7 @@ def inferFunction(ast):
     else:
         return inferFunction(ast.parent)
 
+
 def inferClass(ast):
     if ast is None:
         return None
@@ -676,6 +931,7 @@ def inferClass(ast):
         return ast.name
     else:
         return inferClass(ast.parent)
+
 
 def concatJoinedStr(strings):
     if strings is Astroid.JoinedStr:
@@ -687,11 +943,13 @@ def concatJoinedStr(strings):
     elif strings is Astroid.Const:
         return strings.value
 
+
 def _concatJoinedString(strings):
     string = ""
     for i in range(len(strings.values)):
         string += strings.values[i].as_string()
     return string.strip()
+
 
 def concatArgs(strings):
     string = ""
