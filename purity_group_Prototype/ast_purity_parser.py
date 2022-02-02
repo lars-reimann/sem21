@@ -1,5 +1,8 @@
+import typing
+
 from astroid import parse
 from astroid import nodes as Astroid
+import json
 
 sklearn = parse('''
 class KMeans(TransformerMixin, ClusterMixin, BaseEstimator):
@@ -467,6 +470,84 @@ def f(pA):
 f(aObj)
 ''')
 
+''' Lists to store function properties while traversing the ast '''
+call_prop_list: typing.List[typing.Dict[str, str]] = []
+state_read_prop_list: typing.List[typing.Dict[str, str]] = []
+state_write_prop_list: typing.List[typing.Dict[str, str]] = []
+input_read_prop_list: typing.List[typing.Dict[str, str]] = []
+output_write_prop_list: typing.List[typing.Dict[str, str]] = []
+error_prop_list: typing.List[typing.Dict[str, str]] = []
+random_prop_list: typing.List[typing.Dict[str, str]] = []
+
+''' Save entry in list for the case where a function calls another function '''
+def create_call_prop(fnc: str, callee: str):
+    new_prop = {"function": fnc, "callee": callee}
+    call_prop_list.append(new_prop)
+
+''' Save entry in list for the case where a function reads from a state '''
+def create_state_read_prop(fnc: str, attr: str, obj: str):
+    new_prop = {"function": fnc, "attribute": attr, "object": obj}
+    state_read_prop_list.append(new_prop)
+
+''' Save entry in list for the case where a function write to the state of an object '''
+def create_state_write_prop(fnc: str, attr: str, obj: str, value: str):
+    new_prop = {"function": fnc, "attribute": attr, "object": obj, "value": value}
+    state_write_prop_list.append(new_prop)
+
+''' Save entry in list for the case where a function reads input from file or console '''
+def create_input_read_prop(fnc: str, source: str):
+    new_prop = {"function": fnc, "source": source}
+    input_read_prop_list.append(new_prop)
+
+''' Save entry in list for the case where a function writes to the file or console '''
+def create_output_write_prop(fnc: str, target: str, text: str):
+    new_prop = {"function": fnc, "target": target, "text": text}
+    output_write_prop_list.append(new_prop)
+
+''' Save entry in list for the case where a function raises an exception '''
+def create_error_prop(fnc: str, cond: str, error: str, msg: str):
+    new_prop = {"function": fnc, "condition": cond, "error": error, "message": msg}
+    error_prop_list.append(new_prop)
+
+''' Save entry in list for the case where a function uses randomness '''
+def create_random_prop(fnc: str, source: str):
+    new_prop = {"function": fnc, "source": source}
+    random_prop_list.append(new_prop)
+
+''' Serialize all lists '''
+def serialize_lists():
+    file = open("parsed_data.json", "w")
+    file.write(json.dumps(call_prop_list))
+    file.write(json.dumps(state_read_prop_list))
+    file.write(json.dumps(state_write_prop_list))
+    file.write(json.dumps(input_read_prop_list))
+    file.write(json.dumps(output_write_prop_list))
+    file.write(json.dumps(error_prop_list))
+    file.write(json.dumps(random_prop_list))
+    file.close()
+
+''' Print all lists '''
+def print_lists():
+    for e in call_prop_list:
+        print(f'\033[93mFunction "{e.get("function")}" references other function "{e.get("callee")}", inheriting all its properties\033[0m')
+
+    for e in state_read_prop_list:
+        print(f'\033[92mUnpure function "{e.get("function")}" due to state read: uses "{e.get("attribute")}" of "{e.get("object")}"\033[0m')
+
+    for e in state_write_prop_list:
+        print(f'\033[92mFunction "{e.get("function")}" has state side effect: writes to "{e.get("attribute")}" of "{e.get("object")}"\033[0m')
+
+    for e in input_read_prop_list:
+        print(f'\033[96mUnpure function "{e.get("function")}" due to read from "{e.get("target")}"\033[0m')
+
+    for e in output_write_prop_list:
+        print(f'\033[96mFunction "{e.get("function")}" has output side effect: prints "{e.get("text")}" to {e.get("target")}\033[0m')
+
+    for e in error_prop_list:
+        print(f'\033[95mFunction "{e.get("function")}" may terminate abnormally: raises "{e.get("error")}" under condition "{e.get("condition")}" and prints "{e.get("message")}" to console\033[0m')
+
+    for e in random_prop_list:
+        print(f'\033[94mUnpure function "{e.get("function")}" due to randomness read: uses "{e.get("source")}"\033[0m')
 
 def visitAst(ast):
     if isinstance(ast, Astroid.Module):
@@ -542,7 +623,7 @@ def visitAst(ast):
         #             string += " " + ast.exc.args[0].values[i]
         # else:
         #     string = ast.exc.args[0].value
-        print(f'\033[96mFunction "{inferFunction(ast)}" has output side effect: raises "{ast.exc.func.name}" and prints "{concatArgs(ast.exc.args)}" to console\033[0m')
+        create_error_prop(inferFunction(ast), "", ast.exc.func.name, concatArgs(ast.exc.args)) #TODO infer condition under which exception is raised
 
     if isinstance(ast, Astroid.Const):
         # handle const
@@ -554,32 +635,37 @@ def visitAst(ast):
 
         if isinstance(ast.func, Astroid.FunctionDef) or isinstance(ast.func, Astroid.AsyncFunctionDef):
             if ast.func.name == "print":
-                print(f'\033[96mFunction "{enclosing}" has output side effect: prints to console "{concatArgs(ast.args)}"\033[0m')
+                create_output_write_prop(enclosing, "console", concatArgs(ast.args))
             elif ast.func.name == "input":
-                argsJoined = ""
-                for i in range(len(ast.args)):
-                    argsJoined += " " + ast.args[i].value
-                argsJoined = argsJoined.strip()
-                print(f'\033[96mFunction "{enclosing}" has input and output side effect: reads from console and prints "{argsJoined}" to console\033[0m')
+                create_input_read_prop(enclosing, "console")
+                if len(ast.args) > 0:
+                    argsJoined = ""
+                    for i in range(len(ast.args)):
+                        argsJoined += " " + ast.args[i].value
+                    argsJoined = argsJoined.strip()
+                    create_output_write_prop(enclosing, "console", argsJoined)
             elif ast.func.name == "open":
                 if ast.args[1].value == "r":
-                    print(f'\033[96mUnpure function "{enclosing}" due to read from file "{ast.args[0].value}"\033[0m')
+                    create_input_read_prop(enclosing, str(ast.args[0].value))
                 if ast.args[1].value in "axw":
-                    print(f'\033[96mFunction "{enclosing}" has output side effect: writing to file "{ast.args[0].value}"\033[0m')
+                    argsJoined = ""
+                    for i in range(1, len(ast.args)):
+                        argsJoined += " " + ast.args[i].value
+                    argsJoined = argsJoined.strip()
+                    create_output_write_prop(enclosing, str(ast.args[0].value), argsJoined)
             elif enclosing is not None:
-                print(f'\033[93mFunction "{enclosing}" references other function "{ast.func.name}", inheriting all its defects\033[0m')
+                create_call_prop(enclosing, ast.func.name)
             else:
                 print(f'\033[93mUnknown!!\033[0m')
         elif isinstance(ast.func, Astroid.Attribute) and ast.func.attrname == 'warn':
             string = ast.args[0] if len(ast.args) > 0 else ""
-            print(f'\033[96mFunction "{enclosing}" has output side effect: prints warning "{concatArgs(ast.args)}" to console\033[0m')
+            create_output_write_prop(enclosing, "console", string) #TODO: is warn really an output or are they just collected??
         elif isinstance(ast.func, Astroid.Name):
             if ast.func.name == 'print':
-                print(f'\033[96mFunction "{enclosing}" has output side effect: prints to console "{concatArgs(ast.args)}"\033[0m')
+                create_output_write_prop(enclosing, "console", concatArgs(ast.args))
             else:
                 if ast.func != enclosing: #TODO: Check for mutual recursion in set
-                    print(f'\033[93mFunction "{enclosing}" references other function "{ast.func.name}", inheriting all its defects\033[0m')
-
+                    create_call_prop(enclosing, ast.func.name)
                     #TODO: also check if function in parameter place or inner function can be a problem (they are not necessary executed)!!
 
         for i in range(len(ast.args)):
@@ -601,8 +687,8 @@ def visitAst(ast):
 
     if isinstance(ast, Astroid.AssignAttr):
         # handle attribute assignment
-        print(f'\033[92mState side effect in function "{inferFunction(ast)}": assignment to attribute "{ast.attrname}" of instance {ast.expr.name}\033[0m')
         visitAst(ast.expr)
+        create_state_write_prop(inferFunction(ast), ast.attrname, ast.expr.name, ast.expr)
 
     if isinstance(ast, Astroid.Attribute):
         # handle attribute read
@@ -612,7 +698,7 @@ def visitAst(ast):
             name = ast.expr.func
         else:
             name = "NONAME"
-        print(f'\033[92mUnpure function "{inferFunction(ast)}" due to state read: reading from attribute "{ast.attrname}" of instance {name}\033[0m')
+        create_state_read_prop(inferFunction(ast), ast.attrname, ast.expr.name if hasattr(ast.expr, "name") else "")
 
     if isinstance(ast, Astroid.Return):
         # handle return
@@ -912,7 +998,7 @@ def visitAst(ast):
 
     if isinstance(ast, Astroid.Name) and "random" in str(ast.name):
         # handle attribute read
-        print(f'\033[94mUnpure function "{inferFunction(ast)}" due to randomness read: reading from variable "{ast.name}"\033[0m')
+        create_random_prop(inferFunction(ast), ast.name)
 
 
 def inferFunction(ast):
@@ -964,6 +1050,5 @@ def concatArgs(strings):
 
 
 if __name__ == '__main__':
-    print(module)
-
     visitAst(sklearn)
+    print_lists()
