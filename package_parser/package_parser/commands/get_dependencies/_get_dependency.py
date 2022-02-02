@@ -4,6 +4,7 @@ import spacy
 from spacy.matcher import DependencyMatcher
 from spacy.tokens import Token
 from spacy.tokens.doc import Doc
+from spacy.tokens.span import Span
 
 from ..get_api._model import (
     API,
@@ -153,7 +154,7 @@ class DependencyExtractor:
 def extract_dependencies_from_docstring(
     parameter: Parameter,
     func_parameters: List[Parameter],
-    param_docstring: str,
+    param_docstring: Span,
     matches: List,
     spacy_id_to_pattern_id_mapping: Dict,
 ) -> List[Dependency]:
