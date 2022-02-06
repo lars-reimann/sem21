@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity"
+     xml:base="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:Purity="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_is_Pure -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_is_Pure">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Pure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_is_Unpure -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_is_Unpure">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Has_output_side_effect -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Has_output_side_effect">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#output_side_effect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Has_random_state -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Has_random_state">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#randomness_Side_effect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Has_state_side_effect -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Has_state_side_effect">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Raises_Error -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Raises_Error">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Error"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Referencing_other_function -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Referencing_other_function">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_has_side_effect -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_has_side_effect">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_is_Pure -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function_is_Pure">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Class -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Class"/>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Error -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Error">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Pure -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Pure">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#output_side_effect -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#output_side_effect">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#randomness_Side_effect -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#randomness_Side_effect">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#reference_other_function -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#reference_other_function"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_mkl_vcomp -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_mkl_vcomp">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#output_side_effect"/>
+        <Purity:Has_output_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_mkl_vcomp"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_params -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_params">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Error"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#output_side_effect"/>
+        <Purity:Has_output_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_params"/>
+        <Purity:Raises_Error rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_params"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_test_data -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#check_test_data">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#output_side_effect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#randomness_Side_effect"/>
+        <Purity:Has_output_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit"/>
+        <Purity:Has_random_state rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit"/>
+        <Purity:Has_state_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit_predict -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit_predict">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <Purity:Has_state_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit_predict"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#init -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#init">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#randomness_Side_effect"/>
+        <Purity:Has_random_state rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit"/>
+        <Purity:Has_state_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#fit"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#init_centroids -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#init_centroids">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#randomness_Side_effect"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#predict -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#predict">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <Purity:Function_is_Unpure rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#predict"/>
+        <Purity:Has_state_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#predict"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#score -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#score">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <Purity:Has_state_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#score"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#transform -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#transform">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#SideEffect"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <Purity:Has_state_side_effect rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#transform"/>
+        <Purity:Function_has_side_effect></Purity:Function_has_side_effect>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#validate_center_shape -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#validate_center_shape">
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Error"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#Function"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#State_Side_effect"/>
+        <Purity:Raises_Error rdf:resource="http://www.semanticweb.org/b.afshar/ontologies/2022/1/Purity#validate_center_shape"/>
+        <Purity:Function_is_Pure></Purity:Function_is_Pure>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
