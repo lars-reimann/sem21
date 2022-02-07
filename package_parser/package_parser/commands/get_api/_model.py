@@ -2,9 +2,16 @@ from __future__ import annotations
 
 import inspect
 import re
+from dataclasses import asdict, dataclass
 from enum import Enum, auto
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
+from package_parser.commands.get_api._refined_types import (
+    BoundaryType,
+    EnumType,
+    NamedType,
+    UnionType,
+)
 from package_parser.utils import declaration_qname_to_name, parent_qname
 
 
@@ -340,6 +347,39 @@ class Function:
         }
 
 
+class RefinedType:
+    @classmethod
+    def from_docstring(cls, docstring: ParameterAndResultDocstring) -> RefinedType:
+        docstring_str = " ".join([docstring.type, docstring.description])
+        enum = EnumType.from_string(docstring_str)
+        boundary = BoundaryType.from_string(docstring_str)
+
+        if enum is not None and boundary is not None:
+            union = UnionType()
+            union.types.add(enum)
+            union.types.add(boundary)
+            return RefinedType(union)
+
+        if enum is not None:
+            return RefinedType(enum)
+
+        if boundary is not None:
+            return RefinedType(boundary)
+
+        return RefinedType()
+
+    def __init__(
+        self,
+        ref_type: Optional[Union[UnionType, BoundaryType, EnumType, NamedType]] = None,
+    ) -> None:
+        self.ref_type = ref_type
+
+    def as_dict(self):
+        if self.ref_type is not None:
+            return {"kind": self.ref_type.__class__.__name__, **asdict(self.ref_type)}
+        return {}
+
+
 class Parameter:
     @classmethod
     def from_json(cls, json: Any):
@@ -364,6 +404,7 @@ class Parameter:
         self.is_public: bool = is_public
         self.assigned_by: ParameterAssignment = assigned_by
         self.docstring = docstring
+        self.refined_type: RefinedType = RefinedType.from_docstring(docstring)
 
     def to_json(self) -> Any:
         return {
@@ -372,6 +413,7 @@ class Parameter:
             "is_public": self.is_public,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_json(),
+            "refined_type": self.refined_type.as_dict(),
         }
 
 
@@ -413,13 +455,13 @@ class ParameterAndResultDocstring:
         return {"type": self.type, "description": self.description}
 
 
+@dataclass
 class Action:
+    action: str
+
     @classmethod
     def from_json(cls, json: Any):
         return cls(json["action"])
-
-    def __init__(self, action: str) -> None:
-        self.action = action
 
     def to_json(self) -> Dict:
         return {"action": self.action}
@@ -445,13 +487,13 @@ class ParameterIsIllegal(StaticAction):
         super().__init__(action)
 
 
+@dataclass
 class Condition:
+    condition: str
+
     @classmethod
     def from_json(cls, json: Any):
         return cls(json["condition"])
-
-    def __init__(self, condition: str) -> None:
-        self.condition = condition
 
     def to_json(self) -> Dict:
         return {"condition": self.condition}
@@ -472,12 +514,18 @@ class ParameterHasValue(StaticCondition):
         super().__init__(condition)
 
 
-class ParameterIsSet(StaticCondition):
+class ParameterIsNone(StaticCondition):
     def __init__(self, condition: str) -> None:
         super().__init__(condition)
 
 
+@dataclass
 class Dependency:
+    hasDependentParameter: Parameter
+    isDependingOn: Parameter
+    hasCondition: Condition
+    hasAction: Action
+
     @classmethod
     def from_json(cls, json: Any):
         return cls(
@@ -487,22 +535,24 @@ class Dependency:
             Action.from_json(["hasAction"]),
         )
 
-    def __init__(
-        self,
-        hasDependentParameter: Parameter,
-        isDependingOn: Parameter,
-        hasCondition: Condition,
-        hasAction: Action,
-    ) -> None:
-        self.hasDependentParameter = hasDependentParameter
-        self.isDependingOn = isDependingOn
-        self.hasCondition = hasCondition
-        self.hasAction = hasAction
-
     def to_json(self) -> Dict:
         return {
             "hasDependentParameter": self.hasDependentParameter.to_json(),
             "isDependingOn": self.isDependingOn.to_json(),
             "hasCondition": self.hasCondition.to_json(),
             "hasAction": self.hasAction.to_json(),
+        }
+
+
+@dataclass
+class APIDependencies:
+    dependencies: Dict
+
+    def to_json(self) -> Dict:
+        return {
+            function_name: {
+                parameter_name: [dependency.to_json() for dependency in dependencies]
+                for parameter_name, dependencies in parameter_name.items()
+            }
+            for function_name, parameter_name in self.dependencies.items()
         }
