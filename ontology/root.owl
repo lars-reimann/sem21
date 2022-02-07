@@ -97,7 +97,6 @@ Merging in Protege: Refactor -&gt; Merge ontologies...</rdfs:comment>
 
     <owl:Class rdf:about="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#BoundaryType">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#Type"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#UnionType"/>
     </owl:Class>
     
 
@@ -112,7 +111,6 @@ Merging in Protege: Refactor -&gt; Merge ontologies...</rdfs:comment>
 
     <owl:Class rdf:about="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#EnumType">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#Type"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#UnionType"/>
     </owl:Class>
     
 
@@ -121,7 +119,6 @@ Merging in Protege: Refactor -&gt; Merge ontologies...</rdfs:comment>
 
     <owl:Class rdf:about="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#NamedType">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#Type"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/duklin/ontologies/2021/11/sklearn-api#UnionType"/>
     </owl:Class>
     
 
