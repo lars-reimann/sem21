@@ -470,6 +470,12 @@ def f(pA):
 f(aObj)
 ''')
 
+'''List to store references to function nodes in which we already traversed (either completely because they lie within 
+another subtree or because we are already within a subtree of that function node and are therefore about to completely 
+visit it anyway. In these cases, the parser does not need to investigate these anymore'''
+
+list_of_traversed_functions = []
+
 ''' Lists to store function properties while traversing the ast '''
 call_prop_list: typing.List[typing.Dict[str, str]] = []
 state_read_prop_list: typing.List[typing.Dict[str, str]] = []
@@ -549,6 +555,8 @@ def print_lists():
     for e in random_prop_list:
         print(f'\033[94mUnpure function "{e.get("function")}" due to randomness read: uses "{e.get("source")}"\033[0m')
 
+'''This is the main part of the parser which visits recursively all nodes in the 
+ast and performs adequate queries on them.'''
 def visitAst(ast):
     if isinstance(ast, Astroid.Module):
         # handle module
@@ -632,8 +640,10 @@ def visitAst(ast):
     if isinstance(ast, Astroid.Call):
         # handle expression
         enclosing = inferFunction(ast)
+        global list_of_traversed_functions
 
         if isinstance(ast.func, Astroid.FunctionDef) or isinstance(ast.func, Astroid.AsyncFunctionDef):
+
             if ast.func.name == "print":
                 create_output_write_prop(enclosing, "console", concatArgs(ast.args))
             elif ast.func.name == "input":
@@ -653,20 +663,23 @@ def visitAst(ast):
                         argsJoined += " " + ast.args[i].value
                     argsJoined = argsJoined.strip()
                     create_output_write_prop(enclosing, str(ast.args[0].value), argsJoined)
-            elif enclosing is not None:
+            elif enclosing is not None and ast.func not in list_of_traversed_functions:
+                list_of_traversed_functions.append(ast.func)
                 create_call_prop(enclosing, ast.func.name)
+                #TODO: also check if function in parameter place or inner function can be a problem (they are not necessary executed)!!
             else:
                 print(f'\033[93mUnknown!!\033[0m')
         elif isinstance(ast.func, Astroid.Attribute) and ast.func.attrname == 'warn':
             string = ast.args[0] if len(ast.args) > 0 else ""
             create_output_write_prop(enclosing, "console", string) #TODO: is warn really an output or are they just collected??
+
+        # this is mostly for built-in functions that somehow sometimes only appear as a Astroid.Name...
         elif isinstance(ast.func, Astroid.Name):
             if ast.func.name == 'print':
                 create_output_write_prop(enclosing, "console", concatArgs(ast.args))
             else:
-                if ast.func != enclosing: #TODO: Check for mutual recursion in set
+                if ast.func != enclosing:
                     create_call_prop(enclosing, ast.func.name)
-                    #TODO: also check if function in parameter place or inner function can be a problem (they are not necessary executed)!!
 
         for i in range(len(ast.args)):
             visitAst(ast.args[i])
@@ -688,7 +701,22 @@ def visitAst(ast):
     if isinstance(ast, Astroid.AssignAttr):
         # handle attribute assignment
         visitAst(ast.expr)
-        create_state_write_prop(inferFunction(ast), ast.attrname, ast.expr.name, ast.expr)
+        create_state_write_prop(inferFunction(ast), ast.attrname, ast.expr.name, ast.expr) #TODO: replace last arg with value
+
+    if isinstance(ast, Astroid.AssignName): #TODO: is this a state side effect? Seems to not be the case...
+        # handle module
+        visitAst(ast.name)
+
+    if isinstance(ast, Astroid.DelAttr):
+        # handle module
+        visitAst(ast.expr)
+        create_state_write_prop(inferFunction(ast), ast.attrname, ast.expr.name, "$DELETE")
+
+    if isinstance(ast, Astroid.Delete):     #TODO: depending on the expression of the delete statement, this can be a
+                                            # state side effect or not. E.g. deleting an attribute object.x is a state
+                                            # side effect, whereas deleting a local variable is not
+        for i in range(len(ast.targets)):
+            visitAst(ast.targets[i])
 
     if isinstance(ast, Astroid.Attribute):
         # handle attribute read
@@ -727,8 +755,6 @@ def visitAst(ast):
         # handle module
         for i in range(len(ast)):
             visitAst(ast[i])
-
-    #Here begins Bitas part
 
     if isinstance(ast, Astroid.Compare):
         # handle compare
@@ -774,10 +800,6 @@ def visitAst(ast):
         visitAst(ast.test)
         visitAst(ast.fail)
 
-    if isinstance(ast, Astroid.AssignName):
-        # handle module
-        visitAst(ast.name)
-
     if isinstance(ast, Astroid.Await):
         # handle module
         visitAst(ast.value)
@@ -797,15 +819,6 @@ def visitAst(ast):
         # handle module
         for i in range(len(ast.nodes)):
             visitAst(ast.nodes[i])
-
-    if isinstance(ast, Astroid.DelAttr):
-        # handle module
-        visitAst(ast.expr)
-
-    if isinstance(ast, Astroid.Delete):   #<<<<------- state side effect?
-        # handle module
-        for i in range(len(ast.targets)):
-            visitAst(ast.targets[i])
 
     if isinstance(ast, Astroid.Dict):
         # handle module
@@ -992,15 +1005,12 @@ def visitAst(ast):
         # handle module
         visitAst(ast.value)
 
-    #######################
-    ##### Randomness ######
-    #######################
-
-    if isinstance(ast, Astroid.Name) and "random" in str(ast.name):
+    '''For all of the above, if the name contains the word random, we assume there to be randomness involved'''
+    if hasattr(ast, "name") and "random" in str(ast.name):
         # handle attribute read
         create_random_prop(inferFunction(ast), ast.name)
 
-
+'''Function to find the function node in which the currently visited node is contained (is a (transitive) subnode of)'''
 def inferFunction(ast):
     if ast is None:
         return None
@@ -1009,7 +1019,7 @@ def inferFunction(ast):
     else:
         return inferFunction(ast.parent)
 
-
+'''Function to find the class node in which the currently visited node is contained (is a (transitive) subnode of)'''
 def inferClass(ast):
     if ast is None:
         return None
@@ -1018,7 +1028,8 @@ def inferClass(ast):
     else:
         return inferClass(ast.parent)
 
-
+'''Functions to concatinate the arguments of a function, e.g. useful to store what a print(...) is printig to console. 
+May be replaced by one or removed completely in future work'''
 def concatJoinedStr(strings):
     if strings is Astroid.JoinedStr:
         strings = strings.values
@@ -1028,7 +1039,6 @@ def concatJoinedStr(strings):
         return string.strip()
     elif strings is Astroid.Const:
         return strings.value
-
 
 def _concatJoinedString(strings):
     string = ""
@@ -1048,7 +1058,7 @@ def concatArgs(strings):
         string += " " + strings[i].as_string()
     return string.strip()
 
-
+'''Main program'''
 if __name__ == '__main__':
     visitAst(sklearn)
     print_lists()
