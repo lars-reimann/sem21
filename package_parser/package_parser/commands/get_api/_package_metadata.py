@@ -16,7 +16,9 @@ def package_files(package_name: str) -> list[str]:
 
 
 def package_root(package_name: str) -> Path:
-    path_as_string: str = importlib.import_module(package_name).__file__
+    path_as_string = importlib.import_module(package_name).__file__
+    if path_as_string is None:
+        raise AssertionError(f"Cannot find package root for '{path_as_string}'.")
     return Path(path_as_string).parent
 
 
